@@ -376,7 +376,7 @@ window.RECEPT_DATA = {
     {
       "id": "6b0b7a6e-0ad4-4102-811b-56a87eab36f7",
       "titel": "Köttfärslimpa med tomat och rostad lök",
-      "kategori": "",
+      "kategori": "Middag",
       "portioner": 4,
       "tid": "",
       "kalla": "",

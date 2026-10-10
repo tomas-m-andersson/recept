@@ -102,7 +102,7 @@ window.RECEPT_DATA = {
       "portioner": 4,
       "tid": "",
       "kalla": "",
-      "favorit": false,
+      "favorit": true,
       "ingredienser": [
         "3 ägg (4 om de är små)",
         "125 gram ansjovis (en burk med Grebbestads)",

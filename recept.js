@@ -55,7 +55,7 @@ window.RECEPT_DATA = {
       "portioner": 20,
       "tid": "20 min",
       "kalla": "",
-      "favorit": true,
+      "favorit": false,
       "ingredienser": [
         "100 g smör",
         "1 dl socker",

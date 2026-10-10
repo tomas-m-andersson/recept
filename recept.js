@@ -98,7 +98,7 @@ window.RECEPT_DATA = {
     {
       "id": "f3562d5a-28ba-422b-bdce-5a76cecbfcd9",
       "titel": "Edward Blom's gubbröra",
-      "kategori": "Röror",
+      "kategori": "Röror & såser",
       "portioner": 4,
       "tid": "",
       "kalla": "",
@@ -125,7 +125,7 @@ window.RECEPT_DATA = {
     {
       "id": "e72fb6bb-8807-483e-9366-9241e8a6750c",
       "titel": "Tomas smashburger-dressing",
-      "kategori": "Röror",
+      "kategori": "Röror & såser",
       "portioner": 4,
       "tid": "",
       "kalla": "",
@@ -172,7 +172,7 @@ window.RECEPT_DATA = {
     {
       "id": "972e77c7-8cce-4c4a-b357-2548d3642bc1",
       "titel": "Grov äppelmos",
-      "kategori": "Röror",
+      "kategori": "Röror & såser",
       "portioner": 4,
       "tid": "",
       "kalla": "",
@@ -202,7 +202,7 @@ window.RECEPT_DATA = {
   "kategorier": [
     "Bakning",
     "Middag",
-    "Röror",
+    "Röror & såser",
     "Övrigt"
   ]
 };

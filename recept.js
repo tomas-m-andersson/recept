@@ -336,6 +336,42 @@ window.RECEPT_DATA = {
         "Låt småpuutra en stund och ät sedan med gurka och tomat!"
       ],
       "anteckning": ""
+    },
+    {
+      "id": "56030a88-ccc7-4277-9e3e-5c36a203b2ad",
+      "titel": "Daal, indisk linsgryta",
+      "kategori": "Middag",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "1 gul lök",
+        "Smör/olja att steka i",
+        "2 vitlöksklyftor",
+        "1 färsk, röd chili (alt. en klick sambal oelek)",
+        "1 tumme färsk ingefära",
+        "2 tsk kanel",
+        "2 tsk gurkmeja",
+        "2 tsk spiskummin",
+        "1 tsk koriander",
+        "1 tsk kardemumma",
+        "1 burk krossade tomater, ca 400 g",
+        "1 burk kokosmjölk, ca 400 g",
+        "2 dl vatten",
+        "3 dl röda linser",
+        "100 g färsk bladspenat",
+        "Salt, peppar"
+      ],
+      "steg": [
+        "Riv lök, vitlök, chili och ingefära och fräs det mjukt i en stor gryta.",
+        "Blanda alla kryddorna och vänd ner i grytan och låt puttra någon minut.",
+        "Häller på tomatkross, kokosmjölk, vatten och linser.",
+        "Låt koka 10-15 min, tills linserna är mjuka men inte sönderkokta.",
+        "Blanda ner spenaten och låt den sjunka ihop.",
+        "Smaka av."
+      ],
+      "anteckning": ""
     }
   ],
   "github": {

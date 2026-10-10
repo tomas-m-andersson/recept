@@ -207,7 +207,7 @@ window.RECEPT_DATA = {
   ],
   "kategorifarger": {
     "Bakning": 0,
-    "Middag": 1,
+    "Middag": 3,
     "Röror & såser": 6,
     "Övrigt": 3
   }

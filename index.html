@@ -112,7 +112,7 @@ textarea{min-height:150px;resize:vertical}
 .receptbild{display:block;width:100%;max-height:340px;object-fit:cover;border-radius:20px;margin:0 0 14px;box-shadow:0 2px 0 var(--line)}
 .forhandsvisning{display:block;width:100%;max-width:360px;max-height:260px;object-fit:cover;border-radius:14px;border:2px solid var(--line);margin:6px 0 10px}
 .falttitel{margin:14px 0 4px;font-weight:600}
-.kathantering h2{font-size:1.6rem;margin:6px 0 0;font-weight:800}
+.kathantering h2{font-size:1.6rem;margin:14px 0 0;font-weight:800}
 .katlista{list-style:none;margin:14px 0;padding:0;display:grid;gap:8px}
 .katlista li{background:var(--card);border-radius:20px;padding:12px 14px;box-shadow:0 2px 0 var(--line);display:grid;gap:8px}
 .katrad{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -727,12 +727,12 @@ summary{cursor:pointer;font-weight:600}
         '<button type="button" class="danger" data-atgard="katradera" data-i="' + i + '">Ta bort</button></div>' +
         '<div class="farger" role="group" aria-label="Färg för ' + esc(k) + '" hidden>' + sw + "</div></li>";
     }).join("");
-    $("vy").innerHTML = '<div class="kathantering"><h2>Kategorier</h2>' +
+    $("vy").innerHTML = '<div class="kathantering"><button type="button" data-atgard="katklar">Klar</button><h2>Kategorier</h2>' +
       '<p class="hint">Byt namn, ta bort eller lägg till kategorier. Ändra namnet i fältet och tryck på Byt namn (eller Enter). Då uppdateras alla recept i kategorin. Med Välj färg bestämmer du vilken färg kategorin får som kant på receptkorten.</p>' +
       '<label for="kat-ny">Ny kategori</label>' +
       '<div class="katny"><input type="text" id="kat-ny" placeholder="t.ex. Middag"><button type="button" class="main" data-atgard="katny">Lägg till</button></div>' +
       (lista.length ? '<ul class="katlista">' + rader + "</ul>" : '<p class="tomt">Inga kategorier än. Lägg till den första ovan.</p>') +
-      '<div class="atgarder" style="margin-top:18px"><button type="button" data-atgard="katklar">Klar</button></div></div>';
+      "</div>";
   }
 
   function renderaVy() {

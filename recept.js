@@ -710,7 +710,7 @@ window.RECEPT_DATA = {
     {
       "id": "318f3b00-4fb0-406b-a5dd-6ebf3d1c5f5e",
       "titel": "Vitkålsgratäng",
-      "kategori": "",
+      "kategori": "Middag",
       "portioner": 4,
       "tid": "",
       "kalla": "",

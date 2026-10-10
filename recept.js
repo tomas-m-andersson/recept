@@ -94,6 +94,33 @@ window.RECEPT_DATA = {
         "Grädda i mitten av ugnen 30-40 minuter, lägg ev. på en bit folie mot slutet om ytan får för mycket färg. Låt vila i 5 minuter innan servering."
       ],
       "anteckning": "Serveras med: Lingonsylt och keso"
+    },
+    {
+      "id": "f3562d5a-28ba-422b-bdce-5a76cecbfcd9",
+      "titel": "Edward Blom's gubbröra",
+      "kategori": "Röror",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "3 ägg (4 om de är små)",
+        "125 gram ansjovis (en burk med Grebbestads)",
+        "1 gul lök",
+        "1 skvätt av spadet från ansjovisburken",
+        "1 äggula",
+        "Svartpeppar",
+        "Gräslök",
+        "Dill"
+      ],
+      "steg": [
+        "Koka äggen så de blir hårdkokta",
+        "Hacka äggen i små bitar",
+        "Hacka ansjovisen i små bitar",
+        "Hacka löken i småbitar",
+        "Blanda ihop allting"
+      ],
+      "anteckning": "Gå även att blanda lite majonnäs eller creme fraiche om man vill"
     }
   ],
   "github": {

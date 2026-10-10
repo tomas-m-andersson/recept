@@ -281,6 +281,34 @@ window.RECEPT_DATA = {
         "Låt stå och dra i kylskåpet över natten."
       ],
       "anteckning": "Servera på tex hårtbröd."
+    },
+    {
+      "id": "dc490cba-8793-463a-82ff-75b03639dd22",
+      "titel": "Bacon-pasta",
+      "kategori": "",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "4 port pasta, gärna spagetti",
+        "1 gul lök",
+        "2 förpackningar bacon (à 140 g)",
+        "1 tsk smör eller margarin",
+        "1 dl crème fraiche",
+        "390 g pastasås basilika",
+        "1 dl vatten",
+        "250 g körsbärstomater"
+      ],
+      "steg": [
+        "Koka pastan enligt anvisningen på förpackningen.",
+        "Skala och hacka löken. Strimla baconet.",
+        "Stek lök och bacon i matfettet tills det får färg.",
+        "Tillsätt crème fraiche, pastasås och vatten, låt puttra någon minut.",
+        "Dela tomaterna och vänd ner i såsen.",
+        "Vänd ner såsen i pastan och servera."
+      ],
+      "anteckning": ""
     }
   ],
   "github": {

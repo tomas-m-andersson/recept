@@ -389,7 +389,6 @@ window.RECEPT_DATA = {
         "2 1/2 dl matlagningsgrädde"
       ],
       "steg": [
-        "Sätt ugnen på 225˚C.",
         "Koka potatisen.",
         "Blanda köttfärsen med den rostade löken och hälften av peston.",
         "Tryck ut färsen i två smala och platta köttfärslimpor i en liten ugnsform.",
@@ -397,7 +396,8 @@ window.RECEPT_DATA = {
         "Koka upp grädden med resten av peston, salt och peppar som sås.",
         "Servera köttfärslimpan med potatis och sallad."
       ],
-      "anteckning": ""
+      "anteckning": "",
+      "ugn": 225
     },
     {
       "id": "c6efcbb2-dc05-4655-a91c-022d3ece91fe",

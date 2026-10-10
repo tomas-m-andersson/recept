@@ -597,6 +597,27 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "Gott med stekt lök och gräddsås till!",
       "bild": "bilder/15e14a2c-ec15-43dd-9aca-1b74d89529f4-mv2sptn8.jpg"
+    },
+    {
+      "id": "914c7698-ea30-4548-b92b-a9da9c2ad0fc",
+      "titel": "Momma Astrids revbensspjäll",
+      "kategori": "Middag",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "1 påse aromat",
+        "1 påse kött- och grillkrydda",
+        "Rejält med svartpeppar",
+        "Tjocka revbensspjäll"
+      ],
+      "steg": [
+        "Stek i stekpanna tills gyllenbruna, med mycket smör och kryddblandningen.",
+        "Slå skyn i en kastrull, fyll upp med vatten.",
+        "Ner med revbensspjällen och koka nån timme tills köttet nästan släpper från benen."
+      ],
+      "anteckning": ""
     }
   ],
   "github": {

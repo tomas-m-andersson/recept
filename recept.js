@@ -157,6 +157,7 @@ window.RECEPT_DATA = {
   "kategorier": [
     "Bakning",
     "Middag",
-    "Röror"
+    "Röror",
+    "Övrigt"
   ]
 };

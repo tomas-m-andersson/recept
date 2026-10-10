@@ -699,14 +699,14 @@ window.RECEPT_DATA = {
         "Riven ost"
       ],
       "steg": [
-        "Sätt ugnen på 225 grader.",
         "Koka ihop grädde, tomatpuré, buljongtärningar och basilika (efter smak).",
         "Red med maizena för lite tjockare sås.",
         "Lägg torskblocken i en ugnsform, häll över såsen.",
         "Strö över ost.",
         "Ställ i ugnen i ca 25-30 minuter."
       ],
-      "anteckning": ""
+      "anteckning": "",
+      "ugn": 225
     },
     {
       "id": "318f3b00-4fb0-406b-a5dd-6ebf3d1c5f5e",

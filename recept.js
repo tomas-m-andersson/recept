@@ -583,7 +583,7 @@ window.RECEPT_DATA = {
       "portioner": 4,
       "tid": "",
       "kalla": "",
-      "favorit": false,
+      "favorit": true,
       "ingredienser": [
         "800 g köttfärs eller fläskfärs",
         "2 dl crème fraiche (kokbar)",

@@ -71,5 +71,11 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "Bra recept att baka tillsammans med barnen."
     }
-  ]
+  ],
+  "github": {
+    "agare": "tomas-m-andersson",
+    "repo": "recept",
+    "gren": "main",
+    "fil": "recept.js"
+  }
 };

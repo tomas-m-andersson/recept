@@ -439,6 +439,36 @@ window.RECEPT_DATA = {
         "Hetta upp snabbt utan att koka."
       ],
       "anteckning": ""
+    },
+    {
+      "id": "36cc811f-fb56-4b00-b1a1-d414fc7462dc",
+      "titel": "Fransk potatissallad",
+      "kategori": "Middag",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "800 g potatis",
+        "3 schalottenlökar",
+        "1/2 dl hackad dill och persilja",
+        "1 - 1,5 msk kapris",
+        "1 msk vinäger",
+        "2 tsk fransk senap",
+        "1/2 tsk salt",
+        "1 krm svartpeppar",
+        "1 krm socker",
+        "3 msk raps- eller olivolja",
+        "1 msk vatten"
+      ],
+      "steg": [
+        "Skala och koka potatisen i saltat vatten.",
+        "Skala, hacka eller skiva löken. Hacka dillen och persiljan.",
+        "Blanda  vinäger, fransk senap, salt, svartpeppar, socker, raps/olivolja och vatten till såsen.",
+        "Skiva den varma potatisen och lägg den i en skål, varvad med schalottenlök och kryddgrönt.",
+        "Häll över såsen och lyft potatisen så att alla skivor blir fuktade av såsen. Låt salladen stå ca 1 timme och ta smak."
+      ],
+      "anteckning": "Till servering: Strö över kapris och servera potatissalladen till rökt kött, grillad korv, kall skivad rostbiff, varmrökt lax eller vegobiffar."
     }
   ],
   "github": {

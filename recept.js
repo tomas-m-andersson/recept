@@ -209,6 +209,6 @@ window.RECEPT_DATA = {
     "Bakning": 0,
     "Middag": 3,
     "Röror & såser": 6,
-    "Övrigt": 3
+    "Övrigt": 2
   }
 };

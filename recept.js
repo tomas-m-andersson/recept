@@ -402,7 +402,7 @@ window.RECEPT_DATA = {
     {
       "id": "c6efcbb2-dc05-4655-a91c-022d3ece91fe",
       "titel": "Fisksoppa",
-      "kategori": "",
+      "kategori": "Middag",
       "portioner": 4,
       "tid": "",
       "kalla": "",

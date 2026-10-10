@@ -168,6 +168,28 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "Sjukt mättande men såååå gott!",
       "bild": "bilder/d14766f1-df98-4461-883a-5e2214d9a5d9-mv2q3h7w.jpg"
+    },
+    {
+      "id": "972e77c7-8cce-4c4a-b357-2548d3642bc1",
+      "titel": "Grov äppelmos",
+      "kategori": "Röror",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "6-7 röda äpplen",
+        "4 dl vatten",
+        "2 msk honung",
+        "1 tsk vaniljsocker",
+        "1 tsk kanel"
+      ],
+      "steg": [
+        "Skala och kärna ur äpplena.",
+        "Grov-riv dem på ett rivjärns grövsta sida.",
+        "Blanda ihop allt i en kastrull och koka ordentligt i ca 10 min."
+      ],
+      "anteckning": "Perfekt till gröt eller filmjölk!"
     }
   ],
   "github": {

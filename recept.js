@@ -93,7 +93,7 @@ window.RECEPT_DATA = {
         "Häll smeten i en smord långpanna, ca 30 x 40 cm",
         "Grädda i mitten av ugnen 30-40 minuter, lägg ev. på en bit folie mot slutet om ytan får för mycket färg. Låt vila i 5 minuter innan servering."
       ],
-      "anteckning": ""
+      "anteckning": "Serveras med:"
     }
   ],
   "github": {

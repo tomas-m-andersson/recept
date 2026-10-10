@@ -653,6 +653,32 @@ window.RECEPT_DATA = {
         "Grädda gratängen i mitten av ugnen ca 15 minuter."
       ],
       "anteckning": ""
+    },
+    {
+      "id": "0e37fc06-b064-4a7e-ac8d-37db8bb35e05",
+      "titel": "Tomas goa fiskgratäng",
+      "kategori": "Middag",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "2 x 400g torks/sejfilé",
+        "2 dl grädde",
+        "100g Philadelphiaost  (halvt paket)",
+        "2st fiskbuljongtärningar",
+        "2-3 dl frysta ärtor",
+        "50-100g riven ost"
+      ],
+      "steg": [
+        "Sätt ugnen på 180 grader.",
+        "Lägg fiskblocken i en ugnsform.",
+        "Rör ihop övriga grejer utom osten, i en bunke och häll sedan över fiskblocken.",
+        "Det ska täcka dem helt.",
+        "Strö över osten.",
+        "Ställ i ugnen ca 1 timme."
+      ],
+      "anteckning": ""
     }
   ],
   "github": {

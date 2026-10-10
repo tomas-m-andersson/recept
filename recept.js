@@ -605,7 +605,7 @@ window.RECEPT_DATA = {
       "portioner": 4,
       "tid": "",
       "kalla": "",
-      "favorit": false,
+      "favorit": true,
       "ingredienser": [
         "1 påse aromat",
         "1 påse kött- och grillkrydda",

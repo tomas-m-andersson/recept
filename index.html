@@ -19,7 +19,7 @@
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *,*::before,*::after{box-sizing:inherit}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.5 ui-rounded,"SF Pro Rounded","Nunito","Segoe UI",system-ui,sans-serif}
-main{max-width:640px;margin:0 auto;padding:28px 18px 48px}
+main{max-width:640px;margin:0 auto;padding:28px 18px 110px}
 h1{font-size:clamp(2.4rem,9vw,3.6rem);line-height:1;margin:0 0 6px;font-weight:800;letter-spacing:-.02em;color:var(--acc)}
 .sub{color:var(--mut);margin:0 0 22px;font-size:1rem}
 .sub[hidden]{display:none}
@@ -38,6 +38,9 @@ button:disabled{opacity:.45;cursor:default}
 #theme svg,#meny-knapp svg,#info svg{width:22px;height:22px}
 
 .bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+#nyttKnapp{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:20;width:60px;height:60px;padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:var(--acc);color:var(--accink);box-shadow:0 3px 0 rgba(0,0,0,.18),0 8px 20px rgba(0,0,0,.22)}
+#nyttKnapp[hidden]{display:none}
+#nyttKnapp svg{width:30px;height:30px}
 .filstatus{margin:0 0 18px;color:var(--mut);font-size:.92rem}
 .filstatus:empty{display:none}
 .menystatus{margin:0 0 6px;font-weight:600}
@@ -121,7 +124,7 @@ summary{cursor:pointer;font-weight:600}
 
 @media print{
   .receptbild{max-height:240px;box-shadow:none}
-  .top,.bar,.filstatus,.atgarder,.portioner button,#msg,.meny{display:none!important}
+  .top,.bar,.filstatus,.atgarder,.portioner button,#msg,.meny,#nyttKnapp{display:none!important}
   body{background:#fff;color:#000}
   .sek{box-shadow:none;border:1px solid #bbb}
 }
@@ -166,13 +169,11 @@ summary{cursor:pointer;font-weight:600}
 <div class="hjalp"><button id="info" type="button" aria-expanded="false" aria-controls="infotext"></button><span>Så fungerar sparandet</span></div>
 <p class="hjalptext" id="infotext" hidden>Recepten sparas i filen recept.js, inte i webbläsaren. Öppna menyn (de tre strecken) för att välja ljust eller mörkt läge och för att spara recepten. På mobilen fyller du i dina uppgifter under Spara till GitHub, så sparas varje ändring direkt i recept.js i ditt repo. På datorn i Chrome eller Edge kan du i stället koppla recept.js. Du kan alltid ladda ner recept.js och ersätta filen själv. Med portionsknapparna räknas mängderna om.</p>
 </section>
-<div class="bar">
-<button class="main" id="nyttKnapp" type="button">Nytt recept</button>
-</div>
 <p class="filstatus" id="filstatus"></p>
 <p id="msg" role="status"></p>
 <div id="vy"></div>
 </main>
+<button id="nyttKnapp" type="button" aria-label="Nytt recept" title="Nytt recept"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
 
 <!-- Datan ligger i en separat fil -->
 <script src="recept.js"></script>
@@ -672,6 +673,7 @@ summary{cursor:pointer;font-weight:600}
   }
 
   function renderaVy() {
+    $("nyttKnapp").hidden = !hanteraKat && !!redigerar;
     if (hanteraKat) { renderaKategoriVy(); return; }
     if (redigerar) { renderaFormular(); return; }
     var r = valtId && hitta(valtId);

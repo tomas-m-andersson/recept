@@ -74,6 +74,11 @@ button:disabled{opacity:.45;cursor:default}
 .pill a{color:var(--acc);font-weight:600}
 .atgarder{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px}
 .receptknappar{margin-top:24px}
+.ugnruta{display:flex;align-items:center;gap:14px;background:var(--card);border-radius:20px;padding:14px 18px 14px 26px;margin-top:14px;box-shadow:inset 8px 0 0 #f08a24,0 2px 0 var(--line)}
+.ugnruta .ikon{width:44px;height:44px;border-radius:50%;background:#f08a24;color:#fff;display:grid;place-items:center;flex:none}
+.ugnruta .ikon svg{width:26px;height:26px}
+.ugnlabel{color:var(--mut);font-size:.9rem;line-height:1.2}
+.ugntemp{font-size:1.9rem;font-weight:800;line-height:1.1}
 .ikonknapp{width:44px;height:44px;padding:0;border-radius:50%;display:grid;place-items:center}
 .ikonknapp svg{width:22px;height:22px}
 .hjarta[aria-pressed="true"]{background:var(--card);border-color:#e5484d;color:#e5484d}
@@ -215,6 +220,7 @@ summary{cursor:pointer;font-weight:600}
   var I_HJARTA = IKON('<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>');
   var I_PENNA = IKON('<path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>');
   var I_SKRIV = IKON('<polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>');
+  var I_UGN = IKON('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 8.5h18"/><path d="M7 5.8h.01M11 5.8h.01"/><rect x="6.5" y="11.5" width="11" height="6" rx="1"/>');
   var I_SOP = IKON('<polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>');
   var HAKA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   var sortering = "ao";     // "ao" = A–Ö, "oa" = Ö–A (gäller tills sidan laddas om)
@@ -581,7 +587,6 @@ summary{cursor:pointer;font-weight:600}
         (r.favorit ? '<span class="favikon" role="img" aria-label="Favorit" title="Favorit">' + I_HJARTA + "</span>" : "") +
         (r.kategori ? '<span class="pill">' + esc(r.kategori) + "</span>" : "") +
         (r.tid ? '<span class="pill">' + esc(r.tid) + "</span>" : "") +
-        (r.ugn ? '<span class="pill">Ugn ' + esc(r.ugn) + " °C</span>" : "") +
         (kalla ? '<span class="pill">' + kalla + "</span>" : "") +
       "</p>" +
       (bs ? '<img class="receptbild" src="' + esc(bs) + '" alt="Bild på ' + esc(r.titel) + '" onerror="this.style.display=\'none\'">' : "") +
@@ -590,6 +595,7 @@ summary{cursor:pointer;font-weight:600}
           "<span>" + (visaPortioner || r.portioner) + " portioner</span>" +
           '<button type="button" data-atgard="plus" aria-label="Fler portioner">+</button></div>' : "") +
         "<div>" + ing + "</div></section>" +
+      (r.ugn ? '<div class="ugnruta"><span class="ikon">' + I_UGN + '</span><div><div class="ugnlabel">Sätt ugnen på</div><div class="ugntemp">' + esc(r.ugn) + " °C</div></div></div>" : "") +
       '<section class="sek" aria-labelledby="steg-r"><h2 id="steg-r">Gör så här</h2><ol class="steg">' + steg + "</ol></section>" +
       (r.anteckning ? '<p class="anteckning">' + esc(r.anteckning) + "</p>" : "") +
       '<div class="atgarder receptknappar">' +

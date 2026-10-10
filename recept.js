@@ -522,6 +522,33 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "",
       "bild": "bilder/059d4b6d-73f5-42e8-8b96-a5fdc8fb8ed7-mv2sh758.jpg"
+    },
+    {
+      "id": "c8bab989-234a-46a2-b6df-36468447474a",
+      "titel": "Krämig kycklingsoppa",
+      "kategori": "",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "3 tinade kycklingfiléer",
+        "1 purjolök",
+        "8-10 körsbärstomater",
+        "2 burkar kokosmjölk / 5 dl grädde",
+        "1 dl crème fraiche",
+        "3 vitlöksklyftor",
+        "salt, peppar, chilipulver",
+        "2-3 msk kycklingfond"
+      ],
+      "steg": [
+        "Strimla kycklingen och purjolöken och fräs på.",
+        "Dela  och tillsätt körsbärstomaterna.",
+        "Pressa ner vitlöksklyftorna och häll i kycklingfonden och kryddorna.",
+        "Häll i kokosmjölken och crème fraichen.",
+        "Låt puttra tills klart."
+      ],
+      "anteckning": ""
     }
   ],
   "github": {

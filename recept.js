@@ -706,6 +706,40 @@ window.RECEPT_DATA = {
         "Ställ i ugnen i ca 25-30 minuter."
       ],
       "anteckning": ""
+    },
+    {
+      "id": "318f3b00-4fb0-406b-a5dd-6ebf3d1c5f5e",
+      "titel": "Vitkålsgratäng",
+      "kategori": "",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "800 g Vitkål  (ca ett halvt kålhuvud)",
+        "1 gul lök",
+        "3-4 vitlöksklyftor",
+        "3 dl grädde",
+        "1 dl crème fraiche",
+        "150 g Philadelphiaost (naturell)",
+        "1 tsk sambal oelek",
+        "150 g ost (riven)",
+        "75 g smör",
+        "1 krm svartpeppar",
+        "1 tsk salt"
+      ],
+      "steg": [
+        "Sätt ugnen på 200 grader.",
+        "Strimla vitkålen och hacka den gula löken och vitlöken.",
+        "Fräs det i en stor stekpanna.",
+        "När kålen har mjuknat lite så slår du i övriga ingredienser förutom den rivna osten.",
+        "Låt det hela puttra i ca 10 minuter tills kålen blivit helt mjuk.",
+        "Smaka av med salt och peppar. (ganska mycket)",
+        "Häll upp i en ugnsform och strö över riven ost.",
+        "Ställ i ugnen i ca 20-25 minuter."
+      ],
+      "anteckning": "",
+      "bild": "bilder/318f3b00-4fb0-406b-a5dd-6ebf3d1c5f5e-mv2szo26.jpg"
     }
   ],
   "github": {

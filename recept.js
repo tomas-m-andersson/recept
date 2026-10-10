@@ -672,14 +672,14 @@ window.RECEPT_DATA = {
         "50-100g riven ost"
       ],
       "steg": [
-        "Sätt ugnen på 180 grader.",
         "Lägg fiskblocken i en ugnsform.",
         "Rör ihop övriga grejer utom osten, i en bunke och häll sedan över fiskblocken.",
         "Det ska täcka dem helt.",
         "Strö över osten.",
         "Ställ i ugnen ca 1 timme."
       ],
-      "anteckning": ""
+      "anteckning": "",
+      "ugn": 180
     },
     {
       "id": "0f0f0d3e-4c13-4b6f-8833-969009655f05",

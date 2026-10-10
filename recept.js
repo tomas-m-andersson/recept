@@ -372,6 +372,32 @@ window.RECEPT_DATA = {
         "Smaka av."
       ],
       "anteckning": ""
+    },
+    {
+      "id": "6b0b7a6e-0ad4-4102-811b-56a87eab36f7",
+      "titel": "Köttfärslimpa med tomat och rostad lök",
+      "kategori": "",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "900 g potatis",
+        "500 g blandfärs",
+        "2 dl rostad lök",
+        "130 g tomatpesto",
+        "2 1/2 dl matlagningsgrädde"
+      ],
+      "steg": [
+        "Sätt ugnen på 225˚C.",
+        "Koka potatisen.",
+        "Blanda köttfärsen med den rostade löken och hälften av peston.",
+        "Tryck ut färsen i två smala och platta köttfärslimpor i en liten ugnsform.",
+        "Sätt in formen i ugnen ca 20 minuter eller tills färsen har en innertemperatur på 70˚C.",
+        "Koka upp grädden med resten av peston, salt och peppar som sås.",
+        "Servera köttfärslimpan med potatis och sallad."
+      ],
+      "anteckning": ""
     }
   ],
   "github": {

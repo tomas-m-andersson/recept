@@ -566,7 +566,6 @@ window.RECEPT_DATA = {
         "3 dl grädde (valfri sort)"
       ],
       "steg": [
-        "Sätt ugnen på 175 grader.",
         "Lägg de frysta eller färska/tinade kycklingfiléerna i en ugnsform där alla filéer får plats att ligga bredvid varandra",
         "Blanda crème fraiche, soja, sambal oelek och grädde i en bunke och rör om.",
         "Häll detta över kycklingfiléerna. Det är viktigt att filéerna täcks så mycket som möjligt av såsen.",
@@ -574,7 +573,8 @@ window.RECEPT_DATA = {
         "Servera med ris, potatis, grönsaker."
       ],
       "anteckning": "",
-      "bild": "bilder/cf688de1-2e07-40c0-b1c2-1f639574b49f-mv2smg51.jpg"
+      "bild": "bilder/cf688de1-2e07-40c0-b1c2-1f639574b49f-mv2smg51.jpg",
+      "ugn": 175
     },
     {
       "id": "15e14a2c-ec15-43dd-9aca-1b74d89529f4",

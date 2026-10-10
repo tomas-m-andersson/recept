@@ -233,6 +233,27 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "Servera med frukt och/eller bär.",
       "bild": "bilder/0e0ff294-b2b9-48ab-b7dd-96d671af076a-mv2rrgvz.jpg"
+    },
+    {
+      "id": "374681f4-b3e7-4ffb-8b6b-f5e30a5f1642",
+      "titel": "Picklad rödlök",
+      "kategori": "Övrigt",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "1 dl ättiksprit 12%",
+        "2 dl strösocker",
+        "3 dl vatten",
+        "2 rödlökar"
+      ],
+      "steg": [
+        "Koka upp ättika, socker och vatten, låt svalna något.",
+        "Skala och skiva löken tunt och lägg i en glasburk. Häll på den ljumna lagen och låt stå tills den kallnat.",
+        "Löken är sedan klar att serveras men håller ytterligare 1-2 veckor i kyl."
+      ],
+      "anteckning": ""
     }
   ],
   "github": {

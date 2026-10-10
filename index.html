@@ -47,6 +47,9 @@ button:disabled{opacity:.45;cursor:default}
 .menystatus.varning{display:inline-block;background:var(--helg);color:var(--helgink);border-radius:999px;padding:2px 14px}
 
 /* Sök och filter */
+.sokrad{display:flex;gap:8px;align-items:center}
+.sokrad .sok{width:auto;flex:1;min-width:0}
+.sokrad button{white-space:nowrap;font-weight:600;padding:10px 16px}
 .sok{width:100%;font:inherit;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:999px;padding:11px 18px}
 .kategorier{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px}
 .kategorier button{padding:5px 14px;font-size:.92rem}
@@ -198,6 +201,7 @@ summary{cursor:pointer;font-weight:600}
   var sparar = false, sparaIgen = false;
   var stegKlara = {}, ingKlara = {};   // avbockade steg och ingredienser, bara medan sidan är öppen
   var HAKA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var sortering = "ao";     // "ao" = A–Ö, "oa" = Ö–A (gäller tills sidan laddas om)
   var bildCache = {};       // nyss uppladdade bilder, så de syns direkt
   var nyBild = null, taBortBild = false;   // bilden i receptformuläret
 
@@ -508,6 +512,13 @@ summary{cursor:pointer;font-weight:600}
     var hö = (r.titel + " " + (r.ingredienser || []).join(" ") + " " + (r.kategori || "")).toLowerCase();
     return q.split(/\s+/).every(function (ord) { return hö.indexOf(ord) > -1; });
   }
+  function uppdateraSortKnapp() {
+    var k = $("sortKnapp");
+    if (!k) return;
+    var ao = sortering === "ao";
+    k.textContent = ao ? "A–Ö" : "Ö–A";
+    k.setAttribute("aria-label", "Sorterat " + (ao ? "A till Ö" : "Ö till A") + ". Tryck för att byta ordning.");
+  }
   function renderaLista() {
     var ul = $("lista");
     if (!data.recept.length) {
@@ -515,7 +526,8 @@ summary{cursor:pointer;font-weight:600}
       return;
     }
     var lista = data.recept.filter(passar).sort(function (a, b) {
-      return a.titel.localeCompare(b.titel, "sv");
+      var c = a.titel.localeCompare(b.titel, "sv");
+      return sortering === "oa" ? -c : c;
     });
     if (!lista.length) {
       ul.innerHTML = '<li class="tomt" style="box-shadow:none;background:none">Inga recept matchar. Ändra sökningen eller filtret.</li>';
@@ -731,9 +743,11 @@ summary{cursor:pointer;font-weight:600}
     if (r) { renderaRecept(r); return; }
     valtId = null;
     $("vy").innerHTML =
-      '<input class="sok" id="sok" type="search" placeholder="Sök på namn eller ingrediens" aria-label="Sök recept" value="' + esc(filter.q) + '">' +
+      '<div class="sokrad"><input class="sok" id="sok" type="search" placeholder="Sök på namn eller ingrediens" aria-label="Sök recept" value="' + esc(filter.q) + '">' +
+      '<button type="button" id="sortKnapp" data-atgard="sortera"></button></div>' +
       '<div class="kategorier" id="kategorier" role="group" aria-label="Filtrera"></div>' +
       '<ul class="lista" id="lista"></ul>';
+    uppdateraSortKnapp();
     renderaKategorier();
     renderaLista();
   }
@@ -841,6 +855,11 @@ summary{cursor:pointer;font-weight:600}
     if (!b) return;
     var r = valtId && hitta(valtId);
     switch (b.dataset.atgard) {
+      case "sortera":
+        sortering = sortering === "ao" ? "oa" : "ao";
+        uppdateraSortKnapp();
+        renderaLista();
+        break;
       case "steg": {
         var si = +b.dataset.i;
         var sm = stegKlara[valtId] || (stegKlara[valtId] = {});

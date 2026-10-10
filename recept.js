@@ -398,6 +398,47 @@ window.RECEPT_DATA = {
         "Servera köttfärslimpan med potatis och sallad."
       ],
       "anteckning": ""
+    },
+    {
+      "id": "c6efcbb2-dc05-4655-a91c-022d3ece91fe",
+      "titel": "Fisksoppa",
+      "kategori": "",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "400g torsk",
+        "300g lax",
+        "½ purjolök",
+        "½ gul lök",
+        "1 msk smör",
+        "1 st vitlöksklyfta",
+        "1½ msk tomatpuré",
+        "1,5 tsk salt",
+        "1 tsk timjan",
+        "1 tsk basilika",
+        "2½ dl vitt vin (matlagningsvin)",
+        "1½ st fiskbuljongtärningar",
+        "2½ dl  grädde",
+        "2 dl vatten",
+        "1 pkt saffran",
+        "500g räkor",
+        "1 dl crème fraiche"
+      ],
+      "steg": [
+        "Skölj och strimla purjolöken.",
+        "Hacka den gula löken.",
+        "Fräs gul lök och purjo tillsammans tills det blir mjuk.",
+        "Pressa vitlöken, blanda i tomatpuré, salt och kryddor.",
+        "Tillsätt vin, buljong och låt koka i några minuter.",
+        "Häll i grädde, crème fraiche, vatten och saffran.",
+        "Låt sjuda i 15 minuter.",
+        "Skär fisken i bitar, lägg i grytan och sjud i 7 minuter.",
+        "Lägg i räkorna.",
+        "Hetta upp snabbt utan att koka."
+      ],
+      "anteckning": ""
     }
   ],
   "github": {

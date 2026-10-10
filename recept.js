@@ -679,6 +679,33 @@ window.RECEPT_DATA = {
         "Ställ i ugnen ca 1 timme."
       ],
       "anteckning": ""
+    },
+    {
+      "id": "0f0f0d3e-4c13-4b6f-8833-969009655f05",
+      "titel": "Tomas tomat-fiskgratäng",
+      "kategori": "",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "2 tinade torskblock",
+        "5 dl grädde",
+        "4 msk tomatpuré",
+        "2 fiskbuljongtärningar",
+        "Maizenamjöl",
+        "Basilika",
+        "Riven ost"
+      ],
+      "steg": [
+        "Sätt ugnen på 225 grader.",
+        "Koka ihop grädde, tomatpuré, buljongtärningar och basilika (efter smak).",
+        "Red med maizena för lite tjockare sås.",
+        "Lägg torskblocken i en ugnsform, häll över såsen.",
+        "Strö över ost.",
+        "Ställ i ugnen i ca 25-30 minuter."
+      ],
+      "anteckning": ""
     }
   ],
   "github": {

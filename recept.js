@@ -129,7 +129,7 @@ window.RECEPT_DATA = {
       "portioner": 4,
       "tid": "",
       "kalla": "",
-      "favorit": false,
+      "favorit": true,
       "ingredienser": [
         "2 rejäla matskedar majonnäs",
         "3 tsk chilisås eller ketchup",

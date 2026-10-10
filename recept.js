@@ -285,7 +285,7 @@ window.RECEPT_DATA = {
     {
       "id": "dc490cba-8793-463a-82ff-75b03639dd22",
       "titel": "Bacon-pasta",
-      "kategori": "",
+      "kategori": "Middag",
       "portioner": 4,
       "tid": "",
       "kalla": "",

@@ -549,6 +549,32 @@ window.RECEPT_DATA = {
         "Låt puttra tills klart."
       ],
       "anteckning": ""
+    },
+    {
+      "id": "cf688de1-2e07-40c0-b1c2-1f639574b49f",
+      "titel": "Kyckling i ugn med sambal oelek",
+      "kategori": "Middag",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "2 kg kycklingfilé",
+        "5 dl crème fraiche (kokbar)",
+        "0.5 dl soja",
+        "1-1.5 tsk sambal oelek",
+        "3 dl grädde (valfri sort)"
+      ],
+      "steg": [
+        "Sätt ugnen på 175 grader.",
+        "Lägg de frysta eller färska/tinade kycklingfiléerna i en ugnsform där alla filéer får plats att ligga bredvid varandra",
+        "Blanda crème fraiche, soja, sambal oelek och grädde i en bunke och rör om.",
+        "Häll detta över kycklingfiléerna. Det är viktigt att filéerna täcks så mycket som möjligt av såsen.",
+        "Ställ in i mitten av ugnen i 1,5 timme.",
+        "Servera med ris, potatis, grönsaker."
+      ],
+      "anteckning": "",
+      "bild": "bilder/cf688de1-2e07-40c0-b1c2-1f639574b49f-mv2smg51.jpg"
     }
   ],
   "github": {

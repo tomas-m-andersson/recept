@@ -149,7 +149,7 @@ window.RECEPT_DATA = {
     {
       "id": "d14766f1-df98-4461-883a-5e2214d9a5d9",
       "titel": "Håkans Farmors Flötgröt",
-      "kategori": "",
+      "kategori": "Övrigt",
       "portioner": 4,
       "tid": "",
       "kalla": "",

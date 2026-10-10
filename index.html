@@ -81,9 +81,13 @@ button:disabled{opacity:.45;cursor:default}
 .ingrad:last-child{border-bottom:0}
 .ingrad input{width:22px;height:22px;accent-color:var(--acc);flex:none;margin:0}
 .ingrad input:checked + span{text-decoration:line-through;color:var(--mut)}
-.steg{counter-reset:s;list-style:none;margin:10px 0 0;padding:0;display:grid;gap:14px}
-.steg li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start}
-.steg li::before{content:counter(s);width:32px;height:32px;border-radius:50%;background:var(--acc);color:var(--accink);font-weight:800;display:grid;place-items:center}
+.steg{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:14px}
+.steg li{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start}
+.stegnr{width:40px;height:40px;padding:0;border-radius:50%;background:var(--acc);color:var(--accink);border-color:var(--acc);font-weight:800;font-size:1.05rem;display:grid;place-items:center}
+.stegnr svg{width:22px;height:22px}
+.steg .stegnr[aria-pressed="true"]{background:#2a9d5c;border-color:#2a9d5c;color:#fff}
+.stegtext{padding-top:7px}
+.steg li.klar .stegtext{color:var(--mut);text-decoration:line-through}
 .anteckning{background:var(--helg);color:var(--helgink);border-radius:20px;padding:14px 18px;margin:14px 0 0;font-weight:600}
 
 /* Formulär */
@@ -192,6 +196,8 @@ summary{cursor:pointer;font-weight:600}
   var token = "";           // GitHub-token, bara om du valt att komma ihåg den
   try { token = localStorage.getItem("ghtoken") || ""; } catch (e) {}
   var sparar = false, sparaIgen = false;
+  var stegKlara = {}, ingKlara = {};   // avbockade steg och ingredienser, bara medan sidan är öppen
+  var HAKA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   var bildCache = {};       // nyss uppladdade bilder, så de syns direkt
   var nyBild = null, taBortBild = false;   // bilden i receptformuläret
 
@@ -504,10 +510,16 @@ summary{cursor:pointer;font-weight:600}
   function renderaRecept(r) {
     var bs = bildSrc(r.bild);
     var f = visaPortioner && r.portioner ? visaPortioner / r.portioner : 1;
-    var ing = (r.ingredienser || []).map(function (x) {
-      return '<label class="ingrad"><input type="checkbox"><span>' + esc(skala(x, f)) + "</span></label>";
+    var sk = stegKlara[r.id] || {}, ik = ingKlara[r.id] || {};
+    var ing = (r.ingredienser || []).map(function (x, i) {
+      return '<label class="ingrad"><input type="checkbox" data-ing="' + i + '"' + (ik[i] ? " checked" : "") + "><span>" + esc(skala(x, f)) + "</span></label>";
     }).join("");
-    var steg = (r.steg || []).map(function (x) { return "<li><span>" + esc(x) + "</span></li>"; }).join("");
+    var steg = (r.steg || []).map(function (x, i) {
+      var k = !!sk[i];
+      return "<li" + (k ? ' class="klar"' : "") + '><button type="button" class="stegnr" data-atgard="steg" data-i="' + i + '" aria-pressed="' + k +
+        '" aria-label="Steg ' + (i + 1) + (k ? ", klart" : ", markera som klart") + '">' + (k ? HAKA : (i + 1)) + "</button>" +
+        '<span class="stegtext">' + esc(x) + "</span></li>";
+    }).join("");
     var kalla = r.kalla ? (/^https?:\/\//.test(r.kalla)
       ? '<a href="' + esc(r.kalla) + '" target="_blank" rel="noopener">Källa</a>'
       : "Källa: " + esc(r.kalla)) : "";
@@ -599,6 +611,7 @@ summary{cursor:pointer;font-weight:600}
       if (bildVarde) post.bild = bildVarde; else delete post.bild;
       if (ny) data.recept.push(post);
       valtId = post.id; redigerar = null; visaPortioner = null;
+      delete stegKlara[post.id]; delete ingKlara[post.id];
       renderaVy();
       window.scrollTo(0, 0);
       var harSparmal = !!handle || !!(ghKonf() && token);
@@ -767,6 +780,10 @@ summary{cursor:pointer;font-weight:600}
   });
   $("vy").addEventListener("change", function (e) {
     if (e.target.id === "f-foto" || e.target.id === "f-galleri") valBild(e.target);
+    else if (e.target.dataset && e.target.dataset.ing !== undefined && valtId) {
+      var im = ingKlara[valtId] || (ingKlara[valtId] = {});
+      im[+e.target.dataset.ing] = e.target.checked;
+    }
   });
   $("vy").addEventListener("keydown", function (e) {
     if (e.key !== "Enter") return;
@@ -785,6 +802,16 @@ summary{cursor:pointer;font-weight:600}
     if (!b) return;
     var r = valtId && hitta(valtId);
     switch (b.dataset.atgard) {
+      case "steg": {
+        var si = +b.dataset.i;
+        var sm = stegKlara[valtId] || (stegKlara[valtId] = {});
+        var pa = sm[si] = !sm[si];
+        b.setAttribute("aria-pressed", String(pa));
+        b.setAttribute("aria-label", "Steg " + (si + 1) + (pa ? ", klart" : ", markera som klart"));
+        b.innerHTML = pa ? HAKA : String(si + 1);
+        b.closest("li").classList.toggle("klar", pa);
+        break;
+      }
       case "tafoto": $("f-foto").click(); break;
       case "valjbild": $("f-galleri").click(); break;
       case "tabortbild":

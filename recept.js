@@ -81,6 +81,7 @@ window.RECEPT_DATA = {
   "tema": "dark",
   "kategorier": [
     "Bakning",
-    "Middag"
+    "Middag",
+    "Röror"
   ]
 };

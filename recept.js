@@ -7,7 +7,7 @@ window.RECEPT_DATA = {
       "portioner": 4,
       "tid": "30 min",
       "kalla": "",
-      "favorit": true,
+      "favorit": false,
       "ingredienser": [
         "3 dl vetemjöl",
         "6 dl mjölk",

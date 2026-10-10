@@ -145,6 +145,29 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "",
       "bild": "bilder/e72fb6bb-8807-483e-9366-9241e8a6750c-mv2q0ooh.jpg"
+    },
+    {
+      "id": "d14766f1-df98-4461-883a-5e2214d9a5d9",
+      "titel": "Håkans Farmors Flötgröt",
+      "kategori": "",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "1 l grädde",
+        "2 dl mjölk",
+        "Vetemjöl (ev med 1/5 kornmjöl)",
+        "Salt"
+      ],
+      "steg": [
+        "Koka grädden i minst 20 minuter under omrörning.",
+        "Tillsätt mjölken och koka upp.",
+        "Tillsätt mjölet till du får en lös gröt. (Gröten stelnar senare).",
+        "Salta lite. OBS! Salta sist, annars stelnar inte gröten."
+      ],
+      "anteckning": "Sjukt mättande men såååå gott!",
+      "bild": "bilder/d14766f1-df98-4461-883a-5e2214d9a5d9-mv2q3h7w.jpg"
     }
   ],
   "github": {

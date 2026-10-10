@@ -190,6 +190,27 @@ window.RECEPT_DATA = {
         "Blanda ihop allt i en kastrull och koka ordentligt i ca 10 min."
       ],
       "anteckning": "Perfekt till gröt eller filmjölk!"
+    },
+    {
+      "id": "6f11cd69-2ee4-407d-9b0c-445a787594e4",
+      "titel": "Tomas kalla fisksås",
+      "kategori": "Röror & såser",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "2 msk majonnäs",
+        "2msk crème fraiche",
+        "1msk chilisås",
+        "Lite finhackad rödlök",
+        "Dill",
+        "Svartpeppar"
+      ],
+      "steg": [
+        "Rör ihop alla ingredienser."
+      ],
+      "anteckning": ""
     }
   ],
   "github": {

@@ -643,7 +643,6 @@ window.RECEPT_DATA = {
         "ost, riven"
       ],
       "steg": [
-        "Sätt ugnen på 225 grader.",
         "Stek blandfärsen och lägg åt sidan.",
         "Bryn sedan löken och paprikan.",
         "Tillsätt kryddor och krossade tomater.",
@@ -653,7 +652,8 @@ window.RECEPT_DATA = {
         "Toppa gratängen med purjolök och avsluta med riven ost.",
         "Grädda gratängen i mitten av ugnen ca 15 minuter."
       ],
-      "anteckning": ""
+      "anteckning": "",
+      "ugn": 225
     },
     {
       "id": "0e37fc06-b064-4a7e-ac8d-37db8bb35e05",

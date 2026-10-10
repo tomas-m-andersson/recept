@@ -309,6 +309,33 @@ window.RECEPT_DATA = {
         "Vänd ner såsen i pastan och servera."
       ],
       "anteckning": ""
+    },
+    {
+      "id": "0a5ab473-2e61-4f42-b901-f82866f86502",
+      "titel": "Currykyckling med gräddig vitkål",
+      "kategori": "Middag",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "4 dl nerskuren vitkål",
+        "1/2 grillad kyckling",
+        "2 dl grädde",
+        "att steka i",
+        "salt, peppar",
+        "2 tsk curry eller efter smak",
+        "1 tsk gurkmeja",
+        "1 tsk sambal oelek"
+      ],
+      "steg": [
+        "Skär ner vitkålen i mindre bitar och stek i Smör.",
+        "Salta och peppra och strö på curry och gurkmeja efter smak.",
+        "Lägg ner den strimlade grillade kycklingen och en klick sambal oelek.",
+        "På med grädde.",
+        "Låt småpuutra en stund och ät sedan med gurka och tomat!"
+      ],
+      "anteckning": ""
     }
   ],
   "github": {

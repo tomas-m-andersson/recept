@@ -493,6 +493,35 @@ window.RECEPT_DATA = {
         "Grädda våfflorna."
       ],
       "anteckning": "Servera med vispgrädde, sylt, glass, Nutella eller varför inte finhackad rödlök och skagenröra!"
+    },
+    {
+      "id": "059d4b6d-73f5-42e8-8b96-a5fdc8fb8ed7",
+      "titel": "Gräddig linsgryta med tomat och spenat",
+      "kategori": "Middag",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "1 rödlök",
+        "2 dl röda linser",
+        "5 dl grönsaksbuljong (vatten + fond/tärning)",
+        "2 vitlöksklyftor",
+        "50 g färsk bladspenat",
+        "4 tomater (eller 15-20 körsbärstomater)",
+        "2 dl grädde",
+        "Salt",
+        "Vitpeppar"
+      ],
+      "steg": [
+        "Strimla löken.",
+        "Lägg löken, linserna och buljongen i en stekpanna och låt koka 10 min.",
+        "Rör ner riven vitlök, bladspenat, grovhackade tomater och grädde.",
+        "Låt koka 5 min, tills tomaterna blivit varma men fortfarande håller formen och spenaten har sjunkit ihop.",
+        "Smaka av."
+      ],
+      "anteckning": "",
+      "bild": "bilder/059d4b6d-73f5-42e8-8b96-a5fdc8fb8ed7-mv2sh758.jpg"
     }
   ],
   "github": {

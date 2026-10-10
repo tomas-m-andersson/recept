@@ -254,6 +254,33 @@ window.RECEPT_DATA = {
         "Löken är sedan klar att serveras men håller ytterligare 1-2 veckor i kyl."
       ],
       "anteckning": ""
+    },
+    {
+      "id": "87975abc-5905-417d-89fd-034b8703798d",
+      "titel": "Tords sillröra",
+      "kategori": "Röror & såser",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "1 röd lök",
+        "3 hårdkokta ägg",
+        "2 dl crème fraiche",
+        "1 liten burk Abba senapssill"
+      ],
+      "steg": [
+        "Koka äggen.",
+        "Finhacka rödlöken.",
+        "Finhacka äggen.",
+        "Rör ihop i en bunke.",
+        "Rör i crème fraichen.",
+        "Dela/hacka sillbitarna efter tycke och smak.",
+        "Tillsätt sillen och större delen av senapssåsen i bunken.",
+        "Rör om.",
+        "Låt stå och dra i kylskåpet över natten."
+      ],
+      "anteckning": "Servera på tex hårtbröd."
     }
   ],
   "github": {

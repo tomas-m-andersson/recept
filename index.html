@@ -69,6 +69,7 @@ button:disabled{opacity:.45;cursor:default}
 .pill{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:0 12px;font-size:.88rem;color:var(--mut)}
 .pill a{color:var(--acc);font-weight:600}
 .atgarder{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px}
+.receptknappar{margin-top:24px}
 .sek{background:var(--card);border-radius:20px;padding:16px 18px 18px;margin-top:14px;box-shadow:0 2px 0 var(--line)}
 .sek h2{margin:0 0 4px;font-size:1.3rem}
 .portioner{display:flex;align-items:center;gap:12px;margin:8px 0 6px;font-weight:600}
@@ -566,19 +567,19 @@ summary{cursor:pointer;font-weight:600}
         (kalla ? '<span class="pill">' + kalla + "</span>" : "") +
       "</p>" +
       (bs ? '<img class="receptbild" src="' + esc(bs) + '" alt="Bild på ' + esc(r.titel) + '" onerror="this.style.display=\'none\'">' : "") +
-      '<div class="atgarder">' +
-        '<button type="button" data-atgard="favorit" aria-pressed="' + !!r.favorit + '">Favorit</button>' +
-        '<button type="button" data-atgard="redigera">Redigera</button>' +
-        '<button type="button" data-atgard="skriv">Skriv ut</button>' +
-        '<button type="button" class="danger" data-atgard="radera">Ta bort</button>' +
-      "</div>" +
       '<section class="sek" aria-labelledby="ing-r"><h2 id="ing-r">Ingredienser</h2>' +
         (r.portioner ? '<div class="portioner"><button type="button" data-atgard="minus" aria-label="Färre portioner">−</button>' +
           "<span>" + (visaPortioner || r.portioner) + " portioner</span>" +
           '<button type="button" data-atgard="plus" aria-label="Fler portioner">+</button></div>' : "") +
         "<div>" + ing + "</div></section>" +
       '<section class="sek" aria-labelledby="steg-r"><h2 id="steg-r">Gör så här</h2><ol class="steg">' + steg + "</ol></section>" +
-      (r.anteckning ? '<p class="anteckning">' + esc(r.anteckning) + "</p>" : "");
+      (r.anteckning ? '<p class="anteckning">' + esc(r.anteckning) + "</p>" : "") +
+      '<div class="atgarder receptknappar">' +
+        '<button type="button" data-atgard="favorit" aria-pressed="' + !!r.favorit + '">Favorit</button>' +
+        '<button type="button" data-atgard="redigera">Redigera</button>' +
+        '<button type="button" data-atgard="skriv">Skriv ut</button>' +
+        '<button type="button" class="danger" data-atgard="radera">Ta bort</button>' +
+      "</div>";
   }
   function renderaFormular() {
     var ny = redigerar === "ny";
@@ -728,9 +729,9 @@ summary{cursor:pointer;font-weight:600}
     }).join("");
     $("vy").innerHTML = '<div class="kathantering"><h2>Kategorier</h2>' +
       '<p class="hint">Byt namn, ta bort eller lägg till kategorier. Ändra namnet i fältet och tryck på Byt namn (eller Enter). Då uppdateras alla recept i kategorin. Med Välj färg bestämmer du vilken färg kategorin får som kant på receptkorten.</p>' +
-      (lista.length ? '<ul class="katlista">' + rader + "</ul>" : '<p class="tomt">Inga kategorier än. Lägg till den första nedan.</p>') +
       '<label for="kat-ny">Ny kategori</label>' +
       '<div class="katny"><input type="text" id="kat-ny" placeholder="t.ex. Middag"><button type="button" class="main" data-atgard="katny">Lägg till</button></div>' +
+      (lista.length ? '<ul class="katlista">' + rader + "</ul>" : '<p class="tomt">Inga kategorier än. Lägg till den första ovan.</p>') +
       '<div class="atgarder" style="margin-top:18px"><button type="button" data-atgard="katklar">Klar</button></div></div>';
   }
 

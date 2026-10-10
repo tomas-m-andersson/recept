@@ -618,6 +618,41 @@ window.RECEPT_DATA = {
         "Ner med revbensspjällen och koka nån timme tills köttet nästan släpper från benen."
       ],
       "anteckning": ""
+    },
+    {
+      "id": "0df39365-95ba-41ba-8135-19c3703bf6f9",
+      "titel": "Tacogratäng",
+      "kategori": "Middag",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "1 kg blandfärs",
+        "1 gula lökar",
+        "1 röd paprika",
+        "1 vitlöksklyfta",
+        "4 msk tacokrydda",
+        "2 dl krossade tomater",
+        "Salt",
+        "peppar",
+        "2 dl crème fraiche",
+        "300 g Philadelphiaost",
+        "purjolök",
+        "ost, riven"
+      ],
+      "steg": [
+        "Sätt ugnen på 225 grader.",
+        "Stek blandfärsen och lägg åt sidan.",
+        "Bryn sedan löken och paprikan.",
+        "Tillsätt kryddor och krossade tomater.",
+        "Blanda ihop med blandfärsen.",
+        "Blanda philadelphiaost och crème fraiche och bred ut ostblandningen i en smord ugnssäker form.",
+        "Lägg på blandfärsblandningen.",
+        "Toppa gratängen med purjolök och avsluta med riven ost.",
+        "Grädda gratängen i mitten av ugnen ca 15 minuter."
+      ],
+      "anteckning": ""
     }
   ],
   "github": {

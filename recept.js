@@ -579,7 +579,7 @@ window.RECEPT_DATA = {
     {
       "id": "15e14a2c-ec15-43dd-9aca-1b74d89529f4",
       "titel": "Köttfärslimpa på fransk löksås",
-      "kategori": "",
+      "kategori": "Middag",
       "portioner": 4,
       "tid": "",
       "kalla": "",

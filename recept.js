@@ -714,7 +714,7 @@ window.RECEPT_DATA = {
       "portioner": 4,
       "tid": "",
       "kalla": "",
-      "favorit": false,
+      "favorit": true,
       "ingredienser": [
         "800 g Vitkål  (ca ett halvt kålhuvud)",
         "1 gul lök",

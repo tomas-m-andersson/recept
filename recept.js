@@ -121,6 +121,30 @@ window.RECEPT_DATA = {
         "Blanda ihop allting"
       ],
       "anteckning": "Gå även att blanda lite majonnäs eller creme fraiche om man vill"
+    },
+    {
+      "id": "e72fb6bb-8807-483e-9366-9241e8a6750c",
+      "titel": "Tomas smashburger-dressing",
+      "kategori": "Röror",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "2 rejäla matskedar majonnäs",
+        "3 tsk chilisås eller ketchup",
+        "2 tsk sweet baby ray-sås",
+        "1 tsk gul senap",
+        "1 tsk picles-spad",
+        "½ finhackad picles",
+        "Vitlökspulver"
+      ],
+      "steg": [
+        "Finhacka ½ picles.",
+        "Rör ihop alla ingredienser."
+      ],
+      "anteckning": "",
+      "bild": "bilder/e72fb6bb-8807-483e-9366-9241e8a6750c-mv2q0ooh.jpg"
     }
   ],
   "github": {

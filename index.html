@@ -101,7 +101,7 @@ textarea{min-height:150px;resize:vertical}
 .kryss input{width:22px;height:22px;accent-color:var(--acc);margin:0}
 .formular .atgarder{margin-top:18px}
 
-#msg{color:var(--mut);margin:0 0 14px;font-weight:600}
+#msg{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:30;max-width:min(90vw,520px);margin:0;padding:10px 18px;border-radius:20px;background:var(--ink);color:var(--bg);font-weight:600;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.25);pointer-events:none}
 #msg:empty{display:none}
 .meny{background:var(--card);border-radius:20px;padding:16px 18px 18px;margin:0 0 18px;box-shadow:0 2px 0 var(--line)}
 .meny[hidden]{display:none}
@@ -645,11 +645,17 @@ summary{cursor:pointer;font-weight:600}
     sparaTillFil();
     meddela('Kategorin "' + n + '" är tillagd.');
   }
+  var senasteByte = 0;
   function kategoriByt(i, inp) {
+    if (!inp.isConnected) return;
     var gammal = kategorier()[i];
     var n = inp.value.trim();
-    if (n === gammal) { meddela("Namnet är oförändrat."); return; }
+    if (n === gammal) {
+      if (Date.now() - senasteByte > 1500) meddela("Namnet är oförändrat.");
+      return;
+    }
     if (!kontrolleraNamn(n, gammal)) { if (!n) inp.value = gammal; return; }
+    senasteByte = Date.now();
     data.kategorier = kategorier().map(function (k) { return k === gammal ? n : k; });
     data.recept.forEach(function (r) { if (r.kategori === gammal) r.kategori = n; });
     if (filter.kat === gammal) filter.kat = n;
@@ -678,7 +684,7 @@ summary{cursor:pointer;font-weight:600}
         '<button type="button" class="danger" data-atgard="katradera" data-i="' + i + '">Ta bort</button></div></li>';
     }).join("");
     $("vy").innerHTML = '<div class="kathantering"><h2>Kategorier</h2>' +
-      '<p class="hint">Byt namn, ta bort eller lägg till kategorier. När du byter namn uppdateras alla recept i kategorin.</p>' +
+      '<p class="hint">Byt namn, ta bort eller lägg till kategorier. Ändra namnet i fältet och tryck på Byt namn (eller Enter). Då uppdateras alla recept i kategorin.</p>' +
       (lista.length ? '<ul class="katlista">' + rader + "</ul>" : '<p class="tomt">Inga kategorier än. Lägg till den första nedan.</p>') +
       '<label for="kat-ny">Ny kategori</label>' +
       '<div class="katny"><input type="text" id="kat-ny" placeholder="t.ex. Middag"><button type="button" class="main" data-atgard="katny">Lägg till</button></div>' +
@@ -780,6 +786,7 @@ summary{cursor:pointer;font-weight:600}
   });
   $("vy").addEventListener("change", function (e) {
     if (e.target.id === "f-foto" || e.target.id === "f-galleri") valBild(e.target);
+    else if (hanteraKat && e.target.tagName === "INPUT" && e.target.dataset.i !== undefined) kategoriByt(+e.target.dataset.i, e.target);
     else if (e.target.dataset && e.target.dataset.ing !== undefined && valtId) {
       var im = ingKlara[valtId] || (ingKlara[valtId] = {});
       im[+e.target.dataset.ing] = e.target.checked;

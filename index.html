@@ -32,8 +32,10 @@ button:disabled{opacity:.45;cursor:default}
 #theme svg,#meny-knapp svg,#info svg{width:22px;height:22px}
 
 .bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-.filstatus{margin:0 0 22px;color:var(--mut);font-size:.92rem;min-height:1.4em}
-.filstatus.varning{display:inline-block;background:var(--helg);color:var(--helgink);border-radius:999px;padding:2px 14px;font-weight:700;min-height:0}
+.filstatus{margin:0 0 18px;color:var(--mut);font-size:.92rem}
+.filstatus:empty{display:none}
+.menystatus{margin:0 0 6px;font-weight:600}
+.menystatus.varning{display:inline-block;background:var(--helg);color:var(--helgink);border-radius:999px;padding:2px 14px}
 
 /* Sök och filter */
 .sok{width:100%;font:inherit;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:999px;padding:11px 18px}
@@ -97,6 +99,13 @@ textarea{min-height:150px;resize:vertical}
 .hjalp{display:flex;align-items:center;gap:12px;font-weight:600}
 .hjalptext{color:var(--mut);margin:10px 0 0}
 .hjalptext[hidden]{display:none}
+.kathantering h2{font-size:1.6rem;margin:6px 0 0;font-weight:800}
+.katlista{list-style:none;margin:14px 0;padding:0;display:grid;gap:8px}
+.katlista li{background:var(--card);border-radius:20px;padding:12px 14px;box-shadow:0 2px 0 var(--line);display:grid;gap:8px}
+.katrad{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.katrad .liten{color:var(--mut);font-size:.9rem;margin-right:auto}
+.katny{display:flex;gap:8px}
+.katny input{width:auto;flex:1;min-width:0}
 .meny details{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
 summary{cursor:pointer;font-weight:600}
 .meny details .atgarder{margin-top:14px}
@@ -114,7 +123,10 @@ summary{cursor:pointer;font-weight:600}
 <section class="meny" id="meny" hidden aria-label="Meny">
 <h2>Utseende</h2>
 <div class="hjalp"><button id="theme" type="button"></button><span id="theme-text"></span></div>
+<h2>Kategorier</h2>
+<div class="val"><button id="katKnapp" type="button">Hantera kategorier</button></div>
 <h2>Datafil</h2>
+<p class="menystatus" id="menystatus"></p>
 <p class="hint">Recepten ligger i filen recept.js, inte i webbläsaren.</p>
 <div class="val">
 <button id="kopplaKnapp" type="button">Koppla recept.js</button>
@@ -165,6 +177,7 @@ summary{cursor:pointer;font-weight:600}
   var osparat = false;      // ändringar som inte är sparade i någon fil
   var visaPortioner = null;
   var redigerar = null;     // null, "ny" eller ett id
+  var hanteraKat = false;   // visar sidan för kategorier
   var token = "";           // GitHub-token, bara om du valt att komma ihåg den
   try { token = localStorage.getItem("ghtoken") || ""; } catch (e) {}
   var sparar = false, sparaIgen = false;
@@ -193,24 +206,28 @@ summary{cursor:pointer;font-weight:600}
 
   /* ---------- Spara till fil ---------- */
   function filtext() {
+    data.kategorier = kategorier();
     return "window.RECEPT_DATA = " + JSON.stringify(data, null, 2) + ";\n";
   }
   function uppdateraStatus() {
-    var s = $("filstatus");
-    s.className = "filstatus";
+    var ms = $("menystatus");
+    ms.className = "menystatus";
     var gk = ghKonf();
+    var kopplad = !!handle || !!(gk && token);
     if (handle) {
-      s.textContent = osparat ? "Sparar…" : "Sparas automatiskt i " + handle.name;
+      ms.textContent = osparat ? "Sparar…" : "Sparas automatiskt i " + handle.name;
     } else if (gk && token) {
-      s.textContent = osparat ? "Sparar på GitHub…" : "Sparas automatiskt på GitHub (" + gk.agare + "/" + gk.repo + ")";
+      ms.textContent = osparat ? "Sparar på GitHub…" : "Sparas automatiskt på GitHub (" + gk.agare + "/" + gk.repo + ")";
     } else if (osparat) {
-      s.textContent = "Ändringar ej sparade. Ladda ner recept.js.";
-      s.className = "filstatus varning";
+      ms.textContent = "Ändringar ej sparade. Ladda ner recept.js.";
+      ms.className = "menystatus varning";
     } else if (gk) {
-      s.textContent = "Skriv in din token under Spara till GitHub för att kunna spara.";
+      ms.textContent = "Skriv in din token under Spara till GitHub för att kunna spara.";
     } else {
-      s.textContent = kanKoppla ? "Ingen datafil kopplad." : "Ändringar sparas genom att du laddar ner recept.js.";
+      ms.textContent = "Ingen datafil kopplad.";
     }
+    // Utanför menyn visas bara att ingen datafil är kopplad
+    $("filstatus").textContent = kopplad ? "" : "Ingen datafil kopplad.";
     $("kopplaKnapp").style.display = kanKoppla ? "" : "none";
     $("kopplaKnapp").textContent = handle ? "Byt fil" : "Koppla recept.js";
   }
@@ -358,6 +375,7 @@ summary{cursor:pointer;font-weight:600}
   /* ---------- Rendering ---------- */
   function kategorier() {
     var set = {};
+    (data.kategorier || []).forEach(function (k) { if (k) set[k] = true; });
     data.recept.forEach(function (r) { if (r.kategori) set[r.kategori] = true; });
     return Object.keys(set).sort(function (a, b) { return a.localeCompare(b, "sv"); });
   }
@@ -476,7 +494,73 @@ summary{cursor:pointer;font-weight:600}
       meddela("Receptet är sparat.");
     });
   }
+  /* ---------- Kategorier ---------- */
+  function antalIKat(k) { return data.recept.filter(function (r) { return r.kategori === k; }).length; }
+  function finnsKat(namn, utom) {
+    var n = namn.toLowerCase();
+    return kategorier().some(function (k) { return k !== utom && k.toLowerCase() === n; });
+  }
+  function reserverat(namn) {
+    var n = namn.toLowerCase();
+    return n === "alla" || n === "favoriter";
+  }
+  function kontrolleraNamn(n, utom) {
+    if (!n) { meddela("Skriv ett namn på kategorin."); return false; }
+    if (reserverat(n)) { meddela("Det namnet används av filtret. Välj ett annat."); return false; }
+    if (finnsKat(n, utom)) { meddela("Det finns redan en kategori med det namnet."); return false; }
+    return true;
+  }
+  function kategoriNy() {
+    var inp = $("kat-ny");
+    var n = inp.value.trim();
+    if (!kontrolleraNamn(n, null)) { inp.focus(); return; }
+    data.kategorier = kategorier().concat(n);
+    renderaVy();
+    sparaTillFil();
+    meddela('Kategorin "' + n + '" är tillagd.');
+  }
+  function kategoriByt(i, inp) {
+    var gammal = kategorier()[i];
+    var n = inp.value.trim();
+    if (n === gammal) { meddela("Namnet är oförändrat."); return; }
+    if (!kontrolleraNamn(n, gammal)) { if (!n) inp.value = gammal; return; }
+    data.kategorier = kategorier().map(function (k) { return k === gammal ? n : k; });
+    data.recept.forEach(function (r) { if (r.kategori === gammal) r.kategori = n; });
+    if (filter.kat === gammal) filter.kat = n;
+    renderaVy();
+    sparaTillFil();
+    meddela('Kategorin heter nu "' + n + '".');
+  }
+  function kategoriRadera(i) {
+    var k = kategorier()[i];
+    var n = antalIKat(k);
+    var fraga = 'Ta bort kategorin "' + k + '"?' + (n ? " " + n + " recept blir utan kategori." : "");
+    if (!confirm(fraga)) return;
+    data.recept.forEach(function (r) { if (r.kategori === k) r.kategori = ""; });
+    data.kategorier = kategorier().filter(function (x) { return x !== k; });
+    if (filter.kat === k) filter.kat = "Alla";
+    renderaVy();
+    sparaTillFil();
+    meddela('Kategorin "' + k + '" är borttagen.');
+  }
+  function renderaKategoriVy() {
+    var lista = kategorier();
+    var rader = lista.map(function (k, i) {
+      return '<li><input type="text" value="' + esc(k) + '" aria-label="Namn på kategorin ' + esc(k) + '" data-i="' + i + '">' +
+        '<div class="katrad"><span class="liten">' + antalIKat(k) + ' recept</span>' +
+        '<button type="button" data-atgard="katnamn" data-i="' + i + '">Byt namn</button>' +
+        '<button type="button" class="danger" data-atgard="katradera" data-i="' + i + '">Ta bort</button></div></li>';
+    }).join("");
+    $("vy").innerHTML = '<div class="kathantering"><h2>Kategorier</h2>' +
+      '<p class="hint">Byt namn, ta bort eller lägg till kategorier. När du byter namn uppdateras alla recept i kategorin.</p>' +
+      (lista.length ? '<ul class="katlista">' + rader + "</ul>" : '<p class="tomt">Inga kategorier än. Lägg till den första nedan.</p>') +
+      '<label for="kat-ny">Ny kategori</label>' +
+      '<div class="katny"><input type="text" id="kat-ny" placeholder="t.ex. Middag"><button type="button" class="main" data-atgard="katny">Lägg till</button></div>' +
+      '<div class="atgarder" style="margin-top:18px"><button type="button" data-atgard="katklar">Klar</button></div></div>';
+  }
+
   function renderaVy() {
+    if (hanteraKat) { renderaKategoriVy(); return; }
     if (redigerar) { renderaFormular(); return; }
     var r = valtId && hitta(valtId);
     if (r) { renderaRecept(r); return; }
@@ -524,6 +608,17 @@ summary{cursor:pointer;font-weight:600}
     paintTheme();
     if (handle || (ghKonf() && token)) sparaTillFil();
   };
+  function stangMeny() {
+    $("meny").hidden = true;
+    $("meny-knapp").setAttribute("aria-expanded", "false");
+    $("meny-knapp").setAttribute("aria-label", "Öppna menyn");
+  }
+  $("katKnapp").addEventListener("click", function () {
+    hanteraKat = true; redigerar = null;
+    stangMeny();
+    renderaVy();
+    window.scrollTo(0, 0);
+  });
   var HB = SVG + '<path d="M4 7h16M4 12h16M4 17h16"/></svg>';
   $("meny-knapp").innerHTML = HB;
   $("meny-knapp").setAttribute("aria-label", "Öppna menyn");
@@ -545,6 +640,7 @@ summary{cursor:pointer;font-weight:600}
 
   /* ---------- Händelser ---------- */
   $("nyttKnapp").addEventListener("click", function () {
+    hanteraKat = false;
     redigerar = "ny";
     renderaVy();
     window.scrollTo(0, 0);
@@ -554,6 +650,11 @@ summary{cursor:pointer;font-weight:600}
 
   $("vy").addEventListener("input", function (e) {
     if (e.target.id === "sok") { filter.q = e.target.value; renderaLista(); }
+  });
+  $("vy").addEventListener("keydown", function (e) {
+    if (e.key !== "Enter") return;
+    if (e.target.id === "kat-ny") { e.preventDefault(); kategoriNy(); }
+    else if (e.target.tagName === "INPUT" && e.target.dataset.i !== undefined) { e.preventDefault(); kategoriByt(+e.target.dataset.i, e.target); }
   });
   $("vy").addEventListener("click", function (e) {
     var k = e.target.closest("button[data-kat]");
@@ -567,6 +668,10 @@ summary{cursor:pointer;font-weight:600}
     if (!b) return;
     var r = valtId && hitta(valtId);
     switch (b.dataset.atgard) {
+      case "katnamn": kategoriByt(+b.dataset.i, b.closest("li").querySelector("input")); break;
+      case "katradera": kategoriRadera(+b.dataset.i); break;
+      case "katny": kategoriNy(); break;
+      case "katklar": hanteraKat = false; renderaVy(); window.scrollTo(0, 0); break;
       case "tillbaka": valtId = null; visaPortioner = null; renderaVy(); break;
       case "avbryt": redigerar = null; renderaVy(); break;
       case "favorit": r.favorit = !r.favorit; renderaVy(); sparaTillFil(); break;

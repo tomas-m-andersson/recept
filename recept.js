@@ -683,7 +683,7 @@ window.RECEPT_DATA = {
     {
       "id": "0f0f0d3e-4c13-4b6f-8833-969009655f05",
       "titel": "Tomas tomat-fiskgratäng",
-      "kategori": "",
+      "kategori": "Middag",
       "portioner": 4,
       "tid": "",
       "kalla": "",

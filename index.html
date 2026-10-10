@@ -27,9 +27,9 @@ button:disabled{opacity:.45;cursor:default}
 
 .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
 .icons{display:flex;gap:8px;flex:none}
-#theme,#info{width:44px;height:44px;padding:0;border-radius:50%;display:grid;place-items:center;flex:none}
-#info[aria-expanded="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-#theme svg,#info svg{width:22px;height:22px}
+#theme,#meny-knapp,#info{width:44px;height:44px;padding:0;border-radius:50%;display:grid;place-items:center;flex:none}
+#info[aria-expanded="true"],#meny-knapp[aria-expanded="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+#theme svg,#meny-knapp svg,#info svg{width:22px;height:22px}
 
 .bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
 .filstatus{margin:0 0 22px;color:var(--mut);font-size:.92rem;min-height:1.4em}
@@ -86,13 +86,23 @@ textarea{min-height:150px;resize:vertical}
 .kryss input{width:22px;height:22px;accent-color:var(--acc);margin:0}
 .formular .atgarder{margin-top:18px}
 
-#msg{min-height:1.4em;color:var(--mut);margin:14px 0 0}
-details{margin-top:28px;border-top:1px solid var(--line);padding-top:14px}
+#msg{color:var(--mut);margin:0 0 14px;font-weight:600}
+#msg:empty{display:none}
+.meny{background:var(--card);border-radius:20px;padding:16px 18px 18px;margin:0 0 18px;box-shadow:0 2px 0 var(--line)}
+.meny[hidden]{display:none}
+.meny h2{margin:18px 0 8px;font-size:1.1rem}
+.meny h2:first-child{margin-top:0}
+.meny .hint{margin:0 0 8px}
+.val{display:flex;gap:8px;flex-wrap:wrap}
+.hjalp{display:flex;align-items:center;gap:12px;font-weight:600}
+.hjalptext{color:var(--mut);margin:10px 0 0}
+.hjalptext[hidden]{display:none}
+.meny details{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
 summary{cursor:pointer;font-weight:600}
-details .atgarder{margin-top:14px}
+.meny details .atgarder{margin-top:14px}
 
 @media print{
-  .top,.bar,.filstatus,.atgarder,.portioner button,#msg,details{display:none!important}
+  .top,.bar,.filstatus,.atgarder,.portioner button,#msg,.meny{display:none!important}
   body{background:#fff;color:#000}
   .sek{box-shadow:none;border:1px solid #bbb}
 }
@@ -100,16 +110,16 @@ details .atgarder{margin-top:14px}
 </head>
 <body>
 <main>
-<header class="top"><h1>Mina recept</h1><div class="icons"><button id="info" type="button" aria-expanded="false" aria-controls="infotext"></button><button id="theme" type="button"></button></div></header>
-<p class="sub" id="infotext" hidden>Recepten sparas i filen recept.js, inte i webbläsaren. På mobilen fyller du i dina uppgifter under Spara till GitHub längst ner, så sparas varje ändring direkt i recept.js i ditt repo. På datorn i Chrome eller Edge kan du i stället trycka på Koppla recept.js. Du kan alltid ladda ner recept.js och ersätta filen själv. Med portionsknapparna räknas mängderna om.</p>
-<div class="bar">
-<button class="main" id="nyttKnapp" type="button">Nytt recept</button>
+<header class="top"><h1>Mina recept</h1><div class="icons"><button id="meny-knapp" type="button" aria-expanded="false" aria-controls="meny"></button></div></header>
+<section class="meny" id="meny" hidden aria-label="Meny">
+<h2>Utseende</h2>
+<div class="hjalp"><button id="theme" type="button"></button><span id="theme-text"></span></div>
+<h2>Datafil</h2>
+<p class="hint">Recepten ligger i filen recept.js, inte i webbläsaren.</p>
+<div class="val">
 <button id="kopplaKnapp" type="button">Koppla recept.js</button>
 <button id="laddaKnapp" type="button">Ladda ner recept.js</button>
 </div>
-<p class="filstatus" id="filstatus"></p>
-<div id="vy"></div>
-<p id="msg" role="status"></p>
 <details id="ghbox">
 <summary>Spara till GitHub</summary>
 <p class="hint">Då sparas varje ändring direkt i recept.js i ditt GitHub-repo, även från mobilen. Skapa en "fine-grained personal access token" på github.com (Settings, Developer settings), välj bara det här repot och ge den behörigheten Contents: Read and write.</p>
@@ -130,6 +140,16 @@ details .atgarder{margin-top:14px}
 <button id="gh-glom" type="button">Ta bort token</button>
 </div>
 </details>
+<h2>Hjälp</h2>
+<div class="hjalp"><button id="info" type="button" aria-expanded="false" aria-controls="infotext"></button><span>Så fungerar sparandet</span></div>
+<p class="hjalptext" id="infotext" hidden>Recepten sparas i filen recept.js, inte i webbläsaren. Öppna menyn (de tre strecken) för att välja ljust eller mörkt läge och för att spara recepten. På mobilen fyller du i dina uppgifter under Spara till GitHub, så sparas varje ändring direkt i recept.js i ditt repo. På datorn i Chrome eller Edge kan du i stället koppla recept.js. Du kan alltid ladda ner recept.js och ersätta filen själv. Med portionsknapparna räknas mängderna om.</p>
+</section>
+<div class="bar">
+<button class="main" id="nyttKnapp" type="button">Nytt recept</button>
+</div>
+<p class="filstatus" id="filstatus"></p>
+<p id="msg" role="status"></p>
+<div id="vy"></div>
 </main>
 
 <!-- Datan ligger i en separat fil -->
@@ -486,7 +506,9 @@ details .atgarder{margin-top:14px}
   function paintTheme() {
     var d = isDark();
     $("theme").innerHTML = d ? SUN : MOON;
-    $("theme").setAttribute("aria-label", d ? "Byt till ljust läge" : "Byt till mörkt läge");
+    var tl = d ? "Byt till ljust läge" : "Byt till mörkt läge";
+    $("theme").setAttribute("aria-label", tl);
+    $("theme-text").textContent = tl;
     var m = document.querySelector('meta[name="theme-color"]');
     if (m) m.content = d ? "#101a28" : "#e8f2fb";
   }
@@ -501,6 +523,15 @@ details .atgarder{margin-top:14px}
     root.dataset.theme = n;
     paintTheme();
     if (handle || (ghKonf() && token)) sparaTillFil();
+  };
+  var HB = SVG + '<path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+  $("meny-knapp").innerHTML = HB;
+  $("meny-knapp").setAttribute("aria-label", "Öppna menyn");
+  $("meny-knapp").onclick = function () {
+    var m = $("meny");
+    m.hidden = !m.hidden;
+    $("meny-knapp").setAttribute("aria-expanded", String(!m.hidden));
+    $("meny-knapp").setAttribute("aria-label", m.hidden ? "Öppna menyn" : "Stäng menyn");
   };
   $("info").innerHTML = QI;
   $("info").setAttribute("aria-label", "Visa information");

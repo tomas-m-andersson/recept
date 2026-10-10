@@ -730,7 +730,6 @@ window.RECEPT_DATA = {
         "1 tsk salt"
       ],
       "steg": [
-        "Sätt ugnen på 200 grader.",
         "Strimla vitkålen och hacka den gula löken och vitlöken.",
         "Fräs det i en stor stekpanna.",
         "När kålen har mjuknat lite så slår du i övriga ingredienser förutom den rivna osten.",
@@ -740,7 +739,8 @@ window.RECEPT_DATA = {
         "Ställ i ugnen i ca 20-25 minuter."
       ],
       "anteckning": "",
-      "bild": "bilder/318f3b00-4fb0-406b-a5dd-6ebf3d1c5f5e-mv2szo26.jpg"
+      "bild": "bilder/318f3b00-4fb0-406b-a5dd-6ebf3d1c5f5e-mv2szo26.jpg",
+      "ugn": 200
     }
   ],
   "github": {

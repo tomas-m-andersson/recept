@@ -575,6 +575,28 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "",
       "bild": "bilder/cf688de1-2e07-40c0-b1c2-1f639574b49f-mv2smg51.jpg"
+    },
+    {
+      "id": "15e14a2c-ec15-43dd-9aca-1b74d89529f4",
+      "titel": "Köttfärslimpa på fransk löksås",
+      "kategori": "",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "800 g köttfärs eller fläskfärs",
+        "2 dl crème fraiche (kokbar)",
+        "2 påsar fransk löksoppa"
+      ],
+      "steg": [
+        "Blanda färsen, crème fraiche och löksopps-pulvret i en bunke.",
+        "Gör 2 st limpor på en smord plåt, eller på bakplåtspapper.",
+        "Ställ in i mitten av ugnen i 175°C i ca 40 minuter..",
+        "Servera med potatis, grönsaker."
+      ],
+      "anteckning": "Gott med stekt lök och gräddsås till!",
+      "bild": "bilder/15e14a2c-ec15-43dd-9aca-1b74d89529f4-mv2sptn8.jpg"
     }
   ],
   "github": {

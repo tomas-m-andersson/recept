@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mina recept</title>
+<meta name="theme-color" content="#e8f2fb">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#e8f2fb;--card:#ffffff;--ink:#1a2433;--mut:#5a6b80;--line:#cfdcea;--acc:#2563d6;--accink:#ffffff;--helg:#ffd84d;--helgink:#3a2c00;--danger:#b4232a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101a28;--card:#1a2638;--ink:#eaf1fb;--mut:#9fb1c8;--line:#2b3b52;--acc:#7aa8ff;--accink:#0a1a38;--helg:#e0b92f;--helgink:#241b00;--danger:#ff8a8f}}
+:root[data-theme="dark"]{--bg:#101a28;--card:#1a2638;--ink:#eaf1fb;--mut:#9fb1c8;--line:#2b3b52;--acc:#7aa8ff;--accink:#0a1a38;--helg:#e0b92f;--helgink:#241b00;--danger:#ff8a8f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.5 ui-rounded,"SF Pro Rounded","Nunito","Segoe UI",system-ui,sans-serif}
+main{max-width:640px;margin:0 auto;padding:28px 18px 48px}
+h1{font-size:clamp(2.4rem,9vw,3.6rem);line-height:1;margin:0 0 6px;font-weight:800;letter-spacing:-.02em;color:var(--acc)}
+.sub{color:var(--mut);margin:0 0 22px;font-size:1rem}
+.sub[hidden]{display:none}
+
+button{font:inherit;cursor:pointer;border-radius:999px;border:2px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px}
+button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:disabled{opacity:.45;cursor:default}
+.main{background:var(--acc);color:var(--accink);border-color:var(--acc);font-weight:600;padding:12px 22px;font-size:1.02rem}
+.danger{color:var(--danger)}
+
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.icons{display:flex;gap:8px;flex:none}
+#theme,#info{width:44px;height:44px;padding:0;border-radius:50%;display:grid;place-items:center;flex:none}
+#info[aria-expanded="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+#theme svg,#info svg{width:22px;height:22px}
+
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.filstatus{margin:0 0 22px;color:var(--mut);font-size:.92rem;min-height:1.4em}
+.filstatus.varning{display:inline-block;background:var(--helg);color:var(--helgink);border-radius:999px;padding:2px 14px;font-weight:700;min-height:0}
+
+/* Sök och filter */
+.sok{width:100%;font:inherit;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:999px;padding:11px 18px}
+.kategorier{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px}
+.kategorier button{padding:5px 14px;font-size:.92rem}
+
+/* Receptkort i listan */
+.lista{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.lista li{--dc:var(--acc);background:var(--card);border-radius:20px;box-shadow:inset 8px 0 0 var(--dc),0 2px 0 var(--line)}
+.lista li:nth-child(7n+1){--dc:#e5484d}
+.lista li:nth-child(7n+2){--dc:#f08a24}
+.lista li:nth-child(7n+3){--dc:#e2b007}
+.lista li:nth-child(7n+4){--dc:#2f9e5b}
+.lista li:nth-child(7n+5){--dc:#1f8fd1}
+.lista li:nth-child(7n+6){--dc:#6e56cf}
+.lista li:nth-child(7n+7){--dc:#d6409f}
+.kort{display:grid;gap:3px;width:100%;text-align:left;border:0;background:none;border-radius:20px;padding:14px 16px 14px 24px}
+.kort .namn{font-size:1.1rem;font-weight:600;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.kort .liten{color:var(--mut);font-size:.9rem}
+.badge{display:inline-block;width:fit-content;background:var(--helg);color:var(--helgink);border-radius:99px;padding:0 9px;font-size:.72rem;font-weight:700}
+.tomt{color:var(--mut);margin:8px 2px}
+
+/* Receptvy */
+.rubrik{font-size:clamp(1.9rem,7vw,2.7rem);line-height:1.1;margin:14px 0 8px;font-weight:800;letter-spacing:-.01em}
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 16px}
+.pill{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:0 12px;font-size:.88rem;color:var(--mut)}
+.pill a{color:var(--acc);font-weight:600}
+.atgarder{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px}
+.sek{background:var(--card);border-radius:20px;padding:16px 18px 18px;margin-top:14px;box-shadow:0 2px 0 var(--line)}
+.sek h2{margin:0 0 4px;font-size:1.3rem}
+.portioner{display:flex;align-items:center;gap:12px;margin:8px 0 6px;font-weight:600}
+.portioner button{width:36px;height:36px;padding:0;display:grid;place-items:center;font-size:1.3rem;line-height:1}
+.ingrad{display:flex;gap:12px;align-items:center;margin:0;padding:10px 2px;border-bottom:1px solid var(--line);font-weight:400;cursor:pointer}
+.ingrad:last-child{border-bottom:0}
+.ingrad input{width:22px;height:22px;accent-color:var(--acc);flex:none;margin:0}
+.ingrad input:checked + span{text-decoration:line-through;color:var(--mut)}
+.steg{counter-reset:s;list-style:none;margin:10px 0 0;padding:0;display:grid;gap:14px}
+.steg li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start}
+.steg li::before{content:counter(s);width:32px;height:32px;border-radius:50%;background:var(--acc);color:var(--accink);font-weight:800;display:grid;place-items:center}
+.anteckning{background:var(--helg);color:var(--helgink);border-radius:20px;padding:14px 18px;margin:14px 0 0;font-weight:600}
+
+/* Formulär */
+.formular h2{font-size:1.6rem;margin:6px 0 0;font-weight:800}
+label{display:block;margin:14px 0 4px;font-weight:600}
+.hint{color:var(--mut);font-size:.88rem;margin:0 0 4px;font-weight:400}
+input[type="text"],input[type="number"],textarea{width:100%;font:inherit;font-size:1rem;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:10px 14px;display:block}
+textarea{min-height:150px;resize:vertical}
+.rad{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0 14px}
+.kryss{display:flex;align-items:center;gap:10px;margin:16px 0 0}
+.kryss input{width:22px;height:22px;accent-color:var(--acc);margin:0}
+.formular .atgarder{margin-top:18px}
+
+#msg{min-height:1.4em;color:var(--mut);margin:14px 0 0}
+details{margin-top:28px;border-top:1px solid var(--line);padding-top:14px}
+summary{cursor:pointer;font-weight:600}
+details .atgarder{margin-top:14px}
+
+@media print{
+  .top,.bar,.filstatus,.atgarder,.portioner button,#msg,details{display:none!important}
+  body{background:#fff;color:#000}
+  .sek{box-shadow:none;border:1px solid #bbb}
+}
+</style>
+</head>
+<body>
+<main>
+<header class="top"><h1>Mina recept</h1><div class="icons"><button id="info" type="button" aria-expanded="false" aria-controls="infotext"></button><button id="theme" type="button"></button></div></header>
+<p class="sub" id="infotext" hidden>Recepten sparas i filen recept.js, inte i webbläsaren. På mobilen fyller du i dina uppgifter under Spara till GitHub längst ner, så sparas varje ändring direkt i recept.js i ditt repo. På datorn i Chrome eller Edge kan du i stället trycka på Koppla recept.js. Du kan alltid ladda ner recept.js och ersätta filen själv. Med portionsknapparna räknas mängderna om.</p>
+<div class="bar">
+<button class="main" id="nyttKnapp" type="button">Nytt recept</button>
+<button id="kopplaKnapp" type="button">Koppla recept.js</button>
+<button id="laddaKnapp" type="button">Ladda ner recept.js</button>
+</div>
+<p class="filstatus" id="filstatus"></p>
+<div id="vy"></div>
+<p id="msg" role="status"></p>
+<details id="ghbox">
+<summary>Spara till GitHub</summary>
+<p class="hint">Då sparas varje ändring direkt i recept.js i ditt GitHub-repo, även från mobilen. Skapa en "fine-grained personal access token" på github.com (Settings, Developer settings), välj bara det här repot och ge den behörigheten Contents: Read and write.</p>
+<label for="gh-agare">Användarnamn på GitHub</label>
+<input type="text" id="gh-agare" autocomplete="off" autocapitalize="off" spellcheck="false">
+<label for="gh-repo">Repo</label>
+<input type="text" id="gh-repo" autocomplete="off" autocapitalize="off" spellcheck="false">
+<div class="rad">
+<div><label for="gh-gren">Branch</label><input type="text" id="gh-gren" value="main" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+<div><label for="gh-fil">Filnamn</label><input type="text" id="gh-fil" value="recept.js" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+</div>
+<label for="gh-token">Token</label>
+<input type="password" id="gh-token" autocomplete="off" autocapitalize="off" spellcheck="false">
+<label class="kryss"><input type="checkbox" id="gh-kom"> Kom ihåg token på den här enheten</label>
+<p class="hint">Token är det enda som sparas i webbläsaren, och bara om du bockar i rutan. Annars skriver du in den igen nästa gång du öppnar sidan.</p>
+<div class="atgarder">
+<button class="main" id="gh-spara" type="button">Spara inställningar</button>
+<button id="gh-glom" type="button">Ta bort token</button>
+</div>
+</details>
+</main>
+
+<!-- Datan ligger i en separat fil -->
+<script src="recept.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var data = window.RECEPT_DATA && Array.isArray(window.RECEPT_DATA.recept) ? window.RECEPT_DATA : { recept: [] };
+  var valtId = null;
+  var filter = { q: "", kat: "Alla" };
+  var handle = null;        // koppling till recept.js på datorn
+  var osparat = false;      // ändringar som inte är sparade i någon fil
+  var visaPortioner = null;
+  var redigerar = null;     // null, "ny" eller ett id
+  var token = "";           // GitHub-token, bara om du valt att komma ihåg den
+  try { token = localStorage.getItem("ghtoken") || ""; } catch (e) {}
+  var sparar = false, sparaIgen = false;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var root = document.documentElement;
+  var kanKoppla = typeof window.showOpenFilePicker === "function";
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function nyttId() {
+    return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : "r" + Date.now() + Math.random().toString(16).slice(2);
+  }
+  function hitta(id) { return data.recept.filter(function (r) { return r.id === id; })[0]; }
+  function rader(text) {
+    return String(text || "").split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
+  }
+  function meddela(text) {
+    $("msg").textContent = text;
+    clearTimeout(meddela.t);
+    meddela.t = setTimeout(function () { $("msg").textContent = ""; }, 4500);
+  }
+
+  /* ---------- Spara till fil ---------- */
+  function filtext() {
+    return "window.RECEPT_DATA = " + JSON.stringify(data, null, 2) + ";\n";
+  }
+  function uppdateraStatus() {
+    var s = $("filstatus");
+    s.className = "filstatus";
+    var gk = ghKonf();
+    if (handle) {
+      s.textContent = osparat ? "Sparar…" : "Sparas automatiskt i " + handle.name;
+    } else if (gk && token) {
+      s.textContent = osparat ? "Sparar på GitHub…" : "Sparas automatiskt på GitHub (" + gk.agare + "/" + gk.repo + ")";
+    } else if (osparat) {
+      s.textContent = "Ändringar ej sparade. Ladda ner recept.js.";
+      s.className = "filstatus varning";
+    } else if (gk) {
+      s.textContent = "Skriv in din token under Spara till GitHub för att kunna spara.";
+    } else {
+      s.textContent = kanKoppla ? "Ingen datafil kopplad." : "Ändringar sparas genom att du laddar ner recept.js.";
+    }
+    $("kopplaKnapp").style.display = kanKoppla ? "" : "none";
+    $("kopplaKnapp").textContent = handle ? "Byt fil" : "Koppla recept.js";
+  }
+  /* ---------- GitHub ---------- */
+  function ghKonf() {
+    var g = data.github;
+    return g && g.agare && g.repo
+      ? { agare: g.agare, repo: g.repo, gren: g.gren || "main", fil: g.fil || "recept.js" }
+      : null;
+  }
+  function ghUrl(k) {
+    return "https://api.github.com/repos/" + encodeURIComponent(k.agare) + "/" + encodeURIComponent(k.repo) +
+      "/contents/" + k.fil.split("/").map(encodeURIComponent).join("/");
+  }
+  function ghHeaders() {
+    var h = { "Accept": "application/vnd.github+json" };
+    if (token) h["Authorization"] = "Bearer " + token;
+    return h;
+  }
+  function tillB64(s) {
+    var b = new TextEncoder().encode(s), bin = "";
+    b.forEach(function (x) { bin += String.fromCharCode(x); });
+    return btoa(bin);
+  }
+  function franB64(b) {
+    var bin = atob(b.replace(/\s/g, "")), u = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(u);
+  }
+  async function ghHamta(k) {
+    var r = await fetch(ghUrl(k) + "?ref=" + encodeURIComponent(k.gren), { headers: ghHeaders(), cache: "no-store" });
+    if (!r.ok) { var e = new Error("GitHub " + r.status); e.status = r.status; throw e; }
+    return r.json();
+  }
+  function tolkaFil(text) {
+    var t = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1));
+    if (!t || !Array.isArray(t.recept)) throw new Error("fel format");
+    return t;
+  }
+  async function ghSpara() {
+    var k = ghKonf();
+    var gammal = null;
+    try { gammal = await ghHamta(k); } catch (e) { if (e.status !== 404) throw e; }
+    var body = { message: "Uppdatera recept", content: tillB64(filtext()), branch: k.gren };
+    if (gammal && gammal.sha) body.sha = gammal.sha;
+    var h = ghHeaders(); h["Content-Type"] = "application/json";
+    var r = await fetch(ghUrl(k), { method: "PUT", headers: h, body: JSON.stringify(body) });
+    if (!r.ok) { var e2 = new Error("GitHub " + r.status); e2.status = r.status; throw e2; }
+  }
+  function ghFel(e) {
+    if (e && (e.status === 401 || e.status === 403)) return "GitHub nekade token. Kontrollera token och att den har Contents: Read and write.";
+    if (e && e.status === 404) return "Hittar inte repot eller filen. Kontrollera användarnamn, repo, branch och token.";
+    if (e && (e.status === 409 || e.status === 422)) return "Konflikt på GitHub. Försök igen om en stund.";
+    return "Kunde inte nå GitHub. Kontrollera uppkopplingen och försök igen.";
+  }
+  async function ghUppdateraStart() {
+    var k = ghKonf();
+    if (!k || !token || handle) return;
+    try {
+      var j = await ghHamta(k);
+      var t = tolkaFil(franB64(j.content));
+      if (osparat || redigerar) return;
+      data = t;
+      tillampaTema();
+      renderaVy();
+    } catch (e) { /* offline eller fel token: använd den inlästa filen */ }
+  }
+
+  async function sparaTillFil() {
+    if (sparar) { sparaIgen = true; return; }
+    var viaFil = !!handle;
+    var viaGh = !viaFil && !!ghKonf() && !!token;
+    if (!viaFil && !viaGh) { osparat = true; uppdateraStatus(); return; }
+    sparar = true; osparat = true; uppdateraStatus();
+    try {
+      if (viaFil) {
+        var w = await handle.createWritable();
+        await w.write(filtext());
+        await w.close();
+      } else {
+        await ghSpara();
+      }
+      osparat = false;
+    } catch (e) {
+      osparat = true;
+      meddela(viaFil ? "Kunde inte spara till filen. Ladda ner recept.js istället." : ghFel(e));
+    }
+    sparar = false;
+    uppdateraStatus();
+    if (sparaIgen) { sparaIgen = false; sparaTillFil(); }
+  }
+  function laddaNer() {
+    var blob = new Blob([filtext()], { type: "text/javascript" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "recept.js";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    if (!handle) { osparat = false; uppdateraStatus(); }
+    meddela("recept.js är nedladdad. Ersätt den gamla filen i mappen med den nya.");
+  }
+  async function kopplaFil() {
+    try {
+      var h = (await window.showOpenFilePicker({
+        multiple: false,
+        types: [{ description: "recept.js", accept: { "text/javascript": [".js"] } }]
+      }))[0];
+      if ((await h.requestPermission({ mode: "readwrite" })) !== "granted") {
+        meddela("Du behöver tillåta skrivning för att spara automatiskt.");
+        return;
+      }
+      var text = await (await h.getFile()).text();
+      var start = text.indexOf("{"), slut = text.lastIndexOf("}");
+      var tolkad = JSON.parse(text.slice(start, slut + 1));
+      if (!tolkad || !Array.isArray(tolkad.recept)) throw new Error("fel format");
+      data = tolkad;
+      handle = h;
+      osparat = false;
+      valtId = null; redigerar = null;
+      tillampaTema();
+      renderaAllt();
+      meddela("Kopplad till " + h.name + ". Nya ändringar sparas direkt.");
+    } catch (e) {
+      if (e && e.name === "AbortError") return;
+      meddela("Filen gick inte att läsa. Välj den recept.js som hör till sidan.");
+    }
+  }
+
+  /* ---------- Portionsskalning ---------- */
+  function skala(rad, f) {
+    if (f === 1) return rad;
+    var m = rad.match(/^(\d+\/\d+|\d+(?:[.,]\d+)?)(.*)$/);
+    if (!m) return rad;
+    if (/^\s*[-–]/.test(m[2])) return rad; // intervall som "1-2" lämnas orört
+    var n;
+    if (m[1].indexOf("/") > -1) { var p = m[1].split("/"); n = p[0] / p[1]; }
+    else n = parseFloat(m[1].replace(",", "."));
+    n = n * f;
+    var r = n < 1 ? Math.round(n * 100) / 100 : Math.round(n * 10) / 10;
+    return String(r).replace(".", ",") + m[2];
+  }
+
+  /* ---------- Rendering ---------- */
+  function kategorier() {
+    var set = {};
+    data.recept.forEach(function (r) { if (r.kategori) set[r.kategori] = true; });
+    return Object.keys(set).sort(function (a, b) { return a.localeCompare(b, "sv"); });
+  }
+  function renderaKategorier() {
+    var alla = ["Alla", "Favoriter"].concat(kategorier());
+    if (alla.indexOf(filter.kat) === -1) filter.kat = "Alla";
+    $("kategorier").innerHTML = alla.map(function (k) {
+      return '<button type="button" data-kat="' + esc(k) + '" aria-pressed="' + (k === filter.kat) + '">' + esc(k) + "</button>";
+    }).join("");
+  }
+  function passar(r) {
+    if (filter.kat === "Favoriter" && !r.favorit) return false;
+    if (filter.kat !== "Alla" && filter.kat !== "Favoriter" && r.kategori !== filter.kat) return false;
+    var q = filter.q.trim().toLowerCase();
+    if (!q) return true;
+    var hö = (r.titel + " " + (r.ingredienser || []).join(" ") + " " + (r.kategori || "")).toLowerCase();
+    return q.split(/\s+/).every(function (ord) { return hö.indexOf(ord) > -1; });
+  }
+  function renderaLista() {
+    var ul = $("lista");
+    if (!data.recept.length) {
+      ul.outerHTML = '<p class="tomt" id="lista">Inga recept än. Tryck på Nytt recept för att lägga till det första.</p>';
+      return;
+    }
+    var lista = data.recept.filter(passar).sort(function (a, b) {
+      return a.titel.localeCompare(b.titel, "sv");
+    });
+    if (!lista.length) {
+      ul.innerHTML = '<li class="tomt" style="box-shadow:none;background:none">Inga recept matchar. Ändra sökningen eller filtret.</li>';
+      return;
+    }
+    ul.innerHTML = lista.map(function (r) {
+      var liten = [r.kategori, r.tid].filter(Boolean).join(", ");
+      return '<li><button type="button" class="kort" data-id="' + esc(r.id) + '">' +
+        '<span class="namn">' + esc(r.titel) + (r.favorit ? ' <span class="badge">Favorit</span>' : "") + "</span>" +
+        (liten ? '<span class="liten">' + esc(liten) + "</span>" : "") + "</button></li>";
+    }).join("");
+  }
+  function renderaRecept(r) {
+    var f = visaPortioner && r.portioner ? visaPortioner / r.portioner : 1;
+    var ing = (r.ingredienser || []).map(function (x) {
+      return '<label class="ingrad"><input type="checkbox"><span>' + esc(skala(x, f)) + "</span></label>";
+    }).join("");
+    var steg = (r.steg || []).map(function (x) { return "<li><span>" + esc(x) + "</span></li>"; }).join("");
+    var kalla = r.kalla ? (/^https?:\/\//.test(r.kalla)
+      ? '<a href="' + esc(r.kalla) + '" target="_blank" rel="noopener">Källa</a>'
+      : "Källa: " + esc(r.kalla)) : "";
+    $("vy").innerHTML =
+      '<button type="button" data-atgard="tillbaka">Till alla recept</button>' +
+      '<h2 class="rubrik">' + esc(r.titel) + "</h2>" +
+      '<p class="meta">' +
+        (r.favorit ? '<span class="badge">Favorit</span>' : "") +
+        (r.kategori ? '<span class="pill">' + esc(r.kategori) + "</span>" : "") +
+        (r.tid ? '<span class="pill">' + esc(r.tid) + "</span>" : "") +
+        (kalla ? '<span class="pill">' + kalla + "</span>" : "") +
+      "</p>" +
+      '<div class="atgarder">' +
+        '<button type="button" data-atgard="favorit" aria-pressed="' + !!r.favorit + '">Favorit</button>' +
+        '<button type="button" data-atgard="redigera">Redigera</button>' +
+        '<button type="button" data-atgard="skriv">Skriv ut</button>' +
+        '<button type="button" class="danger" data-atgard="radera">Ta bort</button>' +
+      "</div>" +
+      '<section class="sek" aria-labelledby="ing-r"><h2 id="ing-r">Ingredienser</h2>' +
+        (r.portioner ? '<div class="portioner"><button type="button" data-atgard="minus" aria-label="Färre portioner">−</button>' +
+          "<span>" + (visaPortioner || r.portioner) + " portioner</span>" +
+          '<button type="button" data-atgard="plus" aria-label="Fler portioner">+</button></div>' : "") +
+        "<div>" + ing + "</div></section>" +
+      '<section class="sek" aria-labelledby="steg-r"><h2 id="steg-r">Gör så här</h2><ol class="steg">' + steg + "</ol></section>" +
+      (r.anteckning ? '<p class="anteckning">' + esc(r.anteckning) + "</p>" : "");
+  }
+  function renderaFormular() {
+    var ny = redigerar === "ny";
+    var r = ny ? { titel: "", kategori: "", portioner: 4, tid: "", kalla: "", favorit: false, ingredienser: [], steg: [], anteckning: "" } : hitta(redigerar);
+    var alt = kategorier().map(function (k) { return '<option value="' + esc(k) + '">'; }).join("");
+    $("vy").innerHTML =
+      '<form class="formular" id="formular" novalidate>' +
+      "<h2>" + (ny ? "Nytt recept" : "Redigera recept") + "</h2>" +
+      '<label for="f-titel">Namn</label><input type="text" id="f-titel" required value="' + esc(r.titel) + '">' +
+      '<div class="rad">' +
+        '<div><label for="f-kat">Kategori</label><input type="text" id="f-kat" list="kat-alt" value="' + esc(r.kategori) + '"><datalist id="kat-alt">' + alt + "</datalist></div>" +
+        '<div><label for="f-port">Portioner</label><input type="number" id="f-port" min="1" value="' + esc(r.portioner) + '"></div>' +
+        '<div><label for="f-tid">Tid</label><input type="text" id="f-tid" placeholder="t.ex. 45 min" value="' + esc(r.tid) + '"></div>' +
+      "</div>" +
+      '<label for="f-ing">Ingredienser</label>' +
+      '<p class="hint">En ingrediens per rad. Börja raden med en mängd, till exempel 2 dl mjölk, så kan portionerna räknas om.</p>' +
+      '<textarea id="f-ing">' + esc((r.ingredienser || []).join("\n")) + "</textarea>" +
+      '<label for="f-steg">Gör så här</label><p class="hint">Ett steg per rad.</p>' +
+      '<textarea id="f-steg">' + esc((r.steg || []).join("\n")) + "</textarea>" +
+      '<label for="f-not">Egen anteckning</label><input type="text" id="f-not" value="' + esc(r.anteckning) + '">' +
+      '<label for="f-kalla">Källa (adress eller bok)</label><input type="text" id="f-kalla" value="' + esc(r.kalla) + '">' +
+      '<label class="kryss"><input type="checkbox" id="f-fav"' + (r.favorit ? " checked" : "") + "> Favorit</label>" +
+      '<div class="atgarder"><button class="main" type="submit">Spara recept</button>' +
+      '<button type="button" data-atgard="avbryt">Avbryt</button></div>' +
+      "</form>";
+    $("f-titel").focus();
+    $("formular").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var titel = $("f-titel").value.trim();
+      if (!titel) { meddela("Skriv ett namn på receptet."); $("f-titel").focus(); return; }
+      var p = parseInt($("f-port").value, 10);
+      var post = ny ? { id: nyttId() } : hitta(redigerar);
+      post.titel = titel;
+      post.kategori = $("f-kat").value.trim();
+      post.portioner = p > 0 ? p : null;
+      post.tid = $("f-tid").value.trim();
+      post.kalla = $("f-kalla").value.trim();
+      post.favorit = $("f-fav").checked;
+      post.ingredienser = rader($("f-ing").value);
+      post.steg = rader($("f-steg").value);
+      post.anteckning = $("f-not").value.trim();
+      if (ny) data.recept.push(post);
+      valtId = post.id; redigerar = null; visaPortioner = null;
+      renderaVy();
+      window.scrollTo(0, 0);
+      sparaTillFil();
+      meddela("Receptet är sparat.");
+    });
+  }
+  function renderaVy() {
+    if (redigerar) { renderaFormular(); return; }
+    var r = valtId && hitta(valtId);
+    if (r) { renderaRecept(r); return; }
+    valtId = null;
+    $("vy").innerHTML =
+      '<input class="sok" id="sok" type="search" placeholder="Sök på namn eller ingrediens" aria-label="Sök recept" value="' + esc(filter.q) + '">' +
+      '<div class="kategorier" id="kategorier" role="group" aria-label="Filtrera"></div>' +
+      '<ul class="lista" id="lista"></ul>';
+    renderaKategorier();
+    renderaLista();
+  }
+  function renderaAllt() {
+    renderaVy();
+    uppdateraStatus();
+  }
+
+  /* ---------- Tema och info ---------- */
+  var mq = window.matchMedia("(prefers-color-scheme: dark)");
+  var SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
+  var SUN = SVG + '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+  var MOON = SVG + '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+  var QI = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 9.2a3.2 3.2 0 0 1 6.2 1c0 2.1-3.2 2.7-3.2 4.6"/><path d="M12 19h.01"/></svg>';
+  function isDark() {
+    var t = root.dataset.theme;
+    return t ? t === "dark" : mq.matches;
+  }
+  function paintTheme() {
+    var d = isDark();
+    $("theme").innerHTML = d ? SUN : MOON;
+    $("theme").setAttribute("aria-label", d ? "Byt till ljust läge" : "Byt till mörkt läge");
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.content = d ? "#101a28" : "#e8f2fb";
+  }
+  function tillampaTema() {
+    if (data.tema === "dark" || data.tema === "light") root.dataset.theme = data.tema;
+    else delete root.dataset.theme;
+    paintTheme();
+  }
+  $("theme").onclick = function () {
+    var n = isDark() ? "light" : "dark";
+    data.tema = n;            // sparas i recept.js, inte i webbläsaren
+    root.dataset.theme = n;
+    paintTheme();
+    if (handle || (ghKonf() && token)) sparaTillFil();
+  };
+  $("info").innerHTML = QI;
+  $("info").setAttribute("aria-label", "Visa information");
+  $("info").onclick = function () {
+    var t = $("infotext");
+    t.hidden = !t.hidden;
+    $("info").setAttribute("aria-expanded", String(!t.hidden));
+    $("info").setAttribute("aria-label", t.hidden ? "Visa information" : "Dölj information");
+  };
+  if (mq.addEventListener) mq.addEventListener("change", paintTheme);
+
+  /* ---------- Händelser ---------- */
+  $("nyttKnapp").addEventListener("click", function () {
+    redigerar = "ny";
+    renderaVy();
+    window.scrollTo(0, 0);
+  });
+  $("kopplaKnapp").addEventListener("click", kopplaFil);
+  $("laddaKnapp").addEventListener("click", laddaNer);
+
+  $("vy").addEventListener("input", function (e) {
+    if (e.target.id === "sok") { filter.q = e.target.value; renderaLista(); }
+  });
+  $("vy").addEventListener("click", function (e) {
+    var k = e.target.closest("button[data-kat]");
+    if (k) { filter.kat = k.dataset.kat; renderaKategorier(); renderaLista(); return; }
+    var c = e.target.closest("button[data-id]");
+    if (c) {
+      valtId = c.dataset.id; redigerar = null; visaPortioner = null;
+      renderaVy(); window.scrollTo(0, 0); return;
+    }
+    var b = e.target.closest("[data-atgard]");
+    if (!b) return;
+    var r = valtId && hitta(valtId);
+    switch (b.dataset.atgard) {
+      case "tillbaka": valtId = null; visaPortioner = null; renderaVy(); break;
+      case "avbryt": redigerar = null; renderaVy(); break;
+      case "favorit": r.favorit = !r.favorit; renderaVy(); sparaTillFil(); break;
+      case "redigera": redigerar = r.id; renderaVy(); window.scrollTo(0, 0); break;
+      case "skriv": window.print(); break;
+      case "plus": visaPortioner = (visaPortioner || r.portioner) + 1; renderaVy(); break;
+      case "minus":
+        if ((visaPortioner || r.portioner) > 1) { visaPortioner = (visaPortioner || r.portioner) - 1; renderaVy(); }
+        break;
+      case "radera":
+        if (confirm('Ta bort "' + r.titel + '"? Det går inte att ångra.')) {
+          data.recept = data.recept.filter(function (x) { return x.id !== r.id; });
+          valtId = null;
+          renderaVy(); sparaTillFil();
+          meddela("Receptet är borttaget.");
+        }
+        break;
+    }
+  });
+
+  window.addEventListener("beforeunload", function (e) {
+    if (osparat && !handle) { e.preventDefault(); e.returnValue = ""; }
+  });
+
+  /* ---------- Inställningar för GitHub ---------- */
+  function fyllGh() {
+    var g = data.github || {};
+    $("gh-agare").value = g.agare || "";
+    $("gh-repo").value = g.repo || "";
+    $("gh-gren").value = g.gren || "main";
+    $("gh-fil").value = g.fil || "recept.js";
+    $("gh-token").value = token;
+    $("gh-kom").checked = !!token;
+  }
+  $("gh-spara").addEventListener("click", async function () {
+    var a = $("gh-agare").value.trim(), r = $("gh-repo").value.trim();
+    var g = $("gh-gren").value.trim() || "main", f = $("gh-fil").value.trim() || "recept.js";
+    var t = $("gh-token").value.trim();
+    if (!a || !r || !t) { meddela("Fyll i användarnamn, repo och token."); return; }
+    var forraKonf = data.github, forraToken = token;
+    data.github = { agare: a, repo: r, gren: g, fil: f };
+    token = t;
+    var fjarr;
+    try {
+      var j = await ghHamta(ghKonf());   // testar att uppgifterna stämmer
+      fjarr = tolkaFil(franB64(j.content));
+    } catch (e) {
+      data.github = forraKonf; token = forraToken;
+      meddela(e && e.status ? ghFel(e) : "Filen på GitHub gick inte att läsa. Kontrollera filnamnet.");
+      return;
+    }
+    try {
+      if ($("gh-kom").checked) localStorage.setItem("ghtoken", t); else localStorage.removeItem("ghtoken");
+    } catch (e) { /* ingen lagring tillgänglig */ }
+    // Använd GitHubs senaste version och spara inställningarna i recept.js
+    var konf = data.github;
+    data = fjarr;
+    data.github = konf;
+    valtId = null; redigerar = null;
+    tillampaTema();
+    renderaAllt();
+    await sparaTillFil();
+    if (!osparat) meddela("Klart. Ändringar sparas nu direkt i " + f + " på GitHub.");
+  });
+  $("gh-glom").addEventListener("click", function () {
+    token = "";
+    $("gh-token").value = "";
+    $("gh-kom").checked = false;
+    try { localStorage.removeItem("ghtoken"); } catch (e) { /* ignoreras */ }
+    uppdateraStatus();
+    meddela("Token är borttagen från den här enheten.");
+  });
+
+  tillampaTema();
+  fyllGh();
+  renderaAllt();
+  ghUppdateraStart();
+})();
+</script>
+</body>
+</html>

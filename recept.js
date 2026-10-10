@@ -469,6 +469,30 @@ window.RECEPT_DATA = {
         "Häll över såsen och lyft potatisen så att alla skivor blir fuktade av såsen. Låt salladen stå ca 1 timme och ta smak."
       ],
       "anteckning": "Till servering: Strö över kapris och servera potatissalladen till rökt kött, grillad korv, kall skivad rostbiff, varmrökt lax eller vegobiffar."
+    },
+    {
+      "id": "d134c718-d4e8-4bdb-874f-63fb7fefecfe",
+      "titel": "Våfflor",
+      "kategori": "Middag",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "100g smör",
+        "3,5 dl vetemjöl",
+        "2 tsk bakpulver",
+        "2 ägg",
+        "4 dl mjölk"
+      ],
+      "steg": [
+        "Smält smöret och låt det svalna.",
+        "Blanda vetemjöl och bakpulver i en skål.",
+        "Tillsätt ägg och mjölk. Vispa till en jämn smet. Tillsätt smöret.",
+        "Hetta upp våffeljärnet. Pensla med lite smör före första laggen.",
+        "Grädda våfflorna."
+      ],
+      "anteckning": "Servera med vispgrädde, sylt, glass, Nutella eller varför inte finhackad rödlök och skagenröra!"
     }
   ],
   "github": {

@@ -77,5 +77,10 @@ window.RECEPT_DATA = {
     "repo": "recept",
     "gren": "main",
     "fil": "recept.js"
-  }
+  },
+  "tema": "light",
+  "kategorier": [
+    "Bakning",
+    "Middag"
+  ]
 };

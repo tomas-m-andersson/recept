@@ -188,7 +188,7 @@ summary{cursor:pointer;font-weight:600}
 </details>
 <h2>Hjälp</h2>
 <div class="hjalp"><button id="info" type="button" aria-expanded="false" aria-controls="infotext"></button><span>Så fungerar sparandet</span></div>
-<p class="hjalptext" id="infotext" hidden>Recepten sparas i filen recept.js, inte i webbläsaren. Öppna menyn (de tre strecken) för att välja ljust eller mörkt läge och för att spara recepten. På mobilen fyller du i dina uppgifter under Spara till GitHub, så sparas varje ändring direkt i recept.js i ditt repo. På datorn i Chrome eller Edge kan du i stället koppla recept.js. Du kan alltid ladda ner recept.js och ersätta filen själv. Med portionsknapparna räknas mängderna om.</p>
+<p class="hjalptext" id="infotext" hidden>Recepten sparas i filen recept.js, inte i webbläsaren. Öppna menyn (kugghjulet uppe till höger) för att välja ljust eller mörkt läge och för att spara recepten. På mobilen fyller du i dina uppgifter under Spara till GitHub, så sparas varje ändring direkt i recept.js i ditt repo. På datorn i Chrome eller Edge kan du i stället koppla recept.js. Du kan alltid ladda ner recept.js och ersätta filen själv. Med portionsknapparna räknas mängderna om.</p>
 </section>
 <p class="filstatus" id="filstatus"></p>
 <p id="msg" role="status"></p>
@@ -835,7 +835,7 @@ summary{cursor:pointer;font-weight:600}
     renderaVy();
     window.scrollTo(0, 0);
   });
-  var HB = SVG + '<path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+  var HB = SVG + '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>';
   $("meny-knapp").innerHTML = HB;
   $("meny-knapp").setAttribute("aria-label", "Öppna menyn");
   $("meny-knapp").onclick = function () {

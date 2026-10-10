@@ -557,7 +557,7 @@ window.RECEPT_DATA = {
       "portioner": 8,
       "tid": "",
       "kalla": "",
-      "favorit": false,
+      "favorit": true,
       "ingredienser": [
         "2 kg kycklingfilé",
         "5 dl crème fraiche (kokbar)",

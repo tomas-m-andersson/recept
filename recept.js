@@ -526,7 +526,7 @@ window.RECEPT_DATA = {
     {
       "id": "c8bab989-234a-46a2-b6df-36468447474a",
       "titel": "Krämig kycklingsoppa",
-      "kategori": "",
+      "kategori": "Middag",
       "portioner": 4,
       "tid": "",
       "kalla": "",

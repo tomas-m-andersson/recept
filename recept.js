@@ -554,7 +554,7 @@ window.RECEPT_DATA = {
       "id": "cf688de1-2e07-40c0-b1c2-1f639574b49f",
       "titel": "Kyckling i ugn med sambal oelek",
       "kategori": "Middag",
-      "portioner": 4,
+      "portioner": 8,
       "tid": "",
       "kalla": "",
       "favorit": false,

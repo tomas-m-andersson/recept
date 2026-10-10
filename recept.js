@@ -592,11 +592,12 @@ window.RECEPT_DATA = {
       "steg": [
         "Blanda färsen, crème fraiche och löksopps-pulvret i en bunke.",
         "Gör 2 st limpor på en smord plåt, eller på bakplåtspapper.",
-        "Ställ in i mitten av ugnen i 175°C i ca 40 minuter..",
+        "Ställ in i mitten av ugnen i ca 40 minuter..",
         "Servera med potatis, grönsaker."
       ],
       "anteckning": "Gott med stekt lök och gräddsås till!",
-      "bild": "bilder/15e14a2c-ec15-43dd-9aca-1b74d89529f4-mv2sptn8.jpg"
+      "bild": "bilder/15e14a2c-ec15-43dd-9aca-1b74d89529f4-mv2sptn8.jpg",
+      "ugn": 175
     },
     {
       "id": "914c7698-ea30-4548-b92b-a9da9c2ad0fc",

@@ -86,14 +86,14 @@ window.RECEPT_DATA = {
         "4 ägg"
       ],
       "steg": [
-        "Sätt ugnen på 225°C.",
         "Blanda mjöl och salt i en bunke.",
         "Tillsätt hälften av mjölken och vispa till en jämn, tjock smet. Rör ner äggen.",
         "Vispa ner resterande mjölk och fortsätt vispa till en klumpfri smet (om tiden finns låt smeten svälla ca 10 minuter).",
         "Häll smeten i en smord långpanna, ca 30 x 40 cm",
         "Grädda i mitten av ugnen 30-40 minuter, lägg ev. på en bit folie mot slutet om ytan får för mycket färg. Låt vila i 5 minuter innan servering."
       ],
-      "anteckning": "Serveras med: Lingonsylt och keso"
+      "anteckning": "Serveras med: Lingonsylt och keso",
+      "ugn": 225
     },
     {
       "id": "f3562d5a-28ba-422b-bdce-5a76cecbfcd9",

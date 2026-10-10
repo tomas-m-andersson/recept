@@ -53,14 +53,7 @@ button:disabled{opacity:.45;cursor:default}
 
 /* Receptkort i listan */
 .lista{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.lista li{--dc:var(--acc);background:var(--card);border-radius:20px;box-shadow:inset 8px 0 0 var(--dc),0 2px 0 var(--line)}
-.lista li:nth-child(7n+1){--dc:#e5484d}
-.lista li:nth-child(7n+2){--dc:#f08a24}
-.lista li:nth-child(7n+3){--dc:#e2b007}
-.lista li:nth-child(7n+4){--dc:#2f9e5b}
-.lista li:nth-child(7n+5){--dc:#1f8fd1}
-.lista li:nth-child(7n+6){--dc:#6e56cf}
-.lista li:nth-child(7n+7){--dc:#d6409f}
+.lista li{--dc:var(--mut);background:var(--card);border-radius:20px;box-shadow:inset 8px 0 0 var(--dc),0 2px 0 var(--line)}
 .kort{display:grid;gap:3px;width:100%;text-align:left;border:0;background:none;border-radius:20px;padding:14px 16px 14px 24px}
 .kort .namn{font-size:1.1rem;font-weight:600;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .kort .liten{color:var(--mut);font-size:.9rem}
@@ -119,7 +112,14 @@ textarea{min-height:150px;resize:vertical}
 .katlista{list-style:none;margin:14px 0;padding:0;display:grid;gap:8px}
 .katlista li{background:var(--card);border-radius:20px;padding:12px 14px;box-shadow:0 2px 0 var(--line);display:grid;gap:8px}
 .katrad{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.katrad .liten{color:var(--mut);font-size:.9rem;margin-right:auto}
+.katrad .liten{color:var(--mut);font-size:.9rem;flex-basis:100%}
+.katrad button{padding:6px 12px;font-size:.92rem}
+.valjfarg{display:inline-flex;align-items:center;gap:8px}
+.fargprick{width:14px;height:14px;border-radius:50%;flex:none}
+.farger[hidden]{display:none}
+.farger{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.farg{width:32px;height:32px;padding:0;border-radius:50%;border:3px solid var(--card)}
+.farg[aria-pressed="true"]{border-color:var(--ink)}
 .katny{display:flex;gap:8px}
 .katny input{width:auto;flex:1;min-width:0}
 .meny details{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
@@ -226,6 +226,7 @@ summary{cursor:pointer;font-weight:600}
   /* ---------- Spara till fil ---------- */
   function filtext() {
     data.kategorier = kategorier();
+    fyllFarger();
     return "window.RECEPT_DATA = " + JSON.stringify(data, null, 2) + ";\n";
   }
   function uppdateraStatus() {
@@ -466,6 +467,26 @@ summary{cursor:pointer;font-weight:600}
   }
 
   /* ---------- Rendering ---------- */
+  var PALETT = ["#e5484d", "#f08a24", "#e2b007", "#2f9e5b", "#1f8fd1", "#6e56cf", "#d6409f", "#0f9d8a"];
+  // Varje kategori får en egen färg som följer den (sparas i recept.js)
+  function fyllFarger() {
+    var f = data.kategorifarger || (data.kategorifarger = {});
+    var lista = kategorier();
+    Object.keys(f).forEach(function (k) { if (lista.indexOf(k) < 0) delete f[k]; });
+    var tagna = {};
+    lista.forEach(function (k) { if (f[k] !== undefined) tagna[f[k]] = true; });
+    lista.forEach(function (k) {
+      if (f[k] !== undefined) return;
+      var i = 0;
+      while (tagna[i] && i < PALETT.length) i++;
+      if (i >= PALETT.length) i = Object.keys(f).length % PALETT.length;
+      f[k] = i; tagna[i] = true;
+    });
+  }
+  function kategoriFarg(k) {
+    var i = data.kategorifarger && data.kategorifarger[k];
+    return k && i !== undefined ? PALETT[i % PALETT.length] : "var(--mut)";
+  }
   function kategorier() {
     var set = {};
     (data.kategorier || []).forEach(function (k) { if (k) set[k] = true; });
@@ -502,7 +523,7 @@ summary{cursor:pointer;font-weight:600}
     }
     ul.innerHTML = lista.map(function (r) {
       var liten = [r.kategori, r.tid].filter(Boolean).join(", ");
-      return '<li><button type="button" class="kort" data-id="' + esc(r.id) + '">' +
+      return '<li style="--dc:' + kategoriFarg(r.kategori) + '"><button type="button" class="kort" data-id="' + esc(r.id) + '">' +
         '<span class="namn">' + esc(r.titel) + (r.favorit ? ' <span class="badge">Favorit</span>' : "") + "</span>" +
         (liten ? '<span class="liten">' + esc(liten) + "</span>" : "") + "</button></li>";
     }).join("");
@@ -656,6 +677,8 @@ summary{cursor:pointer;font-weight:600}
     }
     if (!kontrolleraNamn(n, gammal)) { if (!n) inp.value = gammal; return; }
     senasteByte = Date.now();
+    var fa = data.kategorifarger || {};
+    if (fa[gammal] !== undefined) { fa[n] = fa[gammal]; delete fa[gammal]; }
     data.kategorier = kategorier().map(function (k) { return k === gammal ? n : k; });
     data.recept.forEach(function (r) { if (r.kategori === gammal) r.kategori = n; });
     if (filter.kat === gammal) filter.kat = n;
@@ -678,13 +701,21 @@ summary{cursor:pointer;font-weight:600}
   function renderaKategoriVy() {
     var lista = kategorier();
     var rader = lista.map(function (k, i) {
+      var fi = (data.kategorifarger || {})[k];
+      var sw = PALETT.map(function (c, j) {
+        return '<button type="button" class="farg" style="background:' + c + '" data-atgard="katfarg" data-i="' + i + '" data-f="' + j +
+          '" aria-pressed="' + (fi === j) + '" aria-label="Färg ' + (j + 1) + " för " + esc(k) + '"></button>';
+      }).join("");
       return '<li><input type="text" value="' + esc(k) + '" aria-label="Namn på kategorin ' + esc(k) + '" data-i="' + i + '">' +
         '<div class="katrad"><span class="liten">' + antalIKat(k) + ' recept</span>' +
+        '<button type="button" class="valjfarg" data-atgard="katvisafarg" aria-expanded="false" aria-label="Välj färg för ' + esc(k) + '">' +
+          '<span class="fargprick" style="background:' + kategoriFarg(k) + '"></span>Välj färg</button>' +
         '<button type="button" data-atgard="katnamn" data-i="' + i + '">Byt namn</button>' +
-        '<button type="button" class="danger" data-atgard="katradera" data-i="' + i + '">Ta bort</button></div></li>';
+        '<button type="button" class="danger" data-atgard="katradera" data-i="' + i + '">Ta bort</button></div>' +
+        '<div class="farger" role="group" aria-label="Färg för ' + esc(k) + '" hidden>' + sw + "</div></li>";
     }).join("");
     $("vy").innerHTML = '<div class="kathantering"><h2>Kategorier</h2>' +
-      '<p class="hint">Byt namn, ta bort eller lägg till kategorier. Ändra namnet i fältet och tryck på Byt namn (eller Enter). Då uppdateras alla recept i kategorin.</p>' +
+      '<p class="hint">Byt namn, ta bort eller lägg till kategorier. Ändra namnet i fältet och tryck på Byt namn (eller Enter). Då uppdateras alla recept i kategorin. Med Välj färg bestämmer du vilken färg kategorin får som kant på receptkorten.</p>' +
       (lista.length ? '<ul class="katlista">' + rader + "</ul>" : '<p class="tomt">Inga kategorier än. Lägg till den första nedan.</p>') +
       '<label for="kat-ny">Ny kategori</label>' +
       '<div class="katny"><input type="text" id="kat-ny" placeholder="t.ex. Middag"><button type="button" class="main" data-atgard="katny">Lägg till</button></div>' +
@@ -692,6 +723,7 @@ summary{cursor:pointer;font-weight:600}
   }
 
   function renderaVy() {
+    fyllFarger();
     $("nyttKnapp").hidden = !hanteraKat && !!redigerar;
     if (hanteraKat) { renderaKategoriVy(); return; }
     if (redigerar) { renderaFormular(); return; }
@@ -825,6 +857,24 @@ summary{cursor:pointer;font-weight:600}
         nyBild = null; taBortBild = true;
         renderaBildRuta(redigerar === "ny" ? {} : (hitta(redigerar) || {}));
         break;
+      case "katvisafarg": {
+        var fr = b.closest("li").querySelector(".farger");
+        fr.hidden = !fr.hidden;
+        b.setAttribute("aria-expanded", String(!fr.hidden));
+        break;
+      }
+      case "katfarg": {
+        var kn = kategorier()[+b.dataset.i];
+        (data.kategorifarger || (data.kategorifarger = {}))[kn] = +b.dataset.f;
+        Array.prototype.forEach.call(b.parentNode.children, function (c) { c.setAttribute("aria-pressed", String(c === b)); });
+        var li = b.closest("li");
+        li.querySelector(".fargprick").style.background = PALETT[+b.dataset.f];
+        b.parentNode.hidden = true;
+        li.querySelector('[data-atgard="katvisafarg"]').setAttribute("aria-expanded", "false");
+        sparaTillFil();
+        meddela("Färgen är ändrad.");
+        break;
+      }
       case "katnamn": kategoriByt(+b.dataset.i, b.closest("li").querySelector("input")); break;
       case "katradera": kategoriRadera(+b.dataset.i); break;
       case "katny": kategoriNy(); break;

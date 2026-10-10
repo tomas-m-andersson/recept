@@ -526,7 +526,7 @@ summary{cursor:pointer;font-weight:600}
       return;
     }
     var lista = data.recept.filter(passar).sort(function (a, b) {
-      var c = a.titel.localeCompare(b.titel, "sv");
+      var c = a.titel.localeCompare(b.titel, "sv", { numeric: true });   // 2 kommer före 10
       return sortering === "oa" ? -c : c;
     });
     if (!lista.length) {

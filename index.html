@@ -105,6 +105,9 @@ textarea{min-height:150px;resize:vertical}
 .hjalp{display:flex;align-items:center;gap:12px;font-weight:600}
 .hjalptext{color:var(--mut);margin:10px 0 0}
 .hjalptext[hidden]{display:none}
+.receptbild{display:block;width:100%;max-height:340px;object-fit:cover;border-radius:20px;margin:0 0 14px;box-shadow:0 2px 0 var(--line)}
+.forhandsvisning{display:block;width:100%;max-width:360px;max-height:260px;object-fit:cover;border-radius:14px;border:2px solid var(--line);margin:6px 0 10px}
+.falttitel{margin:14px 0 4px;font-weight:600}
 .kathantering h2{font-size:1.6rem;margin:6px 0 0;font-weight:800}
 .katlista{list-style:none;margin:14px 0;padding:0;display:grid;gap:8px}
 .katlista li{background:var(--card);border-radius:20px;padding:12px 14px;box-shadow:0 2px 0 var(--line);display:grid;gap:8px}
@@ -117,6 +120,7 @@ summary{cursor:pointer;font-weight:600}
 .meny details .atgarder{margin-top:14px}
 
 @media print{
+  .receptbild{max-height:240px;box-shadow:none}
   .top,.bar,.filstatus,.atgarder,.portioner button,#msg,.meny{display:none!important}
   body{background:#fff;color:#000}
   .sek{box-shadow:none;border:1px solid #bbb}
@@ -187,6 +191,8 @@ summary{cursor:pointer;font-weight:600}
   var token = "";           // GitHub-token, bara om du valt att komma ihåg den
   try { token = localStorage.getItem("ghtoken") || ""; } catch (e) {}
   var sparar = false, sparaIgen = false;
+  var bildCache = {};       // nyss uppladdade bilder, så de syns direkt
+  var nyBild = null, taBortBild = false;   // bilden i receptformuläret
 
   var $ = function (id) { return document.getElementById(id); };
   var root = document.documentElement;
@@ -244,9 +250,9 @@ summary{cursor:pointer;font-weight:600}
       ? { agare: g.agare, repo: g.repo, gren: g.gren || "main", fil: g.fil || "recept.js" }
       : null;
   }
-  function ghUrl(k) {
+  function ghUrl(k, sokvag) {
     return "https://api.github.com/repos/" + encodeURIComponent(k.agare) + "/" + encodeURIComponent(k.repo) +
-      "/contents/" + k.fil.split("/").map(encodeURIComponent).join("/");
+      "/contents/" + (sokvag || k.fil).split("/").map(encodeURIComponent).join("/");
   }
   function ghHeaders() {
     var h = { "Accept": "application/vnd.github+json" };
@@ -300,6 +306,80 @@ summary{cursor:pointer;font-weight:600}
       tillampaTema();
       renderaVy();
     } catch (e) { /* offline eller fel token: använd den inlästa filen */ }
+  }
+
+  /* ---------- Bilder ---------- */
+  function ghMapp(k) { var i = k.fil.lastIndexOf("/"); return i > -1 ? k.fil.slice(0, i + 1) : ""; }
+  function bildSrc(b) { return bildCache[b] || b || ""; }
+  function viaGithub() { return !handle && !!ghKonf() && !!token; }
+  function packaBild(fil, maxSida, kvalitet) {
+    return new Promise(function (ok, fel) {
+      var url = URL.createObjectURL(fil);
+      var img = new Image();
+      img.onload = function () {
+        var s = Math.min(1, maxSida / Math.max(img.naturalWidth, img.naturalHeight));
+        var w = Math.max(1, Math.round(img.naturalWidth * s));
+        var hh = Math.max(1, Math.round(img.naturalHeight * s));
+        var c = document.createElement("canvas");
+        c.width = w; c.height = hh;
+        var g = c.getContext("2d");
+        g.fillStyle = "#fff"; g.fillRect(0, 0, w, hh);
+        g.drawImage(img, 0, 0, w, hh);
+        URL.revokeObjectURL(url);
+        ok(c.toDataURL("image/jpeg", kvalitet));
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); fel(new Error("bild")); };
+      img.src = url;
+    });
+  }
+  function renderaBildRuta(r) {
+    if (!$("bild-ruta")) return;
+    var src = nyBild || (taBortBild ? "" : bildSrc(r.bild));
+    $("bild-ruta").innerHTML = src
+      ? '<img class="forhandsvisning" src="' + esc(src) + '" alt="Förhandsvisning av bilden">'
+      : '<p class="hint">Ingen bild vald.</p>';
+    $("tabort-bild").hidden = !src;
+    $("bild-hint").textContent = viaGithub()
+      ? "Bilden förminskas och sparas som en egen fil i mappen bilder på GitHub."
+      : "Bilden förminskas och sparas inuti recept.js. Koppla GitHub i menyn om du vill spara bilderna som egna filer.";
+  }
+  async function valBild(inp) {
+    var fil = inp.files && inp.files[0];
+    inp.value = "";
+    if (!fil) return;
+    try {
+      var gh = viaGithub();
+      nyBild = await packaBild(fil, gh ? 1280 : 800, gh ? 0.8 : 0.7);
+      taBortBild = false;
+      renderaBildRuta(redigerar === "ny" ? {} : (hitta(redigerar) || {}));
+    } catch (e) {
+      meddela("Bilden gick inte att läsa. Prova en annan bild.");
+    }
+  }
+  async function sparaBild(dataUrl, id) {
+    if (!viaGithub()) return dataUrl;   // inbäddad i recept.js
+    var k = ghKonf();
+    var namn = "bilder/" + id + "-" + Date.now().toString(36) + ".jpg";
+    var h = ghHeaders(); h["Content-Type"] = "application/json";
+    var r = await fetch(ghUrl(k, ghMapp(k) + namn), {
+      method: "PUT", headers: h,
+      body: JSON.stringify({ message: "Lägg till bild", content: dataUrl.split(",")[1], branch: k.gren })
+    });
+    if (!r.ok) { var e = new Error("GitHub " + r.status); e.status = r.status; throw e; }
+    bildCache[namn] = dataUrl;
+    return namn;
+  }
+  async function taBortBildFil(bild) {
+    var k = ghKonf();
+    if (!bild || bild.indexOf("bilder/") !== 0 || !viaGithub()) return;
+    try {
+      var url = ghUrl(k, ghMapp(k) + bild);
+      var r = await fetch(url + "?ref=" + encodeURIComponent(k.gren), { headers: ghHeaders(), cache: "no-store" });
+      if (!r.ok) return;
+      var j = await r.json();
+      var h = ghHeaders(); h["Content-Type"] = "application/json";
+      await fetch(url, { method: "DELETE", headers: h, body: JSON.stringify({ message: "Ta bort bild", sha: j.sha, branch: k.gren }) });
+    } catch (e) { /* bilden blir kvar på GitHub, det gör ingenting */ }
   }
 
   async function sparaTillFil() {
@@ -421,6 +501,7 @@ summary{cursor:pointer;font-weight:600}
     }).join("");
   }
   function renderaRecept(r) {
+    var bs = bildSrc(r.bild);
     var f = visaPortioner && r.portioner ? visaPortioner / r.portioner : 1;
     var ing = (r.ingredienser || []).map(function (x) {
       return '<label class="ingrad"><input type="checkbox"><span>' + esc(skala(x, f)) + "</span></label>";
@@ -438,6 +519,7 @@ summary{cursor:pointer;font-weight:600}
         (r.tid ? '<span class="pill">' + esc(r.tid) + "</span>" : "") +
         (kalla ? '<span class="pill">' + kalla + "</span>" : "") +
       "</p>" +
+      (bs ? '<img class="receptbild" src="' + esc(bs) + '" alt="Bild på ' + esc(r.titel) + '" onerror="this.style.display=\'none\'">' : "") +
       '<div class="atgarder">' +
         '<button type="button" data-atgard="favorit" aria-pressed="' + !!r.favorit + '">Favorit</button>' +
         '<button type="button" data-atgard="redigera">Redigera</button>' +
@@ -454,6 +536,7 @@ summary{cursor:pointer;font-weight:600}
   }
   function renderaFormular() {
     var ny = redigerar === "ny";
+    nyBild = null; taBortBild = false;
     var r = ny ? { titel: "", kategori: "", portioner: 4, tid: "", kalla: "", favorit: false, ingredienser: [], steg: [], anteckning: "" } : hitta(redigerar);
     var alt = kategorier().map(function (k) { return '<option value="' + esc(k) + '">'; }).join("");
     $("vy").innerHTML =
@@ -465,6 +548,13 @@ summary{cursor:pointer;font-weight:600}
         '<div><label for="f-port">Portioner</label><input type="number" id="f-port" min="1" value="' + esc(r.portioner) + '"></div>' +
         '<div><label for="f-tid">Tid</label><input type="text" id="f-tid" placeholder="t.ex. 45 min" value="' + esc(r.tid) + '"></div>' +
       "</div>" +
+      '<div class="falttitel">Bild</div><div id="bild-ruta"></div>' +
+      '<div class="val"><button type="button" data-atgard="tafoto">Ta foto</button>' +
+        '<button type="button" data-atgard="valjbild">Välj bild</button>' +
+        '<button type="button" class="danger" id="tabort-bild" data-atgard="tabortbild">Ta bort bild</button></div>' +
+      '<p class="hint" id="bild-hint"></p>' +
+      '<input type="file" accept="image/*" capture="environment" id="f-foto" hidden>' +
+      '<input type="file" accept="image/*" id="f-galleri" hidden>' +
       '<label for="f-ing">Ingredienser</label>' +
       '<p class="hint">En ingrediens per rad. Börja raden med en mängd, till exempel 2 dl mjölk, så kan portionerna räknas om.</p>' +
       '<textarea id="f-ing">' + esc((r.ingredienser || []).join("\n")) + "</textarea>" +
@@ -477,12 +567,25 @@ summary{cursor:pointer;font-weight:600}
       '<button type="button" data-atgard="avbryt">Avbryt</button></div>' +
       "</form>";
     $("f-titel").focus();
-    $("formular").addEventListener("submit", function (e) {
+    renderaBildRuta(r);
+    $("formular").addEventListener("submit", async function (e) {
       e.preventDefault();
       var titel = $("f-titel").value.trim();
       if (!titel) { meddela("Skriv ett namn på receptet."); $("f-titel").focus(); return; }
+      var knapp = $("formular").querySelector('button[type="submit"]');
       var p = parseInt($("f-port").value, 10);
       var post = ny ? { id: nyttId() } : hitta(redigerar);
+      var gammalBild = post.bild || "";
+      var bildVarde = gammalBild;
+      knapp.disabled = true; knapp.textContent = "Sparar…";
+      try {
+        if (nyBild) bildVarde = await sparaBild(nyBild, post.id);
+        else if (taBortBild) bildVarde = "";
+      } catch (err) {
+        knapp.disabled = false; knapp.textContent = "Spara recept";
+        meddela(err && err.status ? ghFel(err) : "Bilden kunde inte sparas. Försök igen.");
+        return;
+      }
       post.titel = titel;
       post.kategori = $("f-kat").value.trim();
       post.portioner = p > 0 ? p : null;
@@ -492,12 +595,15 @@ summary{cursor:pointer;font-weight:600}
       post.ingredienser = rader($("f-ing").value);
       post.steg = rader($("f-steg").value);
       post.anteckning = $("f-not").value.trim();
+      if (bildVarde) post.bild = bildVarde; else delete post.bild;
       if (ny) data.recept.push(post);
       valtId = post.id; redigerar = null; visaPortioner = null;
       renderaVy();
       window.scrollTo(0, 0);
-      sparaTillFil();
-      meddela("Receptet är sparat.");
+      var harSparmal = !!handle || !!(ghKonf() && token);
+      await sparaTillFil();
+      if (gammalBild && gammalBild !== bildVarde) taBortBildFil(gammalBild);
+      if (!(harSparmal && osparat)) meddela("Receptet är sparat.");
     });
   }
   /* ---------- Kategorier ---------- */
@@ -657,6 +763,9 @@ summary{cursor:pointer;font-weight:600}
   $("vy").addEventListener("input", function (e) {
     if (e.target.id === "sok") { filter.q = e.target.value; renderaLista(); }
   });
+  $("vy").addEventListener("change", function (e) {
+    if (e.target.id === "f-foto" || e.target.id === "f-galleri") valBild(e.target);
+  });
   $("vy").addEventListener("keydown", function (e) {
     if (e.key !== "Enter") return;
     if (e.target.id === "kat-ny") { e.preventDefault(); kategoriNy(); }
@@ -674,6 +783,12 @@ summary{cursor:pointer;font-weight:600}
     if (!b) return;
     var r = valtId && hitta(valtId);
     switch (b.dataset.atgard) {
+      case "tafoto": $("f-foto").click(); break;
+      case "valjbild": $("f-galleri").click(); break;
+      case "tabortbild":
+        nyBild = null; taBortBild = true;
+        renderaBildRuta(redigerar === "ny" ? {} : (hitta(redigerar) || {}));
+        break;
       case "katnamn": kategoriByt(+b.dataset.i, b.closest("li").querySelector("input")); break;
       case "katradera": kategoriRadera(+b.dataset.i); break;
       case "katny": kategoriNy(); break;
@@ -689,9 +804,11 @@ summary{cursor:pointer;font-weight:600}
         break;
       case "radera":
         if (confirm('Ta bort "' + r.titel + '"? Det går inte att ångra.')) {
+          var raderadBild = r.bild;
           data.recept = data.recept.filter(function (x) { return x.id !== r.id; });
           valtId = null;
-          renderaVy(); sparaTillFil();
+          renderaVy();
+          sparaTillFil().then(function () { taBortBildFil(raderadBild); });
           meddela("Receptet är borttaget.");
         }
         break;

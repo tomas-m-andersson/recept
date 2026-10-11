@@ -958,6 +958,38 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "Använd bakplåtspapper i våffeljärnet för mindre klet!",
       "bild": "bilder/b1cbd673-8f4b-4f78-b9e6-840c1fdfc5c3-mv3tscsj.jpg"
+    },
+    {
+      "id": "4d7ff373-fea1-4b23-ba5c-defadde4486a",
+      "titel": "Biffar med paprikasås",
+      "kategori": "Middag",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "500 g blandfärs",
+        "1 st ägg",
+        "200 g ajvar",
+        "Salt och peppar",
+        "1 tsk torkad basilika",
+        "2 dl vispgrädde",
+        "2 msk tomatpuré",
+        "1 st röd paprika",
+        "1 gul lök",
+        "Smör salt och peppar"
+      ],
+      "steg": [
+        "Blanda ingredienserna till biffarna och forma till önskad form och storlek på biffar.",
+        "Stek biffarna i en stekpanna så de får färg på båda sidorna och lägg sedan i en ugnsform.",
+        "Sätt in i ugnen i ca 10-15 minuter.",
+        "Dags för sås! Hacka lök och paprika och stek i smör tills de blivit mjuka.",
+        "Häll i tomatpuré och stek en stund.",
+        "Häll i basilika och grädde.",
+        "Låt puttra ihop en stund."
+      ],
+      "anteckning": "Servera med till exempel klyftpotatis!",
+      "ugn": 200
     }
   ],
   "github": {

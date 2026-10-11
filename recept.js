@@ -863,7 +863,8 @@ window.RECEPT_DATA = {
         "Blanda ihop alla ingredienser till en smet.",
         "Hetta upp smör i en panna och stek plättarna (ca 0,5 dl smet/plätt)."
       ],
-      "anteckning": ""
+      "anteckning": "",
+      "bild": "bilder/16c0329f-2698-459b-b921-0bb5cd3e4c19-mv3sil6w.jpg"
     }
   ],
   "github": {

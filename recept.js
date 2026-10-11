@@ -990,6 +990,33 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "Servera med till exempel klyftpotatis!",
       "ugn": 200
+    },
+    {
+      "id": "33ef7d7f-19b7-4a4d-a109-6ce9b71209b2",
+      "titel": "Krämig one pot-laxpasta",
+      "kategori": "Middag",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "300 g pasta",
+        "100 g fryst spenat",
+        "100 g plommontomater",
+        "150 g matgrädde eller vispgrädde",
+        "400 g laxfilé",
+        "75 g vitost 10%",
+        "Örtsalt och citronpeppar"
+      ],
+      "steg": [
+        "Koka pastan.",
+        "Lägg allt utom vitosten i en ugnsform och ställ i ugnen i 20 minuter.",
+        "Ta utformen mosa/rör runt allt.",
+        "Tillsätt pastan och rör om igen.",
+        "Toppa med vitosten och servera!"
+      ],
+      "anteckning": "",
+      "ugn": 225
     }
   ],
   "github": {

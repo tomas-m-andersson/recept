@@ -844,6 +844,26 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "Servera med potatis och lingon!",
       "bild": "bilder/51f58e33-f1f7-4086-98cc-14a89019acb3-mv3sfftv.jpg"
+    },
+    {
+      "id": "16c0329f-2698-459b-b921-0bb5cd3e4c19",
+      "titel": "Risgrötsplättar",
+      "kategori": "Övrigt",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "500 g risgrynsgröt (en sån korv)",
+        "2 ägg",
+        "0,75 dl vetemjöl",
+        "1 tsk bakpulver"
+      ],
+      "steg": [
+        "Blanda ihop alla ingredienser till en smet.",
+        "Hetta upp smör i en panna och stek plättarna (ca 0,5 dl smet/plätt)."
+      ],
+      "anteckning": ""
     }
   ],
   "github": {

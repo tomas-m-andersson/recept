@@ -751,8 +751,8 @@ window.RECEPT_DATA = {
   },
   "tema": "dark",
   "kategorier": [
-    "Bakning",
     "Middag",
+    "Bakning",
     "Röror & såser",
     "Övrigt"
   ],

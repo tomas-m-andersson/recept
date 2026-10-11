@@ -289,7 +289,7 @@ window.RECEPT_DATA = {
       "portioner": 4,
       "tid": "",
       "kalla": "",
-      "favorit": true,
+      "favorit": false,
       "ingredienser": [
         "4 port pasta, gärna spagetti",
         "1 gul lök",

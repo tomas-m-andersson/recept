@@ -938,6 +938,26 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "",
       "ugn": 225
+    },
+    {
+      "id": "b1cbd673-8f4b-4f78-b9e6-840c1fdfc5c3",
+      "titel": "Våfflad brieost",
+      "kategori": "Övrigt",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "President briéost"
+      ],
+      "steg": [
+        "Skär briéosten i bitar. Den från President håller ihop bra och smälter inte ut.",
+        "Hetta upp lite smör i ett våffeljärn.",
+        "Lägg i briéosten. Lägg ner locket försiktigt och grädda tills dom fått en fin färg och krispig yta.",
+        "Toppa med din favoritmarmelad."
+      ],
+      "anteckning": "Använd bakplåtspapper i våffeljärnet för mindre klet!",
+      "bild": "bilder/b1cbd673-8f4b-4f78-b9e6-840c1fdfc5c3-mv3tscsj.jpg"
     }
   ],
   "github": {

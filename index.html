@@ -86,6 +86,12 @@ button:disabled{opacity:.45;cursor:default}
 .pill a{color:var(--acc);font-weight:600}
 .atgarder{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px}
 .receptknappar{margin-top:24px}
+.dialog{border:0;border-radius:20px;padding:20px;width:min(92vw,420px);background:var(--card);color:var(--ink);box-shadow:0 12px 40px rgba(0,0,0,.35)}
+.dialog::backdrop{background:rgba(10,20,35,.55)}
+.dialog h2{margin:0 0 6px;font-size:1.3rem}
+.dialog p{margin:0 0 14px;color:var(--mut);font-size:.95rem}
+.dialog .val{flex-direction:column;align-items:stretch}
+.dialog .val button{text-align:left;padding:12px 18px}
 .ugnruta{display:flex;align-items:center;gap:14px;background:var(--card);border-radius:20px;padding:14px 18px 14px 26px;margin-top:14px;box-shadow:inset 8px 0 0 #f08a24,0 2px 0 var(--line)}
 .ugnruta .ikon{width:44px;height:44px;border-radius:50%;background:#f08a24;color:#fff;display:grid;place-items:center;flex:none}
 .ugnruta .ikon svg{width:26px;height:26px}
@@ -216,6 +222,8 @@ summary{cursor:pointer;font-weight:600}
 <div id="vy"></div>
 </main>
 <button id="nyttKnapp" type="button" aria-label="Nytt recept" title="Nytt recept"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+
+<dialog id="mejlDialog" class="dialog" aria-label="Skicka receptet"></dialog>
 
 <!-- Datan ligger i en separat fil -->
 <script src="recept.js"></script>
@@ -636,20 +644,47 @@ summary{cursor:pointer;font-weight:600}
     if (r.kalla) rader.push("", "Källa: " + r.kalla);
     return rader.join("\n");
   }
-  function mejlaRecept(r) {
-    var text = receptSomText(r);
-    var amne = "mailto:?subject=" + encodeURIComponent(r.titel);
-    var url = amne + "&body=" + encodeURIComponent(text.replace(/\n/g, "\r\n"));
-    if (url.length <= 7000) { window.location.href = url; return; }
-    // För långt för ett mejlutkast: kopiera texten i stället
-    window.location.href = amne;
+  var mejlRecept = null;
+  function kopieraText(text, ok) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(
-        function () { meddela("Receptet är långt. Texten är kopierad, klistra in den i mejlet."); },
-        function () { meddela("Receptet är för långt för ett mejlutkast."); });
+      navigator.clipboard.writeText(text).then(function () { meddela(ok); }, function () { meddela("Texten kunde inte kopieras."); });
     } else {
-      meddela("Receptet är för långt för ett mejlutkast.");
+      meddela("Texten kunde inte kopieras.");
     }
+  }
+  function mejlUrl(typ, amne, kropp) {
+    var s = encodeURIComponent(amne), b = kropp ? "&body=" + encodeURIComponent(kropp) : "";
+    if (typ === "gmail") return "https://mail.google.com/mail/?view=cm&fs=1&su=" + s + b;
+    if (typ === "outlook") return "https://outlook.live.com/mail/0/deeplink/compose?subject=" + s + b;
+    return "mailto:?subject=" + s + b;
+  }
+  function skickaMejl(typ, r) {
+    var text = receptSomText(r);
+    var kropp = text.replace(/\n/g, "\r\n");
+    var lang = encodeURIComponent(kropp).length > 6000;
+    // För långt för att få plats i adressen: öppna bara ämnet och kopiera texten
+    var url = mejlUrl(typ, r.titel, lang ? "" : kropp);
+    if (lang) kopieraText(text, "Receptet är långt. Texten är kopierad, klistra in den i mejlet.");
+    if (typ === "mailto") window.location.href = url;
+    else window.open(url, "_blank", "noopener");
+  }
+  function mejlaRecept(r) {
+    // Mobiler och surfplattor har ett mejlprogram som tar emot mailto direkt
+    var d = $("mejlDialog");
+    if (window.matchMedia("(hover: none) and (pointer: coarse)").matches || typeof d.showModal !== "function") {
+      skickaMejl("mailto", r);
+      return;
+    }
+    mejlRecept = r;
+    d.innerHTML = "<h2>Skicka receptet</h2><p>Välj hur du vill skicka det.</p>" +
+      '<div class="val">' +
+        '<button type="button" data-mejl="gmail">Öppna i Gmail</button>' +
+        '<button type="button" data-mejl="outlook">Öppna i Outlook.com</button>' +
+        '<button type="button" data-mejl="mailto">Mejlprogrammet på datorn</button>' +
+        '<button type="button" data-mejl="kopiera">Kopiera texten</button>' +
+      "</div>" +
+      '<div class="atgarder" style="margin-top:14px"><button type="button" data-mejl="stang">Avbryt</button></div>';
+    d.showModal();
   }
   function renderaRecept(r) {
     var bs = bildSrc(r.bild);
@@ -1047,6 +1082,16 @@ summary{cursor:pointer;font-weight:600}
     redigerar = "ny";
     renderaVy();
     window.scrollTo(0, 0);
+  });
+  $("mejlDialog").addEventListener("click", function (e) {
+    var rc = this.getBoundingClientRect();
+    if (e.clientX < rc.left || e.clientX > rc.right || e.clientY < rc.top || e.clientY > rc.bottom) { this.close(); return; }
+    var b = e.target.closest("button[data-mejl]");
+    if (!b || !mejlRecept) return;
+    var typ = b.dataset.mejl;
+    if (typ === "kopiera") kopieraText(receptSomText(mejlRecept), "Receptet är kopierat.");
+    else if (typ !== "stang") skickaMejl(typ, mejlRecept);
+    this.close();
   });
   $("hemKnapp").addEventListener("click", function () {
     if (redigerar && !confirm("Du håller på att redigera ett recept. Lämna utan att spara?")) return;

@@ -902,6 +902,42 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "För allra bästa konsistens: låt toscabrownien stå i kylen ett par timmar (gärna över natten) innan du skär upp och serverar.",
       "ugn": 175
+    },
+    {
+      "id": "686fdcd7-6920-48e0-aef8-cc0b3fa8d88f",
+      "titel": "Kycklinggratäng",
+      "kategori": "Middag",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "3 dl vispgrädde",
+        "2 dl crème fraîche",
+        "2 dl mjölk",
+        "1½–2 dl Heinz chilisås",
+        "1 msk gul currykrydda",
+        "1 msk paprikakrydda",
+        "2 msk kycklingfond",
+        "5 vitlöksklyftor, fint rivna eller pressade",
+        "1 tsk salt",
+        "10–15 drag svartpeppar",
+        "4 kycklingfiléer",
+        "1 paket bacon",
+        "1–2 röda paprikor (eller skippa och kör sallad bredvid)",
+        "Ris"
+      ],
+      "steg": [
+        "Blanda vispgrädde, crème fraîche, mjölk, chilisås, curry, paprikakrydda, kycklingfond, riven vitlök, salt och peppar direkt i ugnsformen tills allt är helt jämnt blandat.",
+        "Skär paprikan i stora bitar och lägg ner i såsen.",
+        "(Valfritt) Salta lätt och bryn kycklingbröstfiléerna snabbt i lite matolja så de får fin yta.",
+        "Lägg kycklingfiléerna i formen och vänd runt dem i såsen så de täcks ordentligt.",
+        "Halvstek baconet snabbt så det släpper fett men fortfarande är mjukt – det blir krispigt sen i ugnen. Skär eller bryt i bitar och fördela över gratängen.",
+        "Baka mitt i ugnen i 20–30 minuter, beroende på hur stora kycklingfiléer du använder. För bästa resultat ta ut gratängen när kyckling har ca 68°C innertemperatur",
+        "Servera med ris och njut!"
+      ],
+      "anteckning": "",
+      "ugn": 225
     }
   ],
   "github": {

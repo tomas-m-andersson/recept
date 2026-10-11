@@ -1065,7 +1065,7 @@ window.RECEPT_DATA = {
     "gren": "main",
     "fil": "recept.js"
   },
-  "tema": "dark",
+  "tema": "light",
   "kategorier": [
     "Middag",
     "Bakning",

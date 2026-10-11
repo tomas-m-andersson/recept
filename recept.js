@@ -780,6 +780,38 @@ window.RECEPT_DATA = {
       "anteckning": "",
       "bild": "bilder/48b28012-5ab4-48d8-91b1-7d52a5ca0f0d-mv3s88e8.jpg",
       "ugn": 200
+    },
+    {
+      "id": "a17dc41f-f449-43d5-8ab3-12966caee30e",
+      "titel": "Chokladkolakaka med Dumle",
+      "kategori": "Bakning",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "150g smör",
+        "1,5 dl strösocker",
+        "2 tsk vaniljsocker",
+        "3 msk kakao",
+        "3 msk ljus sirap",
+        "3 dl vetemjöl",
+        "1 1/2 tsk bakpulver",
+        "15 st Dumle",
+        "Några nypor havssalt"
+      ],
+      "steg": [
+        "Lägg bakplåtspapper i en form på ca 20*30cm.",
+        "Vispa smör, kakao, socker, vaniljsocker och sirap smidigt.",
+        "Blanda mjöl och bakpulver och rör ner i smeten och arbeta ihop till en deg.",
+        "Tryck sedan ut halva degen i formen ganska tunt, Dela Dumle-bitarna i 2 delar och lägg på på degen så den täcker hela.",
+        "Tryck sedan på resten av degen.",
+        "Grädda i ugnen ca 18-20 minuter.",
+        "Ta ut kakan och strö på havssalt (om man vill) och låt kakan svalna helt i kylskåpet."
+      ],
+      "anteckning": "",
+      "bild": "bilder/a17dc41f-f449-43d5-8ab3-12966caee30e-mv3scfln.jpg",
+      "ugn": 200
     }
   ],
   "github": {

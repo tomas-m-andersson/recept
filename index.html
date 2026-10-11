@@ -140,6 +140,12 @@ textarea{min-height:150px;resize:vertical}
 .kathantering h2{font-size:1.6rem;margin:14px 0 0;font-weight:800}
 .katlista{list-style:none;margin:30px 0 14px;padding:0;display:grid;gap:8px}
 .katlista li{background:var(--card);border-radius:20px;padding:12px 14px;box-shadow:0 2px 0 var(--line);display:grid;gap:8px}
+.kattopp{display:flex;gap:8px;align-items:center}
+.kattopp input{width:auto;flex:1;min-width:0}
+.grepp{width:40px;height:40px;padding:0;border-radius:50%;display:grid;place-items:center;flex:none;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.grepp svg{width:20px;height:20px}
+.katlista li.flyttar{transition:transform .15s ease}
+.katlista li.drar{position:relative;z-index:5;transition:none;box-shadow:0 10px 26px rgba(0,0,0,.28);user-select:none;-webkit-user-select:none}
 .katrad{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .katrad .liten{color:var(--mut);font-size:.9rem;flex-basis:100%}
 .katrad button{padding:6px 12px;font-size:.92rem}
@@ -236,6 +242,7 @@ summary{cursor:pointer;font-weight:600}
   var I_SORT_AO = IKON('<path d="M4 6h7M4 12h7M4 18h9"/><path d="M15 9l3-3 3 3"/><path d="M18 6v12"/>');
   var I_SORT_OA = IKON('<path d="M4 6h9M4 12h7M4 18h7"/><path d="M15 15l3 3 3-3"/><path d="M18 6v12"/>');
   var I_CHEV = IKON('<path d="M9 6l6 6-6 6"/>');
+  var I_GREPP = IKON('<circle cx="9" cy="5" r="1.3"/><circle cx="15" cy="5" r="1.3"/><circle cx="9" cy="12" r="1.3"/><circle cx="15" cy="12" r="1.3"/><circle cx="9" cy="19" r="1.3"/><circle cx="15" cy="19" r="1.3"/>');
   var I_SOP = IKON('<polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>');
   var HAKA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   var sortering = "ao";     // "ao" = A–Ö, "oa" = Ö–A (gäller tills sidan laddas om)
@@ -528,11 +535,13 @@ summary{cursor:pointer;font-weight:600}
     var i = data.kategorifarger && data.kategorifarger[k];
     return k && i !== undefined ? PALETT[i % PALETT.length] : "var(--mut)";
   }
+  // Ordningen i data.kategorier gäller. Kategorier som bara finns på recept läggs sist, i bokstavsordning.
   function kategorier() {
-    var set = {};
-    (data.kategorier || []).forEach(function (k) { if (k) set[k] = true; });
-    data.recept.forEach(function (r) { if (r.kategori) set[r.kategori] = true; });
-    return Object.keys(set).sort(function (a, b) { return a.localeCompare(b, "sv"); });
+    var set = {}, ut = [], extra = [];
+    (data.kategorier || []).forEach(function (k) { if (k && !set[k]) { set[k] = true; ut.push(k); } });
+    data.recept.forEach(function (r) { if (r.kategori && !set[r.kategori]) { set[r.kategori] = true; extra.push(r.kategori); } });
+    extra.sort(function (a, b) { return a.localeCompare(b, "sv"); });
+    return ut.concat(extra);
   }
   var katScroll = 0;
   function uppdateraKatPilar() {
@@ -782,6 +791,77 @@ summary{cursor:pointer;font-weight:600}
     sparaTillFil();
     meddela('Kategorin "' + k + '" är borttagen.');
   }
+  function flyttaKategori(fran, till, fokus) {
+    var l = kategorier();
+    if (fran === till || fran < 0 || till < 0 || fran >= l.length || till >= l.length) return;
+    var k = l.splice(fran, 1)[0];
+    l.splice(till, 0, k);
+    data.kategorier = l;
+    renderaVy();
+    sparaTillFil();
+    if (fokus) {
+      var g = $("vy").querySelector('.grepp[data-i="' + till + '"]');
+      if (g) g.focus();
+    }
+    meddela("Ordningen är sparad.");
+  }
+  function startaDrag(e, handtag) {
+    var li = handtag.closest("li");
+    var lista = li.parentNode;
+    var items = Array.prototype.slice.call(lista.children);
+    var idx = items.indexOf(li);
+    var sy0 = window.scrollY;
+    var geom = items.map(function (it) {
+      var r = it.getBoundingClientRect();
+      return { mitt: r.top + sy0 + r.height / 2, h: r.height };
+    });
+    var gap = parseFloat(getComputedStyle(lista).rowGap) || 8;
+    var steg = geom[idx].h + gap;
+    var startY = e.clientY + sy0;
+    var senastY = e.clientY;
+    var mal = idx, rAF = 0;
+    var id = e.pointerId;
+    try { handtag.setPointerCapture(id); } catch (err) { /* ignoreras */ }
+    li.classList.add("drar");
+    items.forEach(function (it) { if (it !== li) it.classList.add("flyttar"); });
+
+    function uppdatera() {
+      var dy = senastY + window.scrollY - startY;
+      li.style.transform = "translateY(" + dy + "px)";
+      var mitt = geom[idx].mitt + dy, n = 0;
+      for (var j = 0; j < items.length; j++) { if (j !== idx && geom[j].mitt < mitt) n++; }
+      mal = n;
+      items.forEach(function (it, j) {
+        if (j === idx) return;
+        var s = 0;
+        if (idx < j && j <= mal) s = -steg;
+        else if (mal <= j && j < idx) s = steg;
+        it.style.transform = s ? "translateY(" + s + "px)" : "";
+      });
+    }
+    function autoscroll() {
+      var hojd = window.innerHeight, zon = 90, fart = 0;
+      if (senastY < zon) fart = -Math.round((zon - senastY) / 6 + 2);
+      else if (senastY > hojd - zon) fart = Math.round((senastY - (hojd - zon)) / 6 + 2);
+      if (fart) { window.scrollBy(0, fart); uppdatera(); }
+      rAF = requestAnimationFrame(autoscroll);
+    }
+    function flytt(ev) { senastY = ev.clientY; uppdatera(); }
+    function slut(ev) {
+      cancelAnimationFrame(rAF);
+      handtag.removeEventListener("pointermove", flytt);
+      handtag.removeEventListener("pointerup", slut);
+      handtag.removeEventListener("pointercancel", slut);
+      try { handtag.releasePointerCapture(id); } catch (err) { /* ignoreras */ }
+      li.classList.remove("drar");
+      items.forEach(function (it) { it.style.transform = ""; it.classList.remove("flyttar"); });
+      if (ev.type === "pointerup" && mal !== idx) flyttaKategori(idx, mal, false);
+    }
+    handtag.addEventListener("pointermove", flytt);
+    handtag.addEventListener("pointerup", slut);
+    handtag.addEventListener("pointercancel", slut);
+    rAF = requestAnimationFrame(autoscroll);
+  }
   function renderaKategoriVy() {
     var lista = kategorier();
     var rader = lista.map(function (k, i) {
@@ -790,7 +870,9 @@ summary{cursor:pointer;font-weight:600}
         return '<button type="button" class="farg" style="background:' + c + '" data-atgard="katfarg" data-i="' + i + '" data-f="' + j +
           '" aria-pressed="' + (fi === j) + '" aria-label="Färg ' + (j + 1) + " för " + esc(k) + '"></button>';
       }).join("");
-      return '<li><input type="text" value="' + esc(k) + '" aria-label="Namn på kategorin ' + esc(k) + '" data-i="' + i + '">' +
+      return '<li><div class="kattopp"><button type="button" class="grepp" data-i="' + i + '" aria-label="Flytta kategorin ' + esc(k) +
+          '. Dra, eller använd pil upp och pil ned." title="Dra för att ändra ordning">' + I_GREPP + "</button>" +
+          '<input type="text" value="' + esc(k) + '" aria-label="Namn på kategorin ' + esc(k) + '" data-i="' + i + '"></div>' +
         '<div class="katrad"><span class="liten">' + antalIKat(k) + ' recept</span>' +
         '<button type="button" class="valjfarg" data-atgard="katvisafarg" aria-expanded="false" aria-label="Välj färg för ' + esc(k) + '">' +
           '<span class="fargprick" style="background:' + kategoriFarg(k) + '"></span>Välj färg</button>' +
@@ -799,7 +881,7 @@ summary{cursor:pointer;font-weight:600}
         '<div class="farger" role="group" aria-label="Färg för ' + esc(k) + '" hidden>' + sw + "</div></li>";
     }).join("");
     $("vy").innerHTML = '<div class="kathantering"><button type="button" data-atgard="katklar">Klar</button><h2>Kategorier</h2>' +
-      '<p class="hint">Byt namn, ta bort eller lägg till kategorier. Ändra namnet i fältet och tryck på Byt namn (eller Enter). Då uppdateras alla recept i kategorin. Med Välj färg bestämmer du vilken färg kategorin får som kant på receptkorten.</p>' +
+      '<p class="hint">Byt namn, ta bort eller lägg till kategorier. Ändra namnet i fältet och tryck på Byt namn (eller Enter). Då uppdateras alla recept i kategorin. Med Välj färg bestämmer du vilken färg kategorin får som kant på receptkorten. Dra i handtaget till vänster om namnet för att ändra ordningen på filterknapparna på startsidan.</p>' +
       '<label for="kat-ny">Ny kategori</label>' +
       '<div class="katny"><input type="text" id="kat-ny" placeholder="t.ex. Middag"><button type="button" class="main" data-atgard="katny">Lägg till</button></div>' +
       (lista.length ? '<ul class="katlista">' + rader + "</ul>" : '<p class="tomt">Inga kategorier än. Lägg till den första ovan.</p>') +
@@ -937,7 +1019,21 @@ summary{cursor:pointer;font-weight:600}
       im[+e.target.dataset.ing] = e.target.checked;
     }
   });
+  $("vy").addEventListener("pointerdown", function (e) {
+    var g = e.target.closest && e.target.closest(".grepp");
+    if (!g || !hanteraKat) return;
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    e.preventDefault();
+    startaDrag(e, g);
+  });
   $("vy").addEventListener("keydown", function (e) {
+    var gr = e.target.closest && e.target.closest(".grepp");
+    if (gr && (e.key === "ArrowUp" || e.key === "ArrowDown")) {
+      e.preventDefault();
+      var fran = +gr.dataset.i;
+      flyttaKategori(fran, fran + (e.key === "ArrowUp" ? -1 : 1), true);
+      return;
+    }
     if (e.key !== "Enter") return;
     if (e.target.id === "kat-ny") { e.preventDefault(); kategoriNy(); }
     else if (e.target.tagName === "INPUT" && e.target.dataset.i !== undefined) { e.preventDefault(); kategoriByt(+e.target.dataset.i, e.target); }

@@ -56,10 +56,10 @@ button:disabled{opacity:.45;cursor:default}
 .sokrad button{display:grid;place-items:center;padding:11px 14px}
 .sokrad button svg{width:22px;height:22px;display:block}
 .sok{width:100%;font:inherit;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:999px;padding:11px 18px}
-.kategorier{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 30px}
+.kategorier{position:relative;display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;margin:14px -18px 30px;padding:2px 18px 8px}
 .kategorier svg{width:18px;height:18px;display:block}
 .kategorier button[aria-pressed="true"] svg{fill:currentColor}
-.kategorier button{padding:5px 14px;font-size:.92rem}
+.kategorier button{padding:5px 14px;font-size:.92rem;flex:none;white-space:nowrap}
 
 /* Receptkort i listan */
 .lista{list-style:none;margin:0;padding:0;display:grid;gap:8px}
@@ -526,14 +526,23 @@ summary{cursor:pointer;font-weight:600}
     data.recept.forEach(function (r) { if (r.kategori) set[r.kategori] = true; });
     return Object.keys(set).sort(function (a, b) { return a.localeCompare(b, "sv"); });
   }
+  var katScroll = 0;
   function renderaKategorier() {
+    var c = $("kategorier");
     var alla = ["Alla", "Favoriter"].concat(kategorier());
     if (alla.indexOf(filter.kat) === -1) filter.kat = "Alla";
-    $("kategorier").innerHTML = alla.map(function (k) {
+    c.innerHTML = alla.map(function (k) {
       var fav = k === "Favoriter";
       return '<button type="button" data-kat="' + esc(k) + '" aria-pressed="' + (k === filter.kat) + '"' +
         (fav ? ' aria-label="Favoriter" title="Favoriter"' : "") + ">" + (fav ? I_HJARTA : esc(k)) + "</button>";
     }).join("");
+    c.scrollLeft = katScroll;
+    var sel = c.querySelector('[aria-pressed="true"]');
+    if (sel) {
+      var l = sel.offsetLeft, rr = l + sel.offsetWidth;
+      if (l < c.scrollLeft || rr > c.scrollLeft + c.clientWidth) c.scrollLeft = Math.max(0, l - 24);
+    }
+    katScroll = c.scrollLeft;
   }
   function passar(r) {
     if (filter.kat === "Favoriter" && !r.favorit) return false;
@@ -795,6 +804,16 @@ summary{cursor:pointer;font-weight:600}
     uppdateraSortKnapp();
     renderaKategorier();
     renderaLista();
+    var kr = $("kategorier");
+    kr.addEventListener("scroll", function () { katScroll = kr.scrollLeft; });
+    kr.addEventListener("wheel", function (e) {
+      var max = kr.scrollWidth - kr.clientWidth;
+      if (max <= 0 || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      if ((e.deltaY > 0 && kr.scrollLeft < max) || (e.deltaY < 0 && kr.scrollLeft > 0)) {
+        kr.scrollLeft += e.deltaY;
+        e.preventDefault();
+      }
+    }, { passive: false });
   }
   function renderaAllt() {
     renderaVy();
@@ -872,7 +891,7 @@ summary{cursor:pointer;font-weight:600}
   $("hemKnapp").addEventListener("click", function () {
     if (redigerar && !confirm("Du håller på att redigera ett recept. Lämna utan att spara?")) return;
     redigerar = null; hanteraKat = false; valtId = null; visaPortioner = null;
-    filter.q = ""; filter.kat = "Alla";
+    filter.q = ""; filter.kat = "Alla"; katScroll = 0;
     stangMeny();
     renderaVy();
     window.scrollTo(0, 0);

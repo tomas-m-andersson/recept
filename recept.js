@@ -812,6 +812,38 @@ window.RECEPT_DATA = {
       "anteckning": "",
       "bild": "bilder/a17dc41f-f449-43d5-8ab3-12966caee30e-mv3scfln.jpg",
       "ugn": 200
+    },
+    {
+      "id": "51f58e33-f1f7-4086-98cc-14a89019acb3",
+      "titel": "Kålmaja",
+      "kategori": "Middag",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "400 g vitkål, strimlad (finns att köpa på påse färdigstrimlad)",
+        "1 gul lök, strimlad",
+        "500 g färs, jag använder blandfärs",
+        "Salt och malen peppar",
+        "4 msk sirap",
+        "1,5 msk kinesisk soja",
+        "2 dl vatten",
+        "2 msk koncentrerad kalvfond",
+        "3 dl grädde"
+      ],
+      "steg": [
+        "Strimla och stek kål och lök mjukt. Krydda med salt och peppar.",
+        "Blanda ner sirap och kinesisk soja.",
+        "Ha i färsen med kålen och fördela den.",
+        "Stek med i några minuter.",
+        "Häll på vatten och fond.",
+        "Koka under lock i 20 minuter.",
+        "Nu kan du sätta på potatisen.",
+        "Ta av locket, häll på grädde och koka i 10 minuter, ganska kraftigt så grädden tjocknar lite. Rör om då och då så det inte bränns fast."
+      ],
+      "anteckning": "Servera med potatis och lingon!",
+      "bild": "bilder/51f58e33-f1f7-4086-98cc-14a89019acb3-mv3sfftv.jpg"
     }
   ],
   "github": {

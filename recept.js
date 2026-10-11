@@ -741,6 +741,45 @@ window.RECEPT_DATA = {
       "anteckning": "",
       "bild": "bilder/318f3b00-4fb0-406b-a5dd-6ebf3d1c5f5e-mv2szo26.jpg",
       "ugn": 200
+    },
+    {
+      "id": "48b28012-5ab4-48d8-91b1-7d52a5ca0f0d",
+      "titel": "Kanelbullekladdkaka",
+      "kategori": "Bakning",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "200 g smör som bryns",
+        "½ tsk kardemumma",
+        "3 dl strösocker",
+        "1 dl farinsocker",
+        "4 ägg",
+        "3 dl vetemjöl",
+        "1 msk vaniljsocker",
+        "En nypa salt",
+        "25 g smör",
+        "2 msk farinsocker",
+        "3 tsk kanel",
+        "2 tsk vaniljsocker",
+        "Pärlsocker till topping"
+      ],
+      "steg": [
+        "Sätt ugnen på 200 grader, över och undervärme.",
+        "Bryn smöret och låt det svalna något.",
+        "Rör ner strösocker, farinsocker och kardemumma medan smöret fortfarande är lite varmt.",
+        "Knäck i äggen och rör försiktigt ihop smeten.",
+        "Tillsätt vetemjöl, vaniljsocker och salt.",
+        "Rör ihop till en jämn smet och häll ner i en form på cirka 25 till 26 cm. Använder du en mindre form kan kakan behöva lite längre tid i ugnen.",
+        "Blanda smält smör, farinsocker, kanel och vaniljsocker.",
+        "Ringla blandningen över smeten och dra runt med en kniv för att skapa ett marmorerat mönster.",
+        "Toppa med pärlsocker.",
+        "Grädda mitt i ugnen i cirka 20 minuter. Kanterna ska ha satt sig men mitten ska fortfarande dallra lätt när du rör på formen."
+      ],
+      "anteckning": "",
+      "bild": "bilder/48b28012-5ab4-48d8-91b1-7d52a5ca0f0d-mv3s88e8.jpg",
+      "ugn": 200
     }
   ],
   "github": {

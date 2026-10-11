@@ -13,9 +13,9 @@
 <meta name="apple-mobile-web-app-title" content="Recept">
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
---bg:#e8f2fb;--card:#ffffff;--ink:#1a2433;--mut:#5a6b80;--line:#cfdcea;--acc:#2563d6;--accink:#ffffff;--helg:#ffd84d;--helgink:#3a2c00;--danger:#b4232a}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101a28;--card:#1a2638;--ink:#eaf1fb;--mut:#9fb1c8;--line:#2b3b52;--acc:#7aa8ff;--accink:#0a1a38;--helg:#e0b92f;--helgink:#241b00;--danger:#ff8a8f}}
-:root[data-theme="dark"]{--bg:#101a28;--card:#1a2638;--ink:#eaf1fb;--mut:#9fb1c8;--line:#2b3b52;--acc:#7aa8ff;--accink:#0a1a38;--helg:#e0b92f;--helgink:#241b00;--danger:#ff8a8f}
+--bg:#e8f2fb;--card:#ffffff;--ink:#1a2433;--mut:#5a6b80;--line:#cfdcea;--acc:#2563d6;--accink:#ffffff;--helg:#ffd84d;--helgink:#3a2c00;--note:#fdf8e8;--noteink:#3a3320;--danger:#b4232a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101a28;--card:#1a2638;--ink:#eaf1fb;--mut:#9fb1c8;--line:#2b3b52;--acc:#7aa8ff;--accink:#0a1a38;--helg:#e0b92f;--helgink:#241b00;--note:#232d3d;--noteink:#e4e0d0;--danger:#ff8a8f}}
+:root[data-theme="dark"]{--bg:#101a28;--card:#1a2638;--ink:#eaf1fb;--mut:#9fb1c8;--line:#2b3b52;--acc:#7aa8ff;--accink:#0a1a38;--helg:#e0b92f;--helgink:#241b00;--note:#232d3d;--noteink:#e4e0d0;--danger:#ff8a8f}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *,*::before,*::after{box-sizing:inherit}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.5 ui-rounded,"SF Pro Rounded","Nunito","Segoe UI",system-ui,sans-serif}
@@ -101,6 +101,9 @@ button:disabled{opacity:.45;cursor:default}
 .portioner button{width:36px;height:36px;padding:0;display:grid;place-items:center;font-size:1.3rem;line-height:1}
 .ingrad{display:flex;gap:12px;align-items:center;margin:0;padding:10px 2px;border-bottom:1px solid var(--line);font-weight:400;cursor:pointer}
 .ingrad:last-child{border-bottom:0}
+.ingdel{margin:18px 0 2px;font-size:1.05rem;font-weight:700;color:var(--acc)}
+.ingdel:first-child{margin-top:4px}
+select{width:100%;font:inherit;font-size:1rem;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:10px 14px;display:block}
 .ingrad input{width:22px;height:22px;accent-color:var(--acc);flex:none;margin:0}
 .ingrad input:checked + span{text-decoration:line-through;color:var(--mut)}
 .steg{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:14px}
@@ -110,7 +113,7 @@ button:disabled{opacity:.45;cursor:default}
 .steg .stegnr[aria-pressed="true"]{background:#2a9d5c;border-color:#2a9d5c;color:#fff}
 .stegtext{padding-top:7px}
 .steg li.klar .stegtext{color:var(--mut);text-decoration:line-through}
-.anteckning{background:var(--helg);color:var(--helgink);border-radius:20px;padding:14px 18px;margin:14px 0 0;font-weight:600}
+.anteckning{background:var(--note);color:var(--noteink);border-radius:20px;padding:14px 18px 14px 26px;margin:14px 0 0;font-style:italic;box-shadow:inset 6px 0 0 var(--helg)}
 
 /* Formulär */
 .formular h2{font-size:1.6rem;margin:6px 0 0;font-weight:800}
@@ -608,11 +611,17 @@ summary{cursor:pointer;font-weight:600}
         (liten ? '<span class="liten">' + esc(liten) + "</span>" : "") + "</button></li>";
     }).join("");
   }
+  function portionsText(r, n) {
+    if (r.enhet) return n + " " + r.enhet;
+    return n + (n === 1 ? " portion" : " portioner");
+  }
   function renderaRecept(r) {
     var bs = bildSrc(r.bild);
     var f = visaPortioner && r.portioner ? visaPortioner / r.portioner : 1;
     var sk = stegKlara[r.id] || {}, ik = ingKlara[r.id] || {};
     var ing = (r.ingredienser || []).map(function (x, i) {
+      var del = /^#+\s*(.+)$/.exec(x);
+      if (del) return '<h3 class="ingdel">' + esc(del[1]) + "</h3>";
       return '<label class="ingrad"><input type="checkbox" data-ing="' + i + '"' + (ik[i] ? " checked" : "") + "><span>" + esc(skala(x, f)) + "</span></label>";
     }).join("");
     var steg = (r.steg || []).map(function (x, i) {
@@ -635,9 +644,9 @@ summary{cursor:pointer;font-weight:600}
       "</p>" +
       (bs ? '<img class="receptbild" src="' + esc(bs) + '" alt="Bild på ' + esc(r.titel) + '" onerror="this.style.display=\'none\'">' : "") +
       '<section class="sek" aria-labelledby="ing-r"><h2 id="ing-r">Ingredienser</h2>' +
-        (r.portioner ? '<div class="portioner"><button type="button" data-atgard="minus" aria-label="Färre portioner">−</button>' +
-          "<span>" + (visaPortioner || r.portioner) + " portioner</span>" +
-          '<button type="button" data-atgard="plus" aria-label="Fler portioner">+</button></div>' : "") +
+        (r.portioner ? '<div class="portioner"><button type="button" data-atgard="minus" aria-label="Färre ' + esc(r.enhet || "portioner") + '">−</button>' +
+          "<span>" + esc(portionsText(r, visaPortioner || r.portioner)) + "</span>" +
+          '<button type="button" data-atgard="plus" aria-label="Fler ' + esc(r.enhet || "portioner") + '">+</button></div>' : "") +
         "<div>" + ing + "</div></section>" +
       (r.ugn ? '<div class="ugnruta"><span class="ikon">' + I_UGN + '</span><div><div class="ugnlabel">Sätt ugnen på</div><div class="ugntemp">' + esc(r.ugn) + " °C</div></div></div>" : "") +
       '<section class="sek" aria-labelledby="steg-r"><h2 id="steg-r">Gör så här</h2><ol class="steg">' + steg + "</ol></section>" +
@@ -661,8 +670,14 @@ summary{cursor:pointer;font-weight:600}
       '<label for="f-titel">Namn</label><input type="text" id="f-titel" required value="' + esc(r.titel) + '">' +
       '<div class="rad">' +
         '<div><label for="f-kat">Kategori</label><input type="text" id="f-kat" list="kat-alt" value="' + esc(r.kategori) + '"><datalist id="kat-alt">' + alt + "</datalist></div>" +
-        '<div><label for="f-port">Portioner</label><input type="number" id="f-port" min="1" value="' + esc(r.portioner) + '"></div>' +
         '<div><label for="f-tid">Tid</label><input type="text" id="f-tid" placeholder="t.ex. 45 min" value="' + esc(r.tid) + '"></div>' +
+      "</div>" +
+      '<div class="rad">' +
+        '<div><label for="f-typ">Receptet ger</label><select id="f-typ"><option value="portioner"' + (r.enhet ? "" : " selected") + '>Portioner</option>' +
+          '<option value="antal"' + (r.enhet ? " selected" : "") + ">Antal (st)</option></select></div>" +
+        '<div><label for="f-port" id="f-port-lbl">' + (r.enhet ? "Antal" : "Portioner") + '</label><input type="number" id="f-port" min="1" value="' + esc(r.portioner) + '"></div>' +
+        '<div id="enhet-falt"' + (r.enhet ? "" : " hidden") + '><label for="f-enhet">Vad blir det?</label>' +
+          '<input type="text" id="f-enhet" placeholder="t.ex. chokladbollar" value="' + esc(r.enhet && r.enhet !== "st" ? r.enhet : "") + '"></div>' +
       "</div>" +
       '<label class="kryss"><input type="checkbox" id="f-ugn"' + (r.ugn ? " checked" : "") + "> Ugn används</label>" +
       '<div id="ugn-falt"' + (r.ugn ? "" : " hidden") + '><label for="f-ugntemp">Ugnstemperatur (°C)</label>' +
@@ -675,8 +690,10 @@ summary{cursor:pointer;font-weight:600}
       '<input type="file" accept="image/*" capture="environment" id="f-foto" hidden>' +
       '<input type="file" accept="image/*" id="f-galleri" hidden>' +
       '<label for="f-ing">Ingredienser</label>' +
-      '<p class="hint">En ingrediens per rad. Börja raden med en mängd, till exempel 2 dl mjölk, så kan portionerna räknas om.</p>' +
+      '<p class="hint">En ingrediens per rad. Börja raden med en mängd, till exempel 2 dl mjölk, så kan mängderna räknas om. ' +
+        'Vill du dela upp listan i delar skriver du en rubrik på en egen rad med # först, till exempel # Sås.</p>' +
       '<textarea id="f-ing">' + esc((r.ingredienser || []).join("\n")) + "</textarea>" +
+      '<div class="val" style="margin-top:8px"><button type="button" data-atgard="nydel">Lägg till ny del</button></div>' +
       '<label for="f-steg">Gör så här</label><p class="hint">Ett steg per rad.</p>' +
       '<textarea id="f-steg">' + esc((r.steg || []).join("\n")) + "</textarea>" +
       '<label for="f-not">Egen anteckning</label><input type="text" id="f-not" value="' + esc(r.anteckning) + '">' +
@@ -715,6 +732,7 @@ summary{cursor:pointer;font-weight:600}
       post.titel = titel;
       post.kategori = $("f-kat").value.trim();
       post.portioner = p > 0 ? p : null;
+      if ($("f-typ").value === "antal") post.enhet = $("f-enhet").value.trim() || "st"; else delete post.enhet;
       post.tid = $("f-tid").value.trim();
       post.kalla = $("f-kalla").value.trim();
       post.favorit = $("f-fav").checked;
@@ -1009,6 +1027,11 @@ summary{cursor:pointer;font-weight:600}
   });
   $("vy").addEventListener("change", function (e) {
     if (e.target.id === "f-foto" || e.target.id === "f-galleri") valBild(e.target);
+    else if (e.target.id === "f-typ") {
+      var an = e.target.value === "antal";
+      $("enhet-falt").hidden = !an;
+      $("f-port-lbl").textContent = an ? "Antal" : "Portioner";
+    }
     else if (e.target.id === "f-ugn") {
       $("ugn-falt").hidden = !e.target.checked;
       if (e.target.checked) $("f-ugntemp").focus();
@@ -1063,6 +1086,15 @@ summary{cursor:pointer;font-weight:600}
         b.setAttribute("aria-label", "Steg " + (si + 1) + (pa ? ", klart" : ", markera som klart"));
         b.innerHTML = pa ? HAKA : String(si + 1);
         b.closest("li").classList.toggle("klar", pa);
+        break;
+      }
+      case "nydel": {
+        var ta = $("f-ing");
+        var fore = ta.value.replace(/\s+$/, "");
+        ta.value = (fore ? fore + "\n" : "") + "# Rubrik\n";
+        ta.focus();
+        var st = ta.value.length - "Rubrik\n".length;
+        ta.setSelectionRange(st, st + "Rubrik".length);
         break;
       }
       case "tafoto": $("f-foto").click(); break;

@@ -875,6 +875,7 @@ window.RECEPT_DATA = {
       "kalla": "",
       "favorit": false,
       "ingredienser": [
+        "#Brownie",
         "Brownie - 200 g smör",
         "Brownie - 5 dl strösocker",
         "Brownie - 200 g mörk choklad,",
@@ -883,6 +884,7 @@ window.RECEPT_DATA = {
         "Brownie - 3 dl vetemjöl",
         "Brownie - 1 msk vaniljsocker",
         "Brownie - 1 nypa salt",
+        "# Kokostosca",
         "Kokostosca - 200 g riven kokos",
         "Kokostosca - 1 dl ljus sirap",
         "Kokostosca - 1,5 dl vispgrädde",

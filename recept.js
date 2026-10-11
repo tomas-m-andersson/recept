@@ -120,7 +120,7 @@ window.RECEPT_DATA = {
         "Hacka löken i småbitar",
         "Blanda ihop allting"
       ],
-      "anteckning": "Gå även att blanda lite majonnäs eller creme fraiche om man vill"
+      "anteckning": "Gå även att blanda i lite majonnäs eller creme fraiche om man vill"
     },
     {
       "id": "e72fb6bb-8807-483e-9366-9241e8a6750c",

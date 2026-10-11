@@ -865,6 +865,43 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "",
       "bild": "bilder/16c0329f-2698-459b-b921-0bb5cd3e4c19-mv3sil6w.jpg"
+    },
+    {
+      "id": "520bb9d7-0fdd-422e-ad9c-2859e809bd42",
+      "titel": "Toscabrownie",
+      "kategori": "Bakning",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "Brownie - 200 g smör",
+        "Brownie - 5 dl strösocker",
+        "Brownie - 200 g mörk choklad,",
+        "Brownie - 1 dl kakao",
+        "Brownie - 4 ägg",
+        "Brownie - 3 dl vetemjöl",
+        "Brownie - 1 msk vaniljsocker",
+        "Brownie - 1 nypa salt",
+        "Kokostosca - 200 g riven kokos",
+        "Kokostosca - 1 dl ljus sirap",
+        "Kokostosca - 1,5 dl vispgrädde",
+        "Kokostosca - 75 g smör",
+        "Kokostosca - 1 dl strösocker",
+        "Kokostosca - 1 nypa salt"
+      ],
+      "steg": [
+        "Smält smöret tillsammans med strösockret i en tjockbottnad kastrull. Låt blandningen bli ordentligt varm så att sockret börjar lösas upp, det hjälper till att få bort det knastriga sockret i den färdiga brownien.",
+        "Tillsätt den hackade chokladen och rör tills den har smält helt.",
+        "Ta kastrullen från värmen. Knäck ner ett ägg i taget och rör ordentligt mellan varje ägg.",
+        "Tillsätt kakao, vetemjöl, vaniljsocker och salt. Rör bara tills du har en jämn smet.",
+        "Häll smeten i en bakplåtspappersklädd form, cirka 20 × 30 cm. Grädda mitt i ugnen i cirka 15–20 minuter.",
+        "Under tiden gör du kokostoscan. Lägg grädde, smör, sirap, kokos, strösocker och salt i en kastrull. Låt sjuda under omrörning tills blandningen tjocknar något.",
+        "Ta ut brownien och fördela kokostoscan jämnt över kakan. Grädda ytterligare cirka 15–20 minuter, eller tills toscan har fått en fint gyllene färg.",
+        "Låt kakan svalna helt. Toppa gärna med lite flingsalt."
+      ],
+      "anteckning": "För allra bästa konsistens: låt toscabrownien stå i kylen ett par timmar (gärna över natten) innan du skär upp och serverar.",
+      "ugn": 175
     }
   ],
   "github": {

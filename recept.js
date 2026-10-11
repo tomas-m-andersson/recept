@@ -1078,6 +1078,6 @@ window.RECEPT_DATA = {
     "Middag": 3,
     "Röror & såser": 6,
     "Övrigt": 2,
-    "Drinkar": 1
+    "Drinkar": 4
   }
 };

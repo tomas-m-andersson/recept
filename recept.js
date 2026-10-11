@@ -1017,6 +1017,44 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "",
       "ugn": 225
+    },
+    {
+      "id": "0c1bc76a-8b26-4a2c-a584-44b9b358bb86",
+      "titel": "Ugnsbakad raggmunk med Västerbottensost & bacon",
+      "kategori": "Middag",
+      "portioner": 4,
+      "tid": "",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "Potatis – 500 g",
+        "Ägg – 6 st",
+        "Kvarg 0,2 % – 500 g",
+        "Lättmjölk – 2 dl",
+        "Vetemjöl – 200 g",
+        "Salt – 1 tsk",
+        "Svartpeppar – efter smak",
+        "Bacon – 100 g",
+        "Skinka – 200 g",
+        "Gul lök – 1 st",
+        "Västerbottensost – 80 g"
+      ],
+      "steg": [
+        "Skär baconet i mindre bitar och hacka löken.",
+        "Stek tillsammans tills baconet fått färg och löken mjuknat.",
+        "Lägg ner skinkan mot slutet och låt den steka med någon minut.",
+        "Skala och grovriv potatisen.",
+        "Krama ur så mycket vätska du kan med händerna eller en ren kökshandduk.",
+        "Vispa ihop ägg, kvarg och mjölk.",
+        "Tillsätt vetemjöl, salt och svartpeppar och blanda till en jämn, ganska tjock smet.",
+        "Vänd ner den rivna potatisen i smeten.",
+        "Fördela bacon, skinka och lök i botten av en ugnsform och häll smeten över.",
+        "Toppa med riven Västerbottensost.",
+        "Grädda mitt i ugnen i cirka 30–40 minuter, tills mitten är satt och toppen fått ordentligt med gyllene färg.",
+        "Låt vila 5–10 minuter innan du skär upp den."
+      ],
+      "anteckning": "Servera gärna med lingon.",
+      "ugn": 225
     }
   ],
   "github": {

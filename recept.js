@@ -1079,5 +1079,6 @@ window.RECEPT_DATA = {
     "Röror & såser": 6,
     "Övrigt": 2,
     "Drinkar": 4
-  }
+  },
+  "perSida": 15
 };

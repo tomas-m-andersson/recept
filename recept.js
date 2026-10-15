@@ -1062,7 +1062,7 @@ window.RECEPT_DATA = {
       "id": "21a9e11d-4310-4f54-bc4b-1e41fa31a9e3",
       "titel": "Högrevsgryta i slow cooker",
       "kategori": "Middag",
-      "portioner": null,
+      "portioner": 4,
       "tid": "6-8 timmar",
       "kalla": "",
       "favorit": false,

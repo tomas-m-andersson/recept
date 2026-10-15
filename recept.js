@@ -1057,6 +1057,46 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "Servera gärna med lingon.",
       "ugn": 225
+    },
+    {
+      "id": "21a9e11d-4310-4f54-bc4b-1e41fa31a9e3",
+      "titel": "Högrevsgryta i slow cooker",
+      "kategori": "Middag",
+      "portioner": null,
+      "tid": "6-8 timmar",
+      "kalla": "",
+      "favorit": false,
+      "ingredienser": [
+        "800 g högrev, i stora tärningar",
+        "2 msk smör eller olja för stekning",
+        "2 gula lökar, hackade",
+        "3 vitlöksklyftor, finhackade",
+        "3 morötter, skivade",
+        "3 potatisar, tärnade",
+        "2 palsternackor, skivade",
+        "3 dl rött vin",
+        "5 dl köttbuljong",
+        "2 msk tomatpuré",
+        "1 msk soja",
+        "1 tsk dijonsenap",
+        "#Kryddor",
+        "2 lagerblad",
+        "1 tsk torkad timjan",
+        "1 tsk paprikapulver",
+        "Salt och svartpeppar efter smak",
+        "Färsk rosmarin eller persilja för garnering"
+      ],
+      "steg": [
+        "Bryn köttet. Hetta upp smör eller olja i en stor gryta och bryn högrevet i omgångar tills det får en fin yta. Lägg åt sidan.",
+        "Fräs grönsakerna. Stek lök, vitlök, morötter och palsternacka i samma gryta tills löken blir mjuk.",
+        "Tillsätt smakerna. Rör ner tomatpuré, soja, senap och kryddor. Låt fräsa någon minut för att förstärka smakerna.",
+        "Deglasera med rödvin. Häll på rödvinet och låt koka i 5 minuter så alkoholen dunstar.",
+        "Långkoka. Tillsätt köttbuljong och det brynta köttet. Lägg i lagerblad och låt grytan sjuda på låg värme i slow cooker i 6-8 timmar, tills köttet är mört.",
+        "Tillsätt potatisen de sista 30 minuterna av koktiden.",
+        "Ta bort lagerbladen och smaka av med salt och peppar. Garnera med färsk rosmarin eller persilja."
+      ],
+      "anteckning": "",
+      "bild": "bilder/21a9e11d-4310-4f54-bc4b-1e41fa31a9e3-mv9hbh8o.jpg"
     }
   ],
   "github": {

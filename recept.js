@@ -1065,7 +1065,7 @@ window.RECEPT_DATA = {
       "portioner": 4,
       "tid": "6-8 timmar",
       "kalla": "",
-      "favorit": false,
+      "favorit": true,
       "ingredienser": [
         "800 g högrev, i stora tärningar",
         "2 msk smör eller olja för stekning",

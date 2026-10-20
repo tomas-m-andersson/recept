@@ -444,7 +444,10 @@ window.RECEPT_DATA = {
         "Lägg i räkorna.",
         "Hetta upp snabbt utan att koka."
       ],
-      "anteckning": ""
+      "anteckning": "",
+      "taggar": [
+        "fisk"
+      ]
     },
     {
       "id": "36cc811f-fb56-4b00-b1a1-d414fc7462dc",

@@ -68,7 +68,8 @@ button:disabled{opacity:.45;cursor:default}
 .katpil svg{width:18px;height:18px}
 .kategorier svg{width:18px;height:18px;display:block}
 .kategorier button[aria-pressed="true"] svg{fill:currentColor}
-.kategorier button{padding:5px 14px;font-size:.92rem;flex:none;white-space:nowrap}
+.kategorier button{padding:5px 14px;font-size:.92rem;flex:none;white-space:nowrap;border-color:var(--kc,var(--line))}
+.kategorier button[aria-pressed="true"]{border-color:var(--kc,var(--ink))}
 
 /* Receptkort i listan */
 .lista{list-style:none;margin:0;padding:0;display:grid;gap:8px}
@@ -592,7 +593,9 @@ summary{cursor:pointer;font-weight:600}
     if (alla.indexOf(filter.kat) === -1) filter.kat = "Alla";
     c.innerHTML = alla.map(function (k) {
       var fav = k === "Favoriter";
+      var egen = k !== "Alla" && !fav;   // Alla och Favoriter har ingen egen färg
       return '<button type="button" data-kat="' + esc(k) + '" aria-pressed="' + (k === filter.kat) + '"' +
+        (egen ? ' style="--kc:' + kategoriFarg(k) + '"' : "") +
         (fav ? ' aria-label="Favoriter" title="Favoriter"' : "") + ">" + (fav ? I_HJARTA : esc(k)) + "</button>";
     }).join("");
     c.scrollLeft = katScroll;

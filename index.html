@@ -36,6 +36,9 @@ button:disabled{opacity:.45;cursor:default}
 .titel h1{margin:0;font-size:clamp(2rem,8.5vw,3.4rem)}
 
 .icons{display:flex;gap:8px;flex:none}
+#tillbakaKnapp{width:44px;height:44px;padding:0;border-radius:50%;display:grid;place-items:center;flex:none}
+#tillbakaKnapp[hidden]{display:none}
+#tillbakaKnapp svg{width:22px;height:22px}
 #theme,#meny-knapp,#info{width:44px;height:44px;padding:0;border-radius:50%;display:grid;place-items:center;flex:none}
 #info[aria-expanded="true"],#meny-knapp[aria-expanded="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 #theme svg,#meny-knapp svg,#info svg{width:22px;height:22px}
@@ -184,7 +187,7 @@ summary{cursor:pointer;font-weight:600}
 </head>
 <body>
 <main>
-<header class="top"><div class="titel"><h1>Mina recept</h1></div><div class="icons"><button id="meny-knapp" type="button" aria-expanded="false" aria-controls="meny"></button></div></header>
+<header class="top"><div class="titel"><button type="button" id="tillbakaKnapp" aria-label="Tillbaka till alla recept" title="Tillbaka till alla recept" hidden></button><h1>Mina recept</h1></div><div class="icons"><button id="meny-knapp" type="button" aria-expanded="false" aria-controls="meny"></button></div></header>
 <section class="meny" id="meny" hidden aria-label="Meny">
 <h2>Utseende</h2>
 <div class="hjalp"><button id="theme" type="button"></button><span id="theme-text"></span></div>
@@ -261,6 +264,7 @@ summary{cursor:pointer;font-weight:600}
   var I_SORT_AO = IKON('<path d="M4 6h7M4 12h7M4 18h9"/><path d="M15 9l3-3 3 3"/><path d="M18 6v12"/>');
   var I_SORT_OA = IKON('<path d="M4 6h9M4 12h7M4 18h7"/><path d="M15 15l3 3 3-3"/><path d="M18 6v12"/>');
   var I_VANSTER = IKON('<path d="M15 6l-6 6 6 6"/>');
+  var I_TILLBAKA = IKON('<path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>');
   var I_CHEV = IKON('<path d="M9 6l6 6-6 6"/>');
   var I_GREPP = IKON('<circle cx="6" cy="6" r="1.6"/><circle cx="12" cy="6" r="1.6"/><circle cx="18" cy="6" r="1.6"/><circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/><circle cx="6" cy="18" r="1.6"/><circle cx="12" cy="18" r="1.6"/><circle cx="18" cy="18" r="1.6"/>').replace('fill="none"', 'fill="currentColor" stroke="none"');
   var I_MEJL = IKON('<path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M22 6l-10 7L2 6"/>');
@@ -739,7 +743,6 @@ summary{cursor:pointer;font-weight:600}
       ? '<a href="' + esc(r.kalla) + '" target="_blank" rel="noopener">Källa</a>'
       : "Källa: " + esc(r.kalla)) : "";
     $("vy").innerHTML =
-      '<button type="button" data-atgard="tillbaka">Till alla recept</button>' +
       '<h2 class="rubrik">' + esc(r.titel) + "</h2>" +
       '<p class="meta">' +
         (r.favorit ? '<span class="favikon" role="img" aria-label="Favorit" title="Favorit">' + I_HJARTA + "</span>" : "") +
@@ -1015,6 +1018,7 @@ summary{cursor:pointer;font-weight:600}
   function renderaVy() {
     fyllFarger();
     $("nyttKnapp").hidden = !hanteraKat && !!redigerar;
+    $("tillbakaKnapp").hidden = !(valtId && !hanteraKat && !redigerar && hitta(valtId));
     if (hanteraKat) { renderaKategoriVy(); return; }
     if (redigerar) { renderaFormular(); return; }
     var r = valtId && hitta(valtId);
@@ -1144,6 +1148,12 @@ summary{cursor:pointer;font-weight:600}
     else if (typ !== "stang") skickaMejl(typ, mejlRecept);
     this.close();
   });
+  $("tillbakaKnapp").innerHTML = I_TILLBAKA;
+  $("tillbakaKnapp").addEventListener("click", function () {
+    valtId = null; visaPortioner = null;
+    renderaVy();
+    window.scrollTo(0, 0);
+  });
   $("kopplaKnapp").addEventListener("click", kopplaFil);
   $("laddaKnapp").addEventListener("click", laddaNer);
 
@@ -1257,7 +1267,6 @@ summary{cursor:pointer;font-weight:600}
       case "katradera": kategoriRadera(+b.dataset.i); break;
       case "katny": kategoriNy(); break;
       case "katklar": hanteraKat = false; renderaVy(); window.scrollTo(0, 0); break;
-      case "tillbaka": valtId = null; visaPortioner = null; renderaVy(); break;
       case "avbryt": redigerar = null; renderaVy(); break;
       case "favorit": r.favorit = !r.favorit; renderaVy(); sparaTillFil(); break;
       case "redigera": redigerar = r.id; renderaVy(); window.scrollTo(0, 0); break;

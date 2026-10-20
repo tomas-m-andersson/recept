@@ -1131,6 +1131,47 @@ window.RECEPT_DATA = {
       "taggar": [
         "slowcooker"
       ]
+    },
+    {
+      "id": "b76dbeb7-1d04-4408-a629-b70d37cb9c0c",
+      "titel": "Älgporterstek i Slow Cooker",
+      "kategori": "Middag",
+      "portioner": 6,
+      "tid": "5-7 timmar",
+      "taggar": [
+        "slowcooker",
+        "älg"
+      ],
+      "favorit": false,
+      "ingredienser": [
+        "1 kg benfri stek",
+        "3-5 st stora vitlöksklyftor, finhackad",
+        "2 st stora gula lökar i skivor",
+        "4 morötter i stavar",
+        "2 palsternackor i stavar",
+        "33 cl Porter eller annat mörkt öl",
+        "1 dl kinesisk soja",
+        "1,5 dl outspädd svartvinbärssaft",
+        "2 tsk viltfond",
+        "8 st svartpepparkorn",
+        "6 st krossade enbär",
+        "2 tsk timjan, torkad",
+        "Flingsalt",
+        "#Sås",
+        "8 dl sky",
+        "maizenaredning för mörka såser",
+        "2 - 3 dl grädde"
+      ],
+      "steg": [
+        "Ansa och skär grönsakerna och lägg i botten på din slow cooker.",
+        "Häll på porter, soja, fond och svartvinbärssaft.",
+        "Ha i alla kryddor utom flingsalt. Rör om.",
+        "Lägg på steken och ös den med vätskan. Strö över flingsaltet.",
+        "Lägg på locket till din slow cooker och sätt på Auto. Låt köttet långkoka 5 - 7 timmar beroende på storlek och hur du vill ha köttet.  Använd köttermometer för att kolla. Lyft inte på locket under de första timmarna!",
+        "Sila ner skyn i en stor kastrull med grädden och red av med maizenaredningen när såsen börjar koka. Koka sakta i 3-5 minuter. Någon ytterligare kryddning behövs inte för den smakar redan massor, massor!"
+      ],
+      "anteckning": "",
+      "bild": "bilder/b76dbeb7-1d04-4408-a629-b70d37cb9c0c-mvh05bkb.jpg"
     }
   ],
   "github": {

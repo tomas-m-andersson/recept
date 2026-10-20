@@ -557,7 +557,10 @@ window.RECEPT_DATA = {
         "Häll i kokosmjölken och crème fraichen.",
         "Låt puttra tills klart."
       ],
-      "anteckning": ""
+      "anteckning": "",
+      "taggar": [
+        "soppa"
+      ]
     },
     {
       "id": "cf688de1-2e07-40c0-b1c2-1f639574b49f",

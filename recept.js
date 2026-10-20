@@ -715,7 +715,10 @@ window.RECEPT_DATA = {
         "Ställ i ugnen i ca 25-30 minuter."
       ],
       "anteckning": "",
-      "ugn": 225
+      "ugn": 225,
+      "taggar": [
+        "fisk"
+      ]
     },
     {
       "id": "318f3b00-4fb0-406b-a5dd-6ebf3d1c5f5e",

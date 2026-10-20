@@ -1096,7 +1096,10 @@ window.RECEPT_DATA = {
         "Ta bort lagerbladen och smaka av med salt och peppar. Garnera med färsk rosmarin eller persilja."
       ],
       "anteckning": "",
-      "bild": "bilder/21a9e11d-4310-4f54-bc4b-1e41fa31a9e3-mv9hbh8o.jpg"
+      "bild": "bilder/21a9e11d-4310-4f54-bc4b-1e41fa31a9e3-mv9hbh8o.jpg",
+      "taggar": [
+        "slowcooker"
+      ]
     }
   ],
   "github": {

@@ -69,7 +69,10 @@ window.RECEPT_DATA = {
         "Rulla till bollar och vänd dem i pärlsocker.",
         "Låt dem stelna i kylen en stund."
       ],
-      "anteckning": "Bra recept att baka tillsammans med barnen."
+      "anteckning": "Bra recept att baka tillsammans med barnen.",
+      "taggar": [
+        "choklad"
+      ]
     },
     {
       "id": "1723c33b-4741-4fe5-ac6d-adf01e82f2da",

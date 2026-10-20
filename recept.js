@@ -446,7 +446,8 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "",
       "taggar": [
-        "fisk"
+        "fisk",
+        "soppa"
       ]
     },
     {

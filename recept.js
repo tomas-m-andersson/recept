@@ -1134,7 +1134,7 @@ window.RECEPT_DATA = {
     },
     {
       "id": "b76dbeb7-1d04-4408-a629-b70d37cb9c0c",
-      "titel": "Älgporterstek i Slow Cooker",
+      "titel": "Älgporterstek i slow cooker",
       "kategori": "Middag",
       "portioner": 6,
       "tid": "5-7 timmar",

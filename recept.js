@@ -631,7 +631,10 @@ window.RECEPT_DATA = {
         "Slå skyn i en kastrull, fyll upp med vatten.",
         "Ner med revbensspjällen och koka nån timme tills köttet nästan släpper från benen."
       ],
-      "anteckning": ""
+      "anteckning": "",
+      "taggar": [
+        "jul"
+      ]
     },
     {
       "id": "0df39365-95ba-41ba-8135-19c3703bf6f9",

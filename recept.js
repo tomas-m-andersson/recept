@@ -1142,7 +1142,7 @@ window.RECEPT_DATA = {
         "slowcooker",
         "älg"
       ],
-      "favorit": false,
+      "favorit": true,
       "ingredienser": [
         "1 kg benfri stek",
         "3-5 st stora vitlöksklyftor, finhackad",

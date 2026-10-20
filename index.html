@@ -92,6 +92,7 @@ button:disabled{opacity:.45;cursor:default}
 .pill a{color:var(--acc);font-weight:600}
 .atgarder{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px}
 .receptknappar{margin-top:24px}
+.tagg{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:0 12px;font-size:.88rem;color:var(--acc);font-weight:600}
 .sidor{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:20px 0 0}
 .sidor[hidden]{display:none}
 .sidtext{text-align:center;font-weight:600;line-height:1.3}
@@ -299,6 +300,18 @@ summary{cursor:pointer;font-weight:600}
     return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : "r" + Date.now() + Math.random().toString(16).slice(2);
   }
   function hitta(id) { return data.recept.filter(function (r) { return r.id === id; })[0]; }
+  // "#jul #slowcooker, fritera" -> ["jul", "slowcooker", "fritera"]
+  function taggarFranText(text) {
+    var sett = {}, ut = [];
+    String(text || "").split(/[\s,;]+/).forEach(function (t) {
+      t = t.replace(/^#+/, "").trim().toLocaleLowerCase("sv");
+      if (t && !sett[t]) { sett[t] = true; ut.push(t); }
+    });
+    return ut;
+  }
+  function taggarSomText(r) {
+    return (r.taggar || []).map(function (t) { return "#" + t; }).join(" ");
+  }
   function rader(text) {
     return String(text || "").split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
   }
@@ -615,7 +628,7 @@ summary{cursor:pointer;font-weight:600}
     if (filter.kat !== "Alla" && filter.kat !== "Favoriter" && r.kategori !== filter.kat) return false;
     var q = filter.q.trim().toLowerCase();
     if (!q) return true;
-    var hö = (r.titel + " " + (r.ingredienser || []).join(" ") + " " + (r.kategori || "")).toLowerCase();
+    var hö = (r.titel + " " + (r.ingredienser || []).join(" ") + " " + (r.kategori || "") + " " + taggarSomText(r)).toLowerCase();
     return q.split(/\s+/).every(function (ord) { return hö.indexOf(ord) > -1; });
   }
   function uppdateraSortKnapp() {
@@ -685,7 +698,7 @@ summary{cursor:pointer;font-weight:600}
     rader.push("", "Gör så här");
     (r.steg || []).forEach(function (x, i) { rader.push((i + 1) + ". " + x); });
     if (r.anteckning) rader.push("", "Anteckning: " + r.anteckning);
-    if (r.kalla) rader.push("", "Källa: " + r.kalla);
+    if ((r.taggar || []).length) rader.push("", "Taggar: " + taggarSomText(r));
     return rader.join("\n");
   }
   var mejlRecept = null;
@@ -745,16 +758,15 @@ summary{cursor:pointer;font-weight:600}
         '" aria-label="Steg ' + (i + 1) + (k ? ", klart" : ", markera som klart") + '">' + (k ? HAKA : (i + 1)) + "</button>" +
         '<span class="stegtext">' + esc(x) + "</span></li>";
     }).join("");
-    var kalla = r.kalla ? (/^https?:\/\//.test(r.kalla)
-      ? '<a href="' + esc(r.kalla) + '" target="_blank" rel="noopener">Källa</a>'
-      : "Källa: " + esc(r.kalla)) : "";
     $("vy").innerHTML =
       '<h2 class="rubrik">' + esc(r.titel) + "</h2>" +
       '<p class="meta">' +
         (r.favorit ? '<span class="favikon" role="img" aria-label="Favorit" title="Favorit">' + I_HJARTA + "</span>" : "") +
         (r.kategori ? '<span class="pill">' + esc(r.kategori) + "</span>" : "") +
         (r.tid ? '<span class="pill">' + esc(r.tid) + "</span>" : "") +
-        (kalla ? '<span class="pill">' + kalla + "</span>" : "") +
+        (r.taggar || []).map(function (t) {
+          return '<button type="button" class="tagg" data-atgard="tagg" data-tagg="' + esc(t) + '" title="Sök på #' + esc(t) + '">#' + esc(t) + "</button>";
+        }).join("") +
       "</p>" +
       (bs ? '<img class="receptbild" src="' + esc(bs) + '" alt="Bild på ' + esc(r.titel) + '" onerror="this.style.display=\'none\'">' : "") +
       '<section class="sek" aria-labelledby="ing-r"><h2 id="ing-r">Ingredienser</h2>' +
@@ -777,7 +789,7 @@ summary{cursor:pointer;font-weight:600}
   function renderaFormular() {
     var ny = redigerar === "ny";
     nyBild = null; taBortBild = false;
-    var r = ny ? { titel: "", kategori: "", portioner: 4, tid: "", kalla: "", favorit: false, ingredienser: [], steg: [], anteckning: "" } : hitta(redigerar);
+    var r = ny ? { titel: "", kategori: "", portioner: 4, tid: "", favorit: false, ingredienser: [], steg: [], anteckning: "", taggar: [] } : hitta(redigerar);
     var alt = kategorier().map(function (k) { return '<option value="' + esc(k) + '">'; }).join("");
     $("vy").innerHTML =
       '<form class="formular" id="formular" novalidate>' +
@@ -812,7 +824,9 @@ summary{cursor:pointer;font-weight:600}
       '<label for="f-steg">Gör så här</label><p class="hint">Ett steg per rad.</p>' +
       '<textarea id="f-steg">' + esc((r.steg || []).join("\n")) + "</textarea>" +
       '<label for="f-not">Egen anteckning</label><input type="text" id="f-not" value="' + esc(r.anteckning) + '">' +
-      '<label for="f-kalla">Källa (adress eller bok)</label><input type="text" id="f-kalla" value="' + esc(r.kalla) + '">' +
+      '<label for="f-taggar">Taggar</label>' +
+      '<p class="hint">Skriv varje tagg med # först, till exempel #jul #slowcooker #fritera. Taggarna går att söka på.</p>' +
+      '<input type="text" id="f-taggar" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="#jul #slowcooker" value="' + esc(taggarSomText(r)) + '">' +
       '<label class="kryss"><input type="checkbox" id="f-fav"' + (r.favorit ? " checked" : "") + "> Favorit</label>" +
       '<div class="atgarder"><button class="main" type="submit">Spara recept</button>' +
       '<button type="button" data-atgard="avbryt">Avbryt</button></div>' +
@@ -849,7 +863,8 @@ summary{cursor:pointer;font-weight:600}
       post.portioner = p > 0 ? p : null;
       if ($("f-typ").value === "antal") post.enhet = $("f-enhet").value.trim() || "st"; else delete post.enhet;
       post.tid = $("f-tid").value.trim();
-      post.kalla = $("f-kalla").value.trim();
+      post.taggar = taggarFranText($("f-taggar").value);
+      if (!post.taggar.length) delete post.taggar;
       post.favorit = $("f-fav").checked;
       post.ingredienser = rader($("f-ing").value);
       post.steg = rader($("f-steg").value);
@@ -1031,7 +1046,7 @@ summary{cursor:pointer;font-weight:600}
     if (r) { renderaRecept(r); return; }
     valtId = null;
     $("vy").innerHTML =
-      '<div class="sokrad"><input class="sok" id="sok" type="search" placeholder="Sök på namn eller ingrediens" aria-label="Sök recept" value="' + esc(filter.q) + '">' +
+      '<div class="sokrad"><input class="sok" id="sok" type="search" placeholder="Sök på namn, ingrediens eller #tagg" aria-label="Sök recept" value="' + esc(filter.q) + '">' +
       '<button type="button" id="sortKnapp" data-atgard="sortera"></button></div>' +
       '<div class="katvapper"><div class="kategorier" id="kategorier" role="group" aria-label="Filtrera"></div>' +
       '<button type="button" class="katpil" id="katNasta" aria-label="Visa fler kategorier" title="Visa fler kategorier" hidden>' + I_CHEV + "</button></div>" +
@@ -1276,6 +1291,12 @@ summary{cursor:pointer;font-weight:600}
       case "avbryt": redigerar = null; renderaVy(); break;
       case "favorit": r.favorit = !r.favorit; renderaVy(); sparaTillFil(); break;
       case "redigera": redigerar = r.id; renderaVy(); window.scrollTo(0, 0); break;
+      case "tagg":
+        filter.q = "#" + b.dataset.tagg; filter.kat = "Alla"; sida = 1; katScroll = 0;
+        valtId = null; visaPortioner = null;
+        renderaVy();
+        window.scrollTo(0, 0);
+        break;
       case "mejla": mejlaRecept(r); break;
       case "skriv": window.print(); break;
       case "plus": visaPortioner = (visaPortioner || r.portioner) + 1; renderaVy(); break;

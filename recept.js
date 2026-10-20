@@ -814,7 +814,10 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "",
       "bild": "bilder/a17dc41f-f449-43d5-8ab3-12966caee30e-mv3scfln.jpg",
-      "ugn": 200
+      "ugn": 200,
+      "taggar": [
+        "choklad"
+      ]
     },
     {
       "id": "51f58e33-f1f7-4086-98cc-14a89019acb3",

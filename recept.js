@@ -682,7 +682,10 @@ window.RECEPT_DATA = {
         "Ställ i ugnen ca 1 timme."
       ],
       "anteckning": "",
-      "ugn": 180
+      "ugn": 180,
+      "taggar": [
+        "fisk"
+      ]
     },
     {
       "id": "0f0f0d3e-4c13-4b6f-8833-969009655f05",

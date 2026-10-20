@@ -213,7 +213,10 @@ window.RECEPT_DATA = {
       "steg": [
         "Rör ihop alla ingredienser."
       ],
-      "anteckning": ""
+      "anteckning": "",
+      "taggar": [
+        "fisk"
+      ]
     },
     {
       "id": "0e0ff294-b2b9-48ab-b7dd-96d671af076a",

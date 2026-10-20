@@ -909,7 +909,10 @@ window.RECEPT_DATA = {
         "Låt kakan svalna helt. Toppa gärna med lite flingsalt."
       ],
       "anteckning": "För allra bästa konsistens: låt toscabrownien stå i kylen ett par timmar (gärna över natten) innan du skär upp och serverar.",
-      "ugn": 175
+      "ugn": 175,
+      "taggar": [
+        "choklad"
+      ]
     },
     {
       "id": "686fdcd7-6920-48e0-aef8-cc0b3fa8d88f",

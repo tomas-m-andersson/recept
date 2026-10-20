@@ -68,8 +68,10 @@ button:disabled{opacity:.45;cursor:default}
 .katpil svg{width:18px;height:18px}
 .kategorier svg{width:18px;height:18px;display:block}
 .kategorier button[aria-pressed="true"] svg{fill:currentColor}
-.kategorier button{padding:5px 14px;font-size:.92rem;flex:none;white-space:nowrap;border-color:var(--kc,var(--line))}
-.kategorier button[aria-pressed="true"]{border-color:var(--kc,var(--acc));background:var(--acc);color:var(--accink)}
+.kategorier button{padding:5px 14px;font-size:.92rem;flex:none;white-space:nowrap;display:inline-flex;align-items:center;gap:8px}
+.katprick{width:10px;height:10px;border-radius:50%;background:var(--kc);flex:none}
+.kategorier button[aria-pressed="true"]{border-color:var(--acc);background:var(--acc);color:var(--accink)}
+.kategorier button[aria-pressed="true"] .katprick{box-shadow:0 0 0 2px var(--accink)}
 
 /* Receptkort i listan */
 .lista{list-style:none;margin:0;padding:0;display:grid;gap:8px}
@@ -596,7 +598,7 @@ summary{cursor:pointer;font-weight:600}
       var egen = k !== "Alla" && !fav;   // Alla och Favoriter har ingen egen färg
       return '<button type="button" data-kat="' + esc(k) + '" aria-pressed="' + (k === filter.kat) + '"' +
         (egen ? ' style="--kc:' + kategoriFarg(k) + '"' : "") +
-        (fav ? ' aria-label="Favoriter" title="Favoriter"' : "") + ">" + (fav ? I_HJARTA : esc(k)) + "</button>";
+        (fav ? ' aria-label="Favoriter" title="Favoriter"' : "") + ">" + (fav ? I_HJARTA : (egen ? '<span class="katprick" aria-hidden="true"></span>' : "") + esc(k)) + "</button>";
     }).join("");
     c.scrollLeft = katScroll;
     var sel = c.querySelector('[aria-pressed="true"]');

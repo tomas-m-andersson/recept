@@ -1197,7 +1197,8 @@ window.RECEPT_DATA = {
         "Stek köttbullarna på ganska hög värme först. Låt dem eftersteka på medeltemperatur.",
         "Om du vill ha lite skysås, tillsätt 0.5 dl vatten och rör om i botten på pannan med stekspaden."
       ],
-      "anteckning": ""
+      "anteckning": "",
+      "bild": "bilder/e3489c18-6982-4616-b684-aa2b60a86ba0-mvpfzolm.jpg"
     }
   ],
   "github": {

@@ -92,6 +92,9 @@ button:disabled{opacity:.45;cursor:default}
 .pill a{color:var(--acc);font-weight:600}
 .atgarder{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px}
 .receptknappar{margin-top:24px}
+.skarmknapp{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;font-size:.92rem}
+.skarmknapp svg{width:18px;height:18px;display:block}
+.skarmknapp[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--accink)}
 .tagg{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:0 12px;font-size:.88rem;color:var(--acc);font-weight:600}
 .sidor{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:20px 0 0}
 .sidor[hidden]{display:none}
@@ -273,6 +276,7 @@ summary{cursor:pointer;font-weight:600}
   var I_CHEV = IKON('<path d="M9 6l6 6-6 6"/>');
   var I_GREPP = IKON('<circle cx="6" cy="6" r="1.6"/><circle cx="12" cy="6" r="1.6"/><circle cx="18" cy="6" r="1.6"/><circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/><circle cx="6" cy="18" r="1.6"/><circle cx="12" cy="18" r="1.6"/><circle cx="18" cy="18" r="1.6"/>').replace('fill="none"', 'fill="currentColor" stroke="none"');
   var I_MEJL = IKON('<path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M22 6l-10 7L2 6"/>');
+  var I_SOL = IKON('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>');
   var I_SOP = IKON('<polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>');
   var HAKA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   // Antal recept per sida: inställningen i menyn (sparas i recept.js). Med ?perSida=3 i adressen kan du prova med få recept.
@@ -743,6 +747,46 @@ summary{cursor:pointer;font-weight:600}
       '<div class="atgarder" style="margin-top:14px"><button type="button" data-mejl="stang">Avbryt</button></div>';
     d.showModal();
   }
+  // Håll skärmen tänd (Screen Wake Lock). Hålls bara medan ett recept är öppet och sidan syns.
+  var skarmTand = false;               // valet gäller tills sidan stängs, sparas inte
+  var wakeLock = null, wakeBusy = false;
+  var wakeStod = "wakeLock" in navigator;
+  function skarmKnappHtml() {
+    return I_SOL + (skarmTand ? "Skärmen hålls tänd" : "Håll skärmen tänd");
+  }
+  function uppdateraSkarmKnapp() {
+    var k = document.querySelector(".skarmknapp");
+    if (!k) return;
+    k.setAttribute("aria-pressed", String(skarmTand));
+    k.innerHTML = skarmKnappHtml();
+  }
+  function villHaTandSkarm() {
+    return skarmTand && !!(valtId && !hanteraKat && !redigerar && hitta(valtId)) && document.visibilityState === "visible";
+  }
+  async function synkaWakeLock() {
+    if (!wakeStod || wakeBusy) return;
+    wakeBusy = true;
+    try {
+      if (villHaTandSkarm() && !wakeLock) {
+        var l = await navigator.wakeLock.request("screen");
+        wakeLock = l;
+        l.addEventListener("release", function () { if (wakeLock === l) wakeLock = null; });
+      } else if (!villHaTandSkarm() && wakeLock) {
+        var gammal = wakeLock;
+        wakeLock = null;
+        await gammal.release();
+      }
+    } catch (e) {
+      if (skarmTand && !wakeLock) {
+        skarmTand = false;
+        uppdateraSkarmKnapp();
+        meddela("Kunde inte hålla skärmen tänd. Kontrollera att batterisparläget är av och försök igen.");
+      }
+    }
+    wakeBusy = false;
+    if (villHaTandSkarm() !== !!wakeLock && (skarmTand || wakeLock)) synkaWakeLock();   // läget ändrades medan vi väntade
+  }
+  document.addEventListener("visibilitychange", synkaWakeLock);
   function renderaRecept(r) {
     var bs = bildSrc(r.bild);
     var f = visaPortioner && r.portioner ? visaPortioner / r.portioner : 1;
@@ -768,6 +812,7 @@ summary{cursor:pointer;font-weight:600}
           return '<button type="button" class="tagg" data-atgard="tagg" data-tagg="' + esc(t) + '" title="Sök på #' + esc(t) + '">#' + esc(t) + "</button>";
         }).join("") +
       "</p>" +
+      (wakeStod ? '<div class="atgarder" style="margin-bottom:14px"><button type="button" class="skarmknapp" data-atgard="skarm" aria-pressed="' + skarmTand + '">' + skarmKnappHtml() + "</button></div>" : "") +
       (bs ? '<img class="receptbild" src="' + esc(bs) + '" alt="Bild på ' + esc(r.titel) + '" onerror="this.style.display=\'none\'">' : "") +
       '<section class="sek" aria-labelledby="ing-r"><h2 id="ing-r">Ingredienser</h2>' +
         (r.portioner ? '<div class="portioner"><button type="button" data-atgard="minus" aria-label="Färre ' + esc(r.enhet || "portioner") + '">−</button>' +
@@ -1037,6 +1082,7 @@ summary{cursor:pointer;font-weight:600}
   }
 
   function renderaVy() {
+    setTimeout(synkaWakeLock, 0);
     fyllFarger();
     $("nyttKnapp").hidden = !hanteraKat && !!redigerar;
     $("tillbakaKnapp").hidden = !(valtId && !hanteraKat && !redigerar && hitta(valtId));
@@ -1296,6 +1342,11 @@ summary{cursor:pointer;font-weight:600}
         valtId = null; visaPortioner = null;
         renderaVy();
         window.scrollTo(0, 0);
+        break;
+      case "skarm":
+        skarmTand = !skarmTand;
+        uppdateraSkarmKnapp();
+        synkaWakeLock();
         break;
       case "mejla": mejlaRecept(r); break;
       case "skriv": window.print(); break;

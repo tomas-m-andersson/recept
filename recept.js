@@ -1172,6 +1172,32 @@ window.RECEPT_DATA = {
       ],
       "anteckning": "",
       "bild": "bilder/b76dbeb7-1d04-4408-a629-b70d37cb9c0c-mvh05bkb.jpg"
+    },
+    {
+      "id": "e3489c18-6982-4616-b684-aa2b60a86ba0",
+      "titel": "Köttbullar på älgfärs",
+      "kategori": "Middag",
+      "portioner": 4,
+      "tid": "30",
+      "favorit": false,
+      "ingredienser": [
+        "600 gram älgfärs",
+        "1 gul lök liten",
+        "0.5 msk salt",
+        "2 krm svartpeppar",
+        "1 ägg litet",
+        "3 msk smör",
+        "0.5 dl vatten"
+      ],
+      "steg": [
+        "Hacka löken så fint du kan.",
+        "Blanda färs med lök, salt, peppar och ägg i en stor skål.",
+        "Rulla köttbullar, aningen mindre än \"mamma scan-storlek\", inte pyttesmå.",
+        "Bryn smör i en vid stekpanna.",
+        "Stek köttbullarna på ganska hög värme först. Låt dem eftersteka på medeltemperatur.",
+        "Om du vill ha lite skysås, tillsätt 0.5 dl vatten och rör om i botten på pannan med stekspaden."
+      ],
+      "anteckning": ""
     }
   ],
   "github": {
